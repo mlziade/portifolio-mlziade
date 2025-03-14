@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Page Name 
+{% endblock %}
+
+{% block extra_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'about.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>About</h1>
+        <p>Oi, sou Michel :)</p>
+
+        <p>Sou uma pessoa curiosa por natureza e que gosta de conhecer mais sobre o que está ao meu redor. E não seria diferente com minha carreira.</p>
+            
+        <p>Sou um desenvolvedor com anos de experiência no mercado de consultoria e tecnologia, trabalhando diretamente com empresas de diferentes portes no mercado – sejam clientes ou grandes fornecedores. Além de desenvolvedor, também tenho experiência como Solution Architect, Cloud Engineer, Pre-Sales e na liderança técnica.</p>
+            
+        <p>Na minha jornada profissional, já atuei em diferentes áreas e projetos: automação de processos e RPA, customer service/experience (chatbots, omnichannel, machine learning/generative AI), ferramentas de ETL e, atualmente, em desenvolvimento web como backend developer.</p>
+            
+        <p>Existe sempre um próximo desafio, e eu quero fazer parte dele.</p>
+            
+        <p>🎯 No momento, estou focado em aprender mais sobre web development, cloud e infraestrutura, evoluindo como Solution Architect e desenvolvedor backend.</p>
+            
+    </div>
+{% endblock %}
