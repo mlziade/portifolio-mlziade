@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block title %}
+    mlziade's Resume 
+{% endblock %}
+
+{% block extra_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'resume.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Resume</h1>
+
+        <div class='work-experiences'>
+            <h2>Work Experiences</h2>
+
+            <div class='work-experience'>
+                <div class='work-dateframe'>
+                    <p>Agosto 2024 - Presente</p>
+                </div>
+                <div class='work-info'>
+                    <h3>Backend Developer Pleno</h3>
+                    <p>Elevential Digital Solutions</p>
+                    <p class='work-description'>Migrando para área de web development, atuei como desenvolvedor backend e arquiteto em diversos projetos, desenhando e implementando novas features e sistemas. Trabalhei com diferentes stacks e frameworks, como:<br><br>• Backend: NestJS (TypeScript) e Django (Python);<br>• Databases: MongoDB (Mongoose), PostgreSQL (TypeORM), MySQL, Knex.js;<br>• Gerenciamento: Azure DevOps, JIRA, ClickUp;<br>• Ferramentas: Swagger, Postman, DBeaver, MongoDB Compass;<br>• Infra: Azure Cloud (CosmosDB, AppService, KeyVault, Blob Storage, Queue Storage) e AWS (EC2, RDS, SQS, Lambda, S3).<br><br>Destaques:<br> Em parceria com o time da Dataside, participei do projeto de implementação do Belake.ai, uma plataforma SaaS de chat e gráficos com integração de Inteligência Artificial. Minhas responsabilidades incluíam:<br><br>• Implementar integrações com fontes e bancos de dados (Snowflake, Azure Synapse, Databricks, Microsoft Fabric, bancos de dados relacionais/SQL);<br>• Refatorar o processo de autenticação em paralelo ao EntraID (antigo Azure AD);<br>• Implementar um chat com integração com as fontes de dados e API com LLMs, responsáveis pela geração de respostas e gráficos;<br>• Contribuir para o desenho e remodelagem do banco de dados para migração de um banco NoSQL para relacional.</p>
+                    <div class='tags'>
+                        <span class='tag'>Python</span>
+                        <span class='tag'>Django</span>
+                        <span class='tag'>TypeScript</span>
+                        <span class='tag'>Nest.js</span>
+                        <span class='tag'>MongoDB</span>
+                        <span class='tag'>PostgreSQL</span>
+                        <span class='tag'>Docker</span>
+                        <span class='tag'>Linux (Ubuntu)</span>
+                        <span class='tag'>AWS</span>
+                        <span class='tag'>Azure</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class='work-experience'>
+                <div class='work-dateframe'>
+                    <p>Maio 2022 - Agosto 2024</p>
+                </div>
+                <div class='work-info'>
+                    <h3>Tech Lead RDN Labs</h3>
+                    <p>Redesign Consultoria de Transformação</p>
+                    <p class='work-description'>• Assumi a posição de Tech Leader do time do LABS, expandindo as responsabilidades e fazendo a gestão de time com cinco desenvolvedores;<br>• Mentorias para novos desenvolvedores;<br>• Atuação direta como Solution Architect e Pre-Sales, coordenando com os times de Sales, Marketing e BA com o objetivo de adquirir novas contas e desenhar projetos e arquiteturas;<br>• Participação direta na expansão do portfólio, mudando o foco exclusivo de RPA para incluir Cloud Computing, utilizando principalmente as tecnologias da AWS e IBM Cloud;<br>• Inclusão de projetos no portfólio, como: Chatbots, design de APIs, microservices, IA e Machine Learning, extração de dados estruturados / não-estruturados de documentos, migração para Cloud, Busca Empresarial (RAG) e Generative AI.<br>• Tambem co-desenhei uma rota de treinamento para novos devs, que inclui conhecimentos técnicos e softskills.<br><br>Destaques:<br>• SE2C2: Solução na Cloud da AWS para Iniciar e suspender instâncias EC2 sob demanda utilizando uma arquitetura orientada a eventos (Webhooks), reduzindo custos e aumentando a segurança de acessos ao console.<br><br>• AWS: Participei desde o início do processo da Redesign tornar-se um parceiro AWS e implementar seus serviços em projetos. Apoio no desenho do portifólio de serviços com o qual trabalhamos (Lambda, EC2, API Gateway, RDS, Textract, S3, Bedrock, Amplify, Lex, etc) e estratégias para implementação. Atuação como Admin da Cloud interna, gerenciando usuários, suas permissões, acessos, alarmes e custos.<br><br>• Materiais Comerciais: Durante nossa expansão de portfólio, fui um dos principais responsáveis por escrever e desenhar os materiais comerciais utilizados com clientes pelo time do LABS e do time de Sales.</p>
+                    <div class='tags'>
+                        <span class='tag'>AWS</span>
+                        <span class='tag'>Lambda</span>
+                        <span class='tag'>EC2</span>
+                        <span class='tag'>API Gateway</span>
+                        <span class='tag'>IBM Cloud</span>
+                        <span class='tag'>Watsonx</span>
+                        <span class='tag'>Chatbots</span>
+                        <span class='tag'>Python</span>
+                        <span class='tag'>FastAPI</span>
+                        <span class='tag'>Flask</span>
+                        <span class='tag'>JS</span>
+                        <span class='tag'>Node.js</span>
+                        <span class='tag'>Gen AI</span>
+                        <span class='tag'>Cloud Computing</span>
+                        <span class='tag'>Microsserviços</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class='work-experience'>
+                <div class='work-dateframe'>
+                    <p>Fevereiro 2022 - Maio 2022</p>
+                </div>
+                <div class='work-info'>
+                    <h3>Desenvolvedor RDN Labs</h3>
+                    <p>Redesign Consultoria de Transformação</p>
+                    <p class='work-description'>• Participação ativa na reestruturação do time RDN LABS, focado em pesquisa de tecnologias, desenvolvimento de soluções para projetos internos e de clientes;<br>• Elaboração de POCs (Provas de Conceito), como desenvolvedor responsável ou auxiliando outros times;<br>• Participação em reuniões com clientes para coleta de processos, desenhando soluções e apresentando as vantagens de ferramentas RPAs e a plataforma da UiPath;<br>• Apoio técnico nas entrevistas de candidatos a vagas no time da Redesign.<br><br>Destaque:<br>• Lupa: Co-desenhei e desenvolvi uma solução de monitoramento de automações utilizando os próprios robôs da UiPath para alimentar um Banco de Dados com Logs e KPIs e um PowerBI para exibição de dados em dashboards.</p>
+                    <div class='tags'>
+                        <span class='tag'>UiPath</span>
+                        <span class='tag'>RPA</span>
+                        <span class='tag'>Python</span>
+                        <span class='tag'>Documentation</span>
+                        <span class='tag'>Banco de Dados</span>
+                        <span class='tag'>POCs/Demos</span>
+                        <span class='tag'>PowerBI</span>
+                        <span class='tag'>ETL</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class='work-experience'>
+                <div class='work-dateframe'>
+                    <p>Agosto 2021 - Fevereiro 2022</p>
+                </div>
+                <div class='work-info'>
+                    <h3>RPA Developer</h3>
+                    <p>Redesign Consultoria de Transformação</p>
+                    <p class='work-description'>• Desenvolvedor RPA na plataforma da UiPath;<br>• UI Automation, integração de automações com APIs e Banco de Dados;<br>• Criação e elaboração de documentações de definição e entrega (PDD, SDD, AsIs, ToBe) junto a usuários, equipes de TI e CoEs (Centro de Excelência) de clientes;<br>• Participação em projetos com diferentes metodologias ágeis, de acordo com a demanda (Scrum, Kanban).<br><br>Destaque:<br>• Embaixador Redesign no processo de certificação GPTW (Great Place to Work) que nos garantiu a honra do selo GPTW.</p>
+                    <div class='tags'>
+                        <span class='tag'>UiPath</span>
+                        <span class='tag'>VBnet</span>
+                        <span class='tag'>RPA</span>
+                        <span class='tag'>UI Automation</span>
+                        <span class='tag'>APIs</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class='certificates-and-courses'>
+            <h2>Certificates and Courses</h2>
+            <div class='certificate-or-course'>
+                <div class='certificate-or-course-dateframe'>
+                    <p>Outubro 2022</p>
+                </div>
+                <div class='certificate-or-course-info'>
+                    <h3>AWS Certified Cloud Practitioner</h3>
+                    <p>Amazon Web Serverices (AWS)</p>
+                </div>
+            </div>
+            <div class='certificate-or-course'>
+                <div class='certificate-or-course-dateframe'>
+                    <p>Setembro 2022</p>
+                </div>
+                <div class='certificate-or-course-info'>
+                    <h3>UiPath Advanced RPA Developer (UiARD)</h3>
+                    <p>UiPath</p>
+                </div>
+            </div>
+        </div>                        
+    </div>
+{% endblock %}

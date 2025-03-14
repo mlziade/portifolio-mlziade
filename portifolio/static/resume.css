@@ -1,0 +1,136 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 160px); /* Viewport height minus header and footer */
+    text-align: center;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+.container h1 {
+    font-size: 10rem;
+    margin-bottom: 1rem;
+    color: aliceblue;
+}
+
+.container h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: aliceblue;
+}
+
+.work-experiences {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 2rem auto;
+}
+
+.work-experience {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    width: 100%;
+    align-items: flex-start;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(182, 182, 182, 0.2);
+}
+
+.work-dateframe {
+    text-align: right;
+    min-width: 150px;
+}
+
+.work-dateframe p {
+    font-size: 0.8rem;
+    margin: 0.5rem 0 0 0;
+    color: aliceblue;
+    white-space: nowrap;
+}
+
+.work-info {
+    width: 75%;
+    text-align: left;
+}
+
+.work-info h3 {
+    margin-top: 0;
+    color: aliceblue;
+}
+
+.work-description {
+    max-width: 100%;
+    line-height: 1.5;
+    overflow-wrap: break-word;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.tag {
+    color: rgb(90, 90, 90);
+    background-color: rgba(70, 70, 70, 0.3);
+    border: 1px solid rgba(120, 120, 120, 0.5);
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.85rem;
+}
+
+.tag:hover {
+    color: white;
+    background-color: rgba(100, 100, 100, 0.8);
+    border-color: rgba(150, 150, 150, 0.8);
+    cursor: pointer;
+}
+
+.certificates-and-courses {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin: 2rem auto;
+}
+
+.certificate-or-course {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    width: 100%;
+    align-items: flex-start;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(182, 182, 182, 0.2);
+}
+
+.certificate-or-course-dateframe {
+    width: 25%;
+    text-align: right;
+    min-width: 150px;
+}
+
+.certificate-or-course-dateframe p {
+    font-size: 0.8rem;
+    margin: 0.5rem 0 0 0;
+    color: aliceblue;
+    white-space: nowrap;
+}
+
+.certificate-or-course-info {
+    width: 75%;
+    text-align: left;
+}
+
+.certificate-or-course-info h3 {
+    margin-top: 0;
+    color: aliceblue;
+}
+
+.container p {
+    text-align: justify;
+    color: rgb(182, 182, 182);
+}
