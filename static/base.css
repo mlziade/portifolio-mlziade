@@ -19,6 +19,7 @@ header {
     justify-content: flex-end;
     align-items: center;
     padding: 0 20px;
+    box-sizing: border-box;
 }
 
 /* Hamburger Menu */
@@ -96,4 +97,26 @@ footer {
     color: white;
     padding: 20px 0;
     width: 100%;
+    box-sizing: border-box;
+    position: relative; /* Ensure footer is in the normal document flow */
+    flex-shrink: 0; /* Prevent footer from shrinking */
+}
+
+/* Make content containers responsive */
+.container {
+    box-sizing: border-box;
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    flex: 1 0 auto; /* Allow container to grow but not shrink, ensures footer stays at bottom */
+}
+
+@media (max-width: 576px) {
+    .side-nav.open {
+        width: 100%;
+    }
+    
+    .side-nav nav ul li a {
+        font-size: 18px;
+    }
 }

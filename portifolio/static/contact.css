@@ -29,6 +29,8 @@
     flex-direction: column;
     gap: 2rem;
     margin-top: 2rem;
+    width: 100%;
+    max-width: 400px;
 }
 
 .contact-item {
@@ -36,6 +38,7 @@
     align-items: center;
     gap: 1rem;
     font-size: 1.5rem;
+    justify-content: center;
 }
 
 .contact-item i {
@@ -47,8 +50,51 @@
     color: rgb(182, 182, 182);
     text-decoration: none;
     transition: color 0.3s;
+    word-break: break-word;
 }
 
 .contact-item a:hover {
     color: aliceblue;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 992px) {
+    .container h1 {
+        font-size: 8rem;
+        margin-bottom: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container h1 {
+        font-size: 6rem;
+        margin-bottom: 2rem;
+    }
+    
+    .contact-item {
+        font-size: 1.3rem;
+    }
+    
+    .contact-item i {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .container h1 {
+        font-size: 4rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .contact-item {
+        font-size: 1.1rem;
+    }
+    
+    .contact-item i {
+        font-size: 1.6rem;
+    }
+    
+    .container p {
+        max-width: 95%;
+    }
 }

@@ -26,6 +26,8 @@
     flex-direction: column;
     gap: 2rem;
     margin: 2rem auto;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .work-experience {
@@ -95,6 +97,8 @@
     flex-direction: column;
     gap: 2rem;
     margin: 2rem auto;
+    width: 100%;
+    max-width: 1200px;
 }
 
 .certificate-or-course {
@@ -133,4 +137,63 @@
 .container p {
     text-align: justify;
     color: rgb(182, 182, 182);
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 992px) {
+    .container h1 {
+        font-size: 8rem;
+    }
+    
+    .work-experiences,
+    .certificates-and-courses {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container h1 {
+        font-size: 6rem;
+    }
+    
+    .container h2 {
+        font-size: 1.75rem;
+    }
+    
+    .work-experience,
+    .certificate-or-course {
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .work-dateframe,
+    .certificate-or-course-dateframe {
+        text-align: left;
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .work-info,
+    .certificate-or-course-info {
+        width: 100%;
+    }
+}
+
+@media (max-width: 576px) {
+    .container h1 {
+        font-size: 4rem;
+    }
+    
+    .container h2 {
+        font-size: 1.5rem;
+    }
+    
+    .tag {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
+    }
+    
+    .work-description {
+        font-size: 0.9rem;
+    }
 }

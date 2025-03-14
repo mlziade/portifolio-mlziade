@@ -24,3 +24,35 @@
     text-align: justify;
     color: rgb(182, 182, 182);
 }
+
+/* Media queries for responsiveness */
+@media (max-width: 992px) {
+    .container h1 {
+        font-size: 8rem;
+    }
+    
+    .container p {
+        max-width: 85%;
+    }
+}
+
+@media (max-width: 768px) {
+    .container h1 {
+        font-size: 6rem;
+    }
+    
+    .container p {
+        max-width: 90%;
+    }
+}
+
+@media (max-width: 576px) {
+    .container h1 {
+        font-size: 4rem;
+    }
+    
+    .container p {
+        max-width: 95%;
+        font-size: 0.95rem;
+    }
+}

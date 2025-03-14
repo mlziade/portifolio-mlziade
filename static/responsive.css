@@ -1,0 +1,62 @@
+/* Common responsive styles for all pages */
+
+/* Extra small devices (phones, 576px and down) */
+@media (max-width: 576px) {
+  body {
+    padding-top: 60px;
+  }
+  
+  header {
+    height: 60px;
+  }
+  
+  .side-nav {
+    padding-top: 80px;
+  }
+  
+  footer {
+    padding: 15px 10px;
+    font-size: 0.9rem;
+  }
+  
+  /* Fix for responsive container heights */
+  .container {
+    min-height: calc(100vh - 120px) !important; /* Adjust for smaller header and footer on mobile */
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 768px) {
+  footer {
+    padding: 15px;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 992px) {
+  /* Medium device specific styles */
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  /* Large device specific styles */
+}
+
+/* Make all images responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Fix for all page containers to allow proper footer display */
+.container {
+  box-sizing: border-box;
+  padding-bottom: 2rem; /* Add some bottom padding to ensure content doesn't overlap footer */
+}
+
+/* Ensure footer visibility */
+footer {
+  display: block !important;
+  visibility: visible !important;
+  z-index: 100;
+}
