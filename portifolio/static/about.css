@@ -16,10 +16,11 @@
 }
 
 .container p {
-    max-width: 80%;
+    max-width: 70%;
     word-wrap: break-word;
     overflow-wrap: break-word;
     margin-left: auto;
     margin-right: auto;
+    text-align: justify;
     color: rgb(182, 182, 182);
 }
