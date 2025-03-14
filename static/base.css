@@ -1,0 +1,95 @@
+body {
+    padding-top: 80px; /* Ensure the content doesn't get hidden under the navbar */
+    background-color: black;
+    margin: 0;
+    position: relative;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.8);
+    height: 80px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 20px;
+}
+
+/* Hamburger Menu */
+.hamburger-menu {
+    cursor: pointer;
+    padding: 10px;
+    z-index: 1001;
+}
+
+.bar1, .bar2, .bar3 {
+    width: 35px;
+    height: 5px;
+    background-color: white;
+    margin: 6px 0;
+    transition: 0.4s;
+}
+
+/* Hamburger animation */
+.change .bar1 {
+    transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .bar2 {
+    opacity: 0;
+}
+
+.change .bar3 {
+    transform: rotate(45deg) translate(-8px, -8px);
+}
+
+/* Side Navigation */
+.side-nav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.9);
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 100px;
+}
+
+.side-nav.open {
+    width: 250px;
+}
+
+.side-nav nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.side-nav nav ul li {
+    padding: 15px 25px;
+}
+
+.side-nav nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    display: block;
+    transition: 0.3s;
+}
+
+.side-nav nav ul li a:hover {
+    color: #f1f1f1;
+    transform: translateX(10px);
+}
+
+footer {
+    margin-top: 20px;
+    text-align: center;
+    color: white;
+    padding: 20px 0;
+}
