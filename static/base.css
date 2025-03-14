@@ -3,6 +3,9 @@ body {
     background-color: black;
     margin: 0;
     position: relative;
+    min-height: 100vh; /* Make body take at least full viewport height */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
 }
 
 header {
@@ -88,8 +91,9 @@ header {
 }
 
 footer {
-    margin-top: 20px;
+    margin-top: auto; /* This pushes the footer to the bottom */
     text-align: center;
     color: white;
     padding: 20px 0;
+    width: 100%;
 }
