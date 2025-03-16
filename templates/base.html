@@ -36,12 +36,16 @@
   <!-- Side Navigation -->
   <div class="side-nav" id="sideNav">
     <nav>
-      <ul>
+      <ul class="nav-links">
         <li><a href="{% url 'portifolio:home' %}">Home</a></li>
         <li><a href="{% url 'portifolio:about' %}">About</a></li>
         <li><a href="{% url 'portifolio:resume' %}">Resume</a></li>
         <li><a href="#">Projects</a></li>
         <li><a href="{% url 'portifolio:contact' %}">Contact</a></li>
+      </ul>
+      <ul class="lang-links">
+        <li><a href="#"><img src="{% static 'us.svg' %}" alt="US Flag"></a></li>
+        <li><a href="#"><img src="{% static 'br.svg' %}" alt="BR Flag"></a></li>
       </ul>
     </nav>
   </div>
