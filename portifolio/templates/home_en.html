@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}
+    mlziade | Portfolio
+{% endblock %}
+
+{% block extra_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'home.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class='user-summary'>
+            <img src="{% static 'profile_picture.jpg' %}" alt="User Image">
+            <div class='user-info'>
+                <h1>Michel Ziade</h1>
+                <p>Backend Developer / Solution Architect</p>
+                <p>Python, Django, Typescript, AWS, Docker</p>
+            </div>
+        </div>
+        <div class='social-links'>
+            <a href="https://www.linkedin.com/in/mlziade/" class="social-icon"><i class="fab fa-linkedin"></i></a>
+            <a href="https://github.com/mlziade" class="social-icon"><i class="fab fa-github"></i></a>
+            <a href="https://www.instagram.com/mlziade/" class="social-icon"><i class="fab fa-instagram"></i></a>
+        </div>
+    </div>
+{% endblock %}

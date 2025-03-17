@@ -37,15 +37,25 @@
   <div class="side-nav" id="sideNav">
     <nav>
       <ul class="nav-links">
-        <li><a href="{% url 'portifolio:home' %}">Home</a></li>
-        <li><a href="{% url 'portifolio:about' %}">About</a></li>
-        <li><a href="{% url 'portifolio:resume' %}">Resume</a></li>
-        <li><a href="#">Projects</a></li>
-        <li><a href="{% url 'portifolio:contact' %}">Contact</a></li>
+        <li><a href="{% url 'portifolio:home' %}?lang={{ current_lang }}">
+          {% if current_lang == 'en' %}Home{% else %}Home{% endif %}
+        </a></li>
+        <li><a href="{% url 'portifolio:about' %}?lang={{ current_lang }}">
+          {% if current_lang == 'en' %}About{% else %}Sobre{% endif %}
+        </a></li>
+        <li><a href="{% url 'portifolio:resume' %}?lang={{ current_lang }}">
+          {% if current_lang == 'en' %}Resume{% else %}Currículo{% endif %}
+        </a></li>
+        <li><a href="#">
+          {% if current_lang == 'en' %}Projects{% else %}Projetos{% endif %}
+        </a></li>
+        <li><a href="{% url 'portifolio:contact' %}?lang={{ current_lang }}">
+          {% if current_lang == 'en' %}Contact{% else %}Contato{% endif %}
+        </a></li>
       </ul>
       <ul class="lang-links">
-        <li><a href="#"><img src="{% static 'us.svg' %}" alt="US Flag"></a></li>
-        <li><a href="#"><img src="{% static 'br.svg' %}" alt="BR Flag"></a></li>
+        <li><a href="{{ request.path }}?lang=en"><img src="{% static 'us.svg' %}" alt="US Flag"></a></li>
+        <li><a href="{{ request.path }}?lang=pt-br"><img src="{% static 'br.svg' %}" alt="BR Flag"></a></li>
       </ul>
     </nav>
   </div>
@@ -54,8 +64,13 @@
   {% endblock %}
 
   <footer>
-    <p>Thanks for stopping by! Feel free to reach out or follow my work.</p>
-    <p><strong>&copy; 2025 mlziade. All rights reserved.</strong></p>
+    {% if current_lang == 'en' %}
+      <p>Thanks for stopping by! Feel free to reach out or follow my work.</p>
+      <p><strong>&copy; 2025 mlziade. All rights reserved.</strong></p>
+    {% else %}
+      <p>Obrigado pela visita! Fique à vontade para entrar em contato ou acompanhar meu trabalho.</p>
+      <p><strong>&copy; 2025 mlziade. Todos os direitos reservados.</strong></p>
+    {% endif %}
   </footer>
   
   <script>

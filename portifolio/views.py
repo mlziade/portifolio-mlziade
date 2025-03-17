@@ -1,18 +1,49 @@
 from django.shortcuts import render
 from django.views import View
+from django.shortcuts import redirect
 
 class HomeView(View):
     def get(self, request):
-        return render(request, 'home.html')
+        # Access the correct template based on the language
+        # For example: home_pt-br.html or home_en.html
+        lang = request.GET.get('lang')
+
+        # Defaults to pt-br if no language or a invalid language is provided
+        if lang not in ['pt-br', 'en']:
+            lang = 'pt-br'
+
+        return render(request, f'home_{lang}.html', {'current_lang': lang})
     
 class AboutView(View):
     def get(self, request):
-        return render(request, 'about.html')
+        # Access the correct template based on the language
+        # For example: home_pt-br.html or home_en.html
+        lang = request.GET.get('lang')
+
+        # Defaults to pt-br if no language or a invalid language is provided
+        if lang not in ['pt-br', 'en']:
+            lang = 'pt-br'
+
+        return render(request, f'about_{lang}.html', {'current_lang': lang})
     
 class ResumeView(View):
     def get(self, request):
-        return render(request, 'resume.html')
+        # Access the correct template based on the language
+        # For example: home_pt-br.html or home_en.html
+        lang = request.GET.get('lang')
+
+        # Defaults to pt-br if no language or a invalid language is provided
+        if lang not in ['pt-br', 'en']:
+            lang = 'pt-br'
+        return render(request, f'resume_{lang}.html', {'current_lang': lang})
 
 class ContactView(View):
     def get(self, request):
-        return render(request, 'contact.html')
+        # Access the correct template based on the language
+        # For example: home_pt-br.html or home_en.html
+        lang = request.GET.get('lang')
+
+        # Defaults to pt-br if no language or a invalid language is provided
+        if lang not in ['pt-br', 'en']:
+            lang = 'pt-br'
+        return render(request, f'contact_{lang}.html', {'current_lang': lang})

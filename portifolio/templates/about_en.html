@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+    mlziade | About
+{% endblock %}
+
+{% block extra_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'about.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>About</h1>
+        
+        <p>Hi, I'm Michel :)</p>
+
+        <p>A naturally curious person who loves to learn more about the world around me. And obviously, it would be no different in my career.</p>
+            
+        <p>I'm a Brazilian developer with years of experience in the Technology Consulting market, working directly with companies of different sizes —be it clients or technology partners. Besides being a developer, I also have experience as a Solution Architect, Cloud Engineer, Pre-Sales, and Technical Lead.</p>
+            
+        <p>Throughout my professional journey, I’ve worked in different areas and projects: Process Automation and RPA, Customer Service/Experience (Chatbots, Omnichannel, Machine Learning/Generative AI), ETL tools, and currently, Web Development as a Backend Developer.</p>
+            
+        <p>🎯 Currently focused on learning more about Web Development, Cloud, and Infrastructure, growing as a Solution Architect and Backend Developer.</p>
+        
+        <p>There’s always a new challenge ahead, and I want to be a part of it.</p>  
+            
+    </div>
+{% endblock %}
