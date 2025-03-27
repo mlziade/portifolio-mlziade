@@ -1,6 +1,6 @@
 body {
     padding-top: 80px; /* Ensure the content doesn't get hidden under the navbar */
-    background-color: black;
+    background-color: rgb(18, 18, 18);
     margin: 0;
     position: relative;
     min-height: 100vh; /* Make body take at least full viewport height */
@@ -13,7 +13,7 @@ header {
     top: 0;
     width: 100%;
     z-index: 1000;
-    background-color: rgba(0, 0, 0, 0.8);
+    background-color: rgb(18, 18, 18);
     height: 80px;
     display: flex;
     justify-content: flex-end;
@@ -58,7 +58,7 @@ header {
     z-index: 999;
     top: 0;
     right: 0;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgb(18, 18, 18);
     overflow-x: hidden;
     transition: 0.5s;
     padding-top: 100px;
