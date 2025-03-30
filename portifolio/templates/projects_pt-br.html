@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}
+    mlziade | Projetos
+{% endblock %}
+
+{% block extra_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'projects.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>Projetos</h1>
+
+        <div class="grid">
+            <div class="grid-item" id="1">
+                <div class="item-title">
+                    <h2>MovieStars</h2>
+                </div>
+                <div class="item-content">
+                    <div class="logo-container">
+                        <img src="{% static 'logo-moviestars.png' %}" alt="MovieStars" class="logo">
+                    </div>
+                    <div class="item-data">
+                        <p>MovieStars é uma extensão do Chrome que ajuda os usuários a explorar avaliações de usuários e críticos, agregando detalhes de sites de entretenimento líderes. Ele fornece uma visão geral abrangente.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-item" id="2">
+                <div class="item-title">
+                    <h2>zllm</h2>
+                </div>
+                <div class="item-content">
+                    <div class="logo-container">
+                        <img src="{% static 'github-logo.png' %}" alt="zllm" class="logo">
+                    </div>
+                    <div class="item-data">
+                        <p>Zllm é uma implementação em Golang de uma API GenAI, executando modelos LLM locais através do Ollama. Inclui ferramentas como OCR local, modelos multimodais e tradução para aprimorar a utilização do LLM.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-item" id="3">
+                <div class="item-title">
+                    <h2>Dontpad List!</h2>
+                </div>
+                <div class="item-content">
+                    <div class="logo-container">
+                        <img src="{% static 'dontpad-list-logo.png' %}" alt="DontpadList" class="logo">
+                    </div>
+                    <div class="item-data">
+                        <p>Dontpad List! é uma extensão do Chrome que permite aos usuários anexar texto destacado de páginas da web como uma entrada de lista em uma página Dontpad, com base no estilo de formatação de referência ABNT brasileiro.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="grid-item" id="4">
+                <div class="item-title">
+                    <h2>Conways's Game of Life</h2>
+                </div>
+                <div class="item-content">
+                    <div class="logo-container">
+                        <img src="{% static 'github-logo.png' %}" alt="MovieStars" class="logo">
+                    </div>
+                    <div class="item-data">
+                        <p>Uma implementação em Python do Game of Life de Conway, simulando a evolução de um autômato celular com base em regras simples. Esta versão mostra os padrões e o comportamento dinâmicos do jogo.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

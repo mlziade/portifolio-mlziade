@@ -46,7 +46,7 @@
         <li><a href="{% url 'portifolio:resume' %}?lang={{ current_lang }}">
           {% if current_lang == 'en' %}Resume{% else %}Currículo{% endif %}
         </a></li>
-        <li><a href="#">
+        <li><a href="{% url 'portifolio:projects' %}?lang={{ current_lang }}">
           {% if current_lang == 'en' %}Projects{% else %}Projetos{% endif %}
         </a></li>
         <li><a href="{% url 'portifolio:contact' %}?lang={{ current_lang }}">

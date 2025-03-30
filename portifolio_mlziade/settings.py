@@ -30,6 +30,7 @@ ALLOWED_HOSTS = [
         'www.mlziade.com.br',
         'mlziade.com.br',
         '188.245.32.185',
+        '127.0.0.1',
 ]
 
 # Application definition
