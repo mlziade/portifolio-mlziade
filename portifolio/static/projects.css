@@ -31,8 +31,8 @@
     padding: 1.5rem;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: background-color 0.3s ease, transform 0.2s ease;
-    display: flex; /* Added */
-    flex-direction: column; /* Added */
+    display: flex;
+    flex-direction: column;
 }
 
 .grid-item:hover {
@@ -42,8 +42,8 @@
 
 .item-content {
     display: flex;
-    flex: 1; /* Added */
-    align-items: center; /* Added */
+    flex: 1;
+    align-items: center;
 }
 
 .logo-container {
@@ -56,20 +56,15 @@
 }
 
 .item-title {
-    border-bottom: 1px solid rgba(200, 200, 200, 0.3); /* Light grey divider with transparency */
-    padding-bottom: 0.5rem; /* Space between title and line */
-    margin-bottom: 0.5rem; /* Space between line and content */
+    border-bottom: 1px solid rgba(200, 200, 200, 0.3);
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
 }
 
 .item-title h2 {
     font-size: 2rem;
     color: aliceblue;
     margin-left: 1rem;
-}
-
-.item-content {
-    display: flex;
-    align-items: center;
 }
 
 .item-content p {
@@ -92,6 +87,82 @@
 }
 
 .item-data {
-    width: 70%; /* Take remaining space */
+    width: 70%;
     flex-grow: 1;
+}
+
+/* Media queries for responsiveness */
+@media (max-width: 992px) {
+    .container h1 {
+        font-size: 8rem;
+    }
+    
+    .grid {
+        max-width: 90%;
+        gap: 1.5rem;
+    }
+    
+    .item-title h2 {
+        font-size: 1.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .container h1 {
+        font-size: 6rem;
+    }
+    
+    .grid {
+        grid-template-columns: 1fr; /* Change to single column */
+        max-width: 90%;
+        gap: 1.5rem;
+    }
+    
+    .item-title h2 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .container h1 {
+        font-size: 4rem;
+    }
+    
+    .grid {
+        max-width: 95%;
+        gap: 1rem;
+    }
+    
+    .grid-item {
+        padding: 1rem;
+    }
+    
+    .item-title h2 {
+        font-size: 1.4rem;
+        margin-left: 0.5rem;
+    }
+    
+    /* Adjust layout to stack logo and content on very small screens */
+    .item-content {
+        flex-direction: column;
+    }
+    
+    .logo-container {
+        width: 100%;
+        padding: 0.5rem;
+        margin-bottom: 1rem;
+    }
+    
+    .item-data {
+        width: 100%;
+    }
+    
+    .item-content p {
+        font-size: 0.95rem;
+        margin-left: 0;
+    }
+    
+    .item-content img {
+        max-height: 100px;
+    }
 }
