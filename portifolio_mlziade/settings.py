@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django_bootstrap5',
     'rest_framework',
     'portifolio',
+    'playground',
 ]
 
 MIDDLEWARE = [

@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
         loadingSpinner.style.display = 'inline-block';
         generateButton.disabled = true; // Disable the button while loading
 
-        fetch('/portifolio/projects/zllm/generate_text/', {
+        fetch('/playground/zllm/generate_text/', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
