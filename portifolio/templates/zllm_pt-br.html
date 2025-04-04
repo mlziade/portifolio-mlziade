@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}
+    mlziade | zllm 
+{% endblock %}
+
+{% block extra_css %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'zllm.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1>ZLLM</h1>
+        
+        <p class="intro-text">
+            Bem-vindo ao ZLLM, uma API de IA Generativa executando modelos LLM localmente através do Ollama. Esta interface permite que você experimente a API de forma simples.
+        </p>
+
+        <p class="intro-text">
+            Se quiser saber mais sobre, acesse o repositório no <a href="https://github.com/mlziade/zllm" target="_blank">GitHub</a>.
+        </p>
+
+        <div class="input">
+            <h2>Insira seu texto:</h2>
+            <textarea id="inputText" rows="4" placeholder="Digite seu texto aqui..."></textarea>
+        </div>
+        
+        <div class="buttons">
+            <button id="generateButton">
+                <i class="fas fa-robot"></i> Gerar Resposta
+                <span id="loadingSpinner" class="loading" style="display: none;"></span>
+            </button>
+            <button id="clearButton">
+                <i class="fas fa-eraser"></i> Limpar
+            </button>
+        </div>
+
+        <div class="output">
+            <h2>Resposta:</h2>
+            <div id="outputText" class="output-text">A resposta do modelo será exibida aqui...</div>
+        </div>
+    </div>
+
+    {% load static %}
+    <script src="{% static 'zllm.js' %}"></script>
+{% endblock %}

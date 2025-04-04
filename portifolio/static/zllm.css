@@ -1,0 +1,142 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 160px);
+    text-align: center;
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+p {
+    color: aliceblue;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+}
+
+.container h1 {
+    font-size: 10rem;
+    margin-bottom: 1rem;
+    color: aliceblue;
+}
+
+.input, .output {
+    width: 100%;
+    margin: 1rem 0;
+}
+
+h2 {
+    color: aliceblue;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}
+
+textarea#inputText {
+    width: 100%;
+    padding: 1rem;
+    border-radius: 8px;
+    border: 2px solid #444;
+    background-color: rgba(240, 248, 255, 0.1);
+    color: aliceblue;
+    font-size: 1rem;
+    resize: vertical;
+    min-height: 100px;
+    transition: all 0.3s ease;
+}
+
+textarea#inputText:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+}
+
+.buttons {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    justify-content: center;
+}
+
+button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    border: none;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+#generateButton {
+    background-color: #4a90e2;
+    color: white;
+}
+
+#generateButton:hover {
+    background-color: #357ac1;
+    transform: translateY(-2px);
+}
+
+#clearButton {
+    background-color: #e24a4a;
+    color: white;
+}
+
+#clearButton:hover {
+    background-color: #c13535;
+    transform: translateY(-2px);
+}
+
+.output-text {
+    background-color: rgba(240, 248, 255, 0.05);
+    border-radius: 8px;
+    padding: 1.5rem;
+    min-height: 150px;
+    text-align: left;
+    color: aliceblue;
+    border: 2px solid #444;
+    margin-top: 1rem;
+    white-space: pre-wrap;
+    overflow-wrap: break-word;
+}
+
+.loading {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 3px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: white;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+    .container h1 {
+        font-size: 5rem;
+    }
+    
+    .buttons {
+        flex-direction: column;
+    }
+}
+
+.intro-text {
+    color: aliceblue;
+    margin-bottom: 2rem;
+    max-width: 800px;
+}
+
+.output h2 {
+    color: aliceblue;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+}

@@ -92,6 +92,33 @@
     flex-grow: 1;
 }
 
+.project-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.try-it-out-button {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.button {
+    display: inline-block;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
+    padding: 0.4rem 1.0rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.button:hover {
+    background-color: #4da6ff;
+    color: #ffffff;
+}
+
 /* Media queries for responsiveness */
 @media (max-width: 992px) {
     .container h1 {

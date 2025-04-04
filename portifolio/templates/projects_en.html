@@ -15,58 +15,72 @@
         <h1>Projects</h1>
 
         <div class="grid">
-            <a href="https://github.com/mlziade/MovieStars" class="grid-item" id="1">
-                <div class="item-title">
-                    <h2>MovieStars</h2>
-                </div>
-                <div class="item-content">
-                    <div class="logo-container">
-                        <img src="{% static 'logo-moviestars.png' %}" alt="MovieStars" class="logo">
+            <div class="grid-item" id="1">
+                <a href="https://github.com/mlziade/MovieStars" class="project-link">
+                    <div class="item-title">
+                        <h2>MovieStars</h2>
                     </div>
-                    <div class="item-data">
-                        <p>MovieStars is a Chromium extension that helps users explore reviews from both users and critics, aggregating details from leading entertainment websites. It provides a comprehensive overview of movies, series and animes.</p>
+                    <div class="item-content">
+                        <div class="logo-container">
+                            <img src="{% static 'logo-moviestars.png' %}" alt="MovieStars" class="logo">
+                        </div>
+                        <div class="item-data">
+                            <p>MovieStars is a Chromium extension that helps users explore reviews from both users and critics, aggregating details from leading entertainment websites. It provides a comprehensive overview of movies, series and animes.</p>
+                        </div>
                     </div>
-                </div>
-            </a>
-            <a href="https://github.com/mlziade/zllm" class="grid-item" id="2">
-                <div class="item-title">
-                    <h2>zllm</h2>
-                </div>
-                <div class="item-content">
-                    <div class="logo-container">
-                        <img src="{% static 'github-logo.png' %}" alt="zllm" class="logo">
+                </a>
+            </div>
+            
+            <div class="grid-item" id="2">
+                <a href="https://github.com/mlziade/zllm" class="project-link">
+                    <div class="item-title">
+                        <h2>zllm</h2>
                     </div>
-                    <div class="item-data">
-                        <p>Zllm is a Golang implementation of a GenAI API, running local LLM models through Ollama. It includes tools like local OCR, multimodal models, and translation to support LLM utilization.</p>
+                    <div class="item-content">
+                        <div class="logo-container">
+                            <img src="{% static 'github-logo.png' %}" alt="zllm" class="logo">
+                        </div>
+                        <div class="item-data">
+                            <p>Zllm is a Golang implementation of a GenAI API, running local LLM models through Ollama. It includes tools like local OCR, multimodal models, and translation to support LLM utilization.</p>
+                        </div>
                     </div>
+                </a>
+                <div class="try-it-out-button">
+                    <a href="{% url 'portifolio:tryout_zllm' %}?lang={{ current_lang }}" class="button">Try it out!</a>
                 </div>
-            </a>
-            <a href="https://github.com/mlziade/DontpadList" class="grid-item" id="3">
-                <div class="item-title">
-                    <h2>Dontpad List!</h2>
-                </div>
-                <div class="item-content">
-                    <div class="logo-container">
-                        <img src="{% static 'dontpad-list-logo.png' %}" alt="DontpadList" class="logo">
+            </div>
+            
+            <div class="grid-item" id="3">
+                <a href="https://github.com/mlziade/DontpadList" class="project-link">
+                    <div class="item-title">
+                        <h2>Dontpad List!</h2>
                     </div>
-                    <div class="item-data">
-                        <p>Dontpad List! is a Chrome extension that allows users to append highlighted text from webpages as a list entry to a Dontpad page, based on the Brazilian ABNT reference formatting style.</p>
+                    <div class="item-content">
+                        <div class="logo-container">
+                            <img src="{% static 'dontpad-list-logo.png' %}" alt="DontpadList" class="logo">
+                        </div>
+                        <div class="item-data">
+                            <p>Dontpad List! is a Chrome extension that allows users to append highlighted text from webpages as a list entry to a Dontpad page, based on the Brazilian ABNT reference formatting style.</p>
+                        </div>
                     </div>
-                </div>
-            </a>
-            <a href="https://github.com/mlziade/GameOfLifeConway" class="grid-item" id="4">
-                <div class="item-title">
-                    <h2>Conways's Game of Life</h2>
-                </div>
-                <div class="item-content">
-                    <div class="logo-container">
-                        <img src="{% static 'conways.gif' %}" alt="Conways" class="logo">
+                </a>
+            </div>
+            
+            <div class="grid-item" id="4">
+                <a href="https://github.com/mlziade/GameOfLifeConway" class="project-link">
+                    <div class="item-title">
+                        <h2>Conways's Game of Life</h2>
                     </div>
-                    <div class="item-data">
-                        <p>A Python implementation of Conway's Game of Life, simulating the evolution of cells based on simple rules. Its also called the first 0-player game.</p>
+                    <div class="item-content">
+                        <div class="logo-container">
+                            <img src="{% static 'conways.gif' %}" alt="Conways" class="logo">
+                        </div>
+                        <div class="item-data">
+                            <p>A Python implementation of Conway's Game of Life, simulating the evolution of cells based on simple rules. Its also called the first 0-player game.</p>
+                        </div>
                     </div>
-                </div>
-            </a>
+                </a>
+            </div>
         </div>
     </div>
 {% endblock %}
