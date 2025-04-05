@@ -9,7 +9,10 @@ canvas.width = width;
 canvas.height = height;
 
 // Configuration variables
-const CELL_SIZE = 20;      // Size of each cell in pixels
+let CELL_SIZE = 20;      // Size of each cell in pixels (now variable for zooming)
+const MIN_CELL_SIZE = 5;   // Minimum cell size for zoom out
+const MAX_CELL_SIZE = 50;  // Maximum cell size for zoom in
+const ZOOM_FACTOR = 1.1;   // How much to zoom per scroll event
 let isDragging = false;    // Tracks if user is currently panning the grid
 let dragStart = { x: 0, y: 0 }; // Starting point of drag operation
 let pan = { x: 0, y: 0 };  // Current pan/offset position of the grid
@@ -350,6 +353,7 @@ window.addEventListener("resize", () => {
 document.getElementById("start").addEventListener("click", startSimulation);
 document.getElementById("stop").addEventListener("click", stopSimulation);
 document.getElementById("clear").addEventListener("click", clearGrid);
+document.getElementById("center").addEventListener("click", centerGrid);
 
 // Center grid function - positions (0,0) at the center of the screen
 function centerGrid() {
@@ -360,8 +364,38 @@ function centerGrid() {
   console.log("Grid centered");
 }
 
-// Add event listener for center button
-document.getElementById("center").addEventListener("click", centerGrid);
+// Handle zooming with mouse wheel
+canvas.addEventListener("wheel", e => {
+  e.preventDefault(); // Prevent page scrolling
+
+  // Get mouse position before zoom
+  const mouseX = e.clientX;
+  const mouseY = e.clientY;
+  
+  // Get grid coordinates under mouse before zoom
+  const gridX = (mouseX - pan.x) / CELL_SIZE;
+  const gridY = (mouseY - pan.y) / CELL_SIZE;
+  
+  // Determine zoom direction
+  const zoomIn = e.deltaY < 0;
+  
+  // Apply zoom
+  if (zoomIn && CELL_SIZE < MAX_CELL_SIZE) {
+    CELL_SIZE *= ZOOM_FACTOR;
+  } else if (!zoomIn && CELL_SIZE > MIN_CELL_SIZE) {
+    CELL_SIZE /= ZOOM_FACTOR;
+  }
+  
+  // Clamp cell size to limits
+  CELL_SIZE = Math.max(MIN_CELL_SIZE, Math.min(MAX_CELL_SIZE, CELL_SIZE));
+  
+  // Adjust pan to keep mouse position fixed in the grid
+  pan.x = mouseX - gridX * CELL_SIZE;
+  pan.y = mouseY - gridY * CELL_SIZE;
+  
+  // Redraw with new zoom level
+  drawGrid();
+}, { passive: false });
 
 // Initial setup
 centerGrid();
