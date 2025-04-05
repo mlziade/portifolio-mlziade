@@ -19,6 +19,7 @@ let pan = { x: 0, y: 0 };  // Current pan/offset position of the grid
 let running = false;       // Whether simulation is running or paused
 let eventSource = null;    // Server-sent events source
 let animationTimeout = null; // For controlling animation delay
+let animationDelay = 100;  // Default animation delay in ms
 
 // Create tooltip element to show cell coordinates
 const tooltip = document.createElement('div');
@@ -175,6 +176,9 @@ function startSimulation() {
   
   running = true;
   
+  // Disable slider while running
+  delaySlider.disabled = true;
+  
   // Prepare request data - the current alive cells
   const requestData = {
     alive_cells: getAliveCellsArray()
@@ -243,7 +247,7 @@ function startSimulation() {
                 // Wait before processing next chunk
                 animationTimeout = setTimeout(() => {
                   processStream();
-                }, 300); // 300ms delay for smoother animation
+                }, animationDelay); // Use variable delay instead of fixed 50ms
                 
                 return;
               }
@@ -272,6 +276,9 @@ function startSimulation() {
 // Stop the simulation
 function stopSimulation() {
   running = false;
+  
+  // Enable slider when stopped
+  delaySlider.disabled = false;
   
   if (eventSource) {
     eventSource.close();
@@ -347,6 +354,15 @@ window.addEventListener("resize", () => {
   canvas.width = width;
   canvas.height = height;
   drawGrid();
+});
+
+// Initialize delay slider
+const delaySlider = document.getElementById("delaySlider");
+const delayValue = document.getElementById("delayValue");
+
+delaySlider.addEventListener("input", function() {
+  animationDelay = parseInt(this.value);
+  delayValue.textContent = animationDelay + "ms";
 });
 
 // Button controls for starting/stopping simulation

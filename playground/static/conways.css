@@ -23,3 +23,15 @@ html, body {
   button {
     margin-right: 5px;
   }
+
+  #delaySlider {
+    width: 100px;
+    vertical-align: middle;
+    margin: 0 5px;
+  }
+  
+  #delayValue {
+    display: inline-block;
+    width: 50px;
+    font-size: 14px;
+  }
