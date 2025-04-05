@@ -1,0 +1,24 @@
+{% load static %}
+
+{% block title %}
+    mlziade | Conways 
+{% endblock %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Infinite Game of Life</title>
+    <link rel="stylesheet" href="{% static 'conways.css' %}">
+</head>
+<body>
+    <div id="controls">
+        <button id="start">Start</button>
+        <button id="stop">Stop</button>
+        <button id="center">Center</button>
+        <span>Drag to move. Click to toggle cells.</span>
+    </div>
+    <canvas id="gridCanvas"></canvas>
+    <script src="{% static 'conways.js' %}"></script>
+</body>
+</html>

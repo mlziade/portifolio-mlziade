@@ -1,0 +1,25 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    background: #111;
+  }
+  canvas {
+    display: block;
+    background-color: #222;
+    cursor: grab;
+  }
+  #controls {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 10px;
+    border-radius: 8px;
+    font-family: sans-serif;
+  }
+  button {
+    margin-right: 5px;
+  }
