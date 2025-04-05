@@ -64,7 +64,7 @@ def stream_game_of_life(request):
         # Start the game loop (limit to a maximum of generations)
         # This is to avoid infinite loops
         # The frontend can restart the game at any time from the last state
-        for _ in range(50):
+        for _ in range(1000):
 
             # If the grid is empty, break the loop
             if len(grid) == 0:
