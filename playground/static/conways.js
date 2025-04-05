@@ -141,6 +141,21 @@ function updateGrid(cellsArray) {
   drawGrid();
 }
 
+// Clear all cells from the grid
+function clearGrid() {
+  // Stop simulation if running
+  if (running) {
+    stopSimulation();
+  }
+  
+  // Clear all alive cells
+  aliveCells = new Set();
+  
+  // Redraw the grid
+  drawGrid();
+  console.log("Grid cleared");
+}
+
 // Connect to server-sent events stream and handle simulation
 function startSimulation() {
   if (running) return;
@@ -222,10 +237,10 @@ function startSimulation() {
                 // Keep any remaining messages in buffer for next processing
                 buffer = messages.slice(1).join('\n\n') + '\n\n' + buffer;
                 
-                // Wait 2 seconds before processing next chunk
+                // Wait before processing next chunk
                 animationTimeout = setTimeout(() => {
                   processStream();
-                }, 500); // 500ms delay for smoother animation
+                }, 300); // 300ms delay for smoother animation
                 
                 return;
               }
@@ -334,6 +349,7 @@ window.addEventListener("resize", () => {
 // Button controls for starting/stopping simulation
 document.getElementById("start").addEventListener("click", startSimulation);
 document.getElementById("stop").addEventListener("click", stopSimulation);
+document.getElementById("clear").addEventListener("click", clearGrid);
 
 // Center grid function - positions (0,0) at the center of the screen
 function centerGrid() {
