@@ -203,7 +203,7 @@ function startSimulation() {
     const decoder = new TextDecoder();
     let buffer = '';
     
-    // Modified to process one chunk at a time with delay
+    // Modified to process all complete messages in the buffer
     function processStream() {
       if (!running) {
         console.log("Simulation stopped");
@@ -222,14 +222,11 @@ function startSimulation() {
         console.log("Received chunk:", chunk);
         buffer += chunk;
         
-        // Process complete messages in buffer
+        // Process all complete messages in buffer
         const messages = buffer.split('\n\n');
         buffer = messages.pop(); // Keep the last incomplete message in buffer
-        
-        if (messages.length > 0) {
-          // Just process the first complete message
-          const message = messages[0];
-          
+
+        for (const message of messages) {
           if (message.trim()) {
             try {
               // Extract just the JSON part from the SSE format
@@ -237,28 +234,20 @@ function startSimulation() {
               if (dataMatch && dataMatch[1]) {
                 const data = JSON.parse(dataMatch[1]);
                 console.log("Updating with grid state:", data);
-                
+
                 // Update grid immediately with this state
                 updateGrid(data);
-                
-                // Keep any remaining messages in buffer for next processing
-                buffer = messages.slice(1).join('\n\n') + '\n\n' + buffer;
-                
-                // Wait before processing next chunk
-                animationTimeout = setTimeout(() => {
-                  processStream();
-                }, animationDelay); // Use variable delay instead of fixed 50ms
-                
-                return;
               }
             } catch (e) {
               console.error('Error parsing JSON:', e, 'from message:', message);
             }
           }
         }
-        
-        // If we didn't find a complete message to process, continue reading
-        processStream();
+
+        // Wait before processing the next chunk
+        animationTimeout = setTimeout(() => {
+          processStream();
+        }, animationDelay);
       }).catch(error => {
         console.error('Stream error:', error);
         running = false;
