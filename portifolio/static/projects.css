@@ -34,6 +34,7 @@
     display: flex;
     flex-direction: column;
     text-decoration: none; /* Remove underline */
+    height: 100%; /* Ensure consistent height */
 }
 
 .grid-item:hover {
@@ -96,11 +97,15 @@
     text-decoration: none;
     color: inherit;
     display: block;
+    flex: 1; /* Make the link area take available space */
+    display: flex;
+    flex-direction: column;
 }
 
 .try-it-out-button {
-    margin-top: 1rem;
+    margin-top: auto; /* Push to bottom */
     text-align: center;
+    padding-top: 1rem;
 }
 
 .button {

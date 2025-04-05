@@ -30,8 +30,24 @@
                     </div>
                 </a>
             </div>
-            
+
             <div class="grid-item" id="2">
+                <a href="https://github.com/mlziade/DontpadList" class="project-link">
+                    <div class="item-title">
+                        <h2>Dontpad List!</h2>
+                    </div>
+                    <div class="item-content">
+                        <div class="logo-container">
+                            <img src="{% static 'dontpad-list-logo.png' %}" alt="DontpadList" class="logo">
+                        </div>
+                        <div class="item-data">
+                            <p>Dontpad List! é uma extensão para navegadores Chromium que permite aos usuários anexar textos em highlight de páginas web como um item de lista em uma página Dontpad. Se baseia no estilo de formatação de referência ABNT brasileiro para websites.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="grid-item" id="3">
                 <a href="https://github.com/mlziade/zllm" class="project-link">
                     <div class="item-title">
                         <h2>zllm</h2>
@@ -50,22 +66,6 @@
                 </div>
             </div>
             
-            <div class="grid-item" id="3">
-                <a href="https://github.com/mlziade/DontpadList" class="project-link">
-                    <div class="item-title">
-                        <h2>Dontpad List!</h2>
-                    </div>
-                    <div class="item-content">
-                        <div class="logo-container">
-                            <img src="{% static 'dontpad-list-logo.png' %}" alt="DontpadList" class="logo">
-                        </div>
-                        <div class="item-data">
-                            <p>Dontpad List! é uma extensão para navegadores Chromium que permite aos usuários anexar textos em highlight de páginas web como um item de lista em uma página Dontpad. Se baseia no estilo de formatação de referência ABNT brasileiro para websites.</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            
             <div class="grid-item" id="4">
                 <a href="https://github.com/mlziade/GameOfLifeConway" class="project-link">
                     <div class="item-title">
@@ -80,6 +80,9 @@
                         </div>
                     </div>
                 </a>
+                <div class="try-it-out-button">
+                    <a href="{% url 'playground:tryout_conways' %}" class="button">Experimente aqui!</a>
+                </div>
             </div>
         </div>
     </div>
