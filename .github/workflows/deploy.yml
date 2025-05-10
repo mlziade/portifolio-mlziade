@@ -40,13 +40,13 @@ jobs:
           export PATH="$VIRTUAL_ENV/bin:$PATH"
           
           echo "Syncing dependencies..."
-          uv sync || { echo "Failed to sync dependencies"; exit 1; }
+          /home/portifolio/.local/bin/uv sync || { echo "Failed to sync dependencies"; exit 1; }
           
           echo "Running migrations..."
-          uv run manage.py migrate --noinput || { echo "Failed to run migrations"; exit 1; }
+          /home/portifolio/.local/bin/uv run manage.py migrate --noinput || { echo "Failed to run migrations"; exit 1; }
           
           echo "Collecting static files..."
-          uv run manage.py collectstatic --noinput || { echo "Failed to collect static files"; exit 1; }
+          /home/portifolio/.local/bin/uv run manage.py collectstatic --noinput || { echo "Failed to collect static files"; exit 1; }
           
           echo "Restarting service..."
           sudo systemctl restart $SERVICE_NAME || { echo "Failed to restart service"; exit 1; }
