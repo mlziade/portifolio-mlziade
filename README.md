@@ -19,5 +19,9 @@ This is my professional portfolio website showcasing my skills, projects, and ex
 - **Gunicorn**: WSGI HTTP server to run the Django application;
 - **Systemd**: Linux initialization system used to automate application startup and manage service processes using daemons.
 
+### CI/CD
+- **GitHub Actions**: Automated workflows for continuous integration and deployment;
+- **SSH Deploy**: Secure deployment to production server;
+
 ## Licensing
 See the [LICENSE](LICENSE) file for detailed information about the terms of use for this project.
