@@ -105,6 +105,13 @@ button {
     overflow-wrap: break-word;
 }
 
+/* Animation for cursor blink effect during streaming */
+@keyframes cursor-blink {
+    0% { border-color: #444; }
+    50% { border-color: #4a90e2; }
+    100% { border-color: #444; }
+}
+
 .loading {
     display: inline-block;
     width: 1.5rem;
@@ -117,6 +124,21 @@ button {
 
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+.streaming-indicator {
+    display: inline-block;
+    color: #4a90e2;
+    font-size: 1rem;
+    font-weight: normal;
+    margin-left: 0.5rem;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.5; }
+    50% { opacity: 1; }
+    100% { opacity: 0.5; }
 }
 
 @media (max-width: 768px) {
@@ -139,4 +161,6 @@ button {
     color: aliceblue;
     margin-bottom: 0.5rem;
     font-size: 1.5rem;
+    display: flex;
+    align-items: center;
 }

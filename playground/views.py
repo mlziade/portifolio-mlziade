@@ -157,6 +157,67 @@ def get_zllm_token():
 
 @api_view(['POST'])
 @throttle_classes([AnonRateThrottle])
+def generate_text_streaming(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
+    
+    # Parse the JSON data from request body
+    try:
+        data = json.loads(request.body)
+        prompt = data.get('prompt')
+    except json.JSONDecodeError:
+        print("Error decoding JSON")
+        return JsonResponse({'error': 'Invalid JSON'}, status=400)
+    
+    if not prompt:
+        print("Prompt is missing")
+        return JsonResponse({'error': 'Prompt is required'}, status=400)
+    
+    # Authenticate with ZLLM and get the token
+    token = get_zllm_token()
+    if not token:
+        print("Failed to authenticate with ZLLM")
+        return JsonResponse({'error': 'Failed to authenticate with ZLLM'}, status=500)
+    
+    ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL")
+    ZLLM_MODEL_NAME = os.getenv("ZLLM_MODEL_NAME")
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {token}'
+    }
+
+    # Prepare the data for the request
+    data = {
+        'prompt': prompt,
+        'model': ZLLM_MODEL_NAME,
+    }
+
+    def event_stream():
+        try:
+            # Use requests to make a streaming request
+            with requests.post(
+                url=f"{ZLLM_BASE_URL}/llm/generate/streaming",
+                headers=headers,
+                data=json.dumps(data),
+                stream=True
+            ) as response:
+                response.raise_for_status()
+                # Forward each chunk from the API to the client
+                for line in response.iter_lines():
+                    if line:
+                        # Forward the SSE data
+                        yield f"{line.decode('utf-8')}\n\n"
+        except requests.exceptions.RequestException as e:
+            print(f"Error during ZLLM streaming request: {e}")
+            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+    
+    response = StreamingHttpResponse(event_stream(), content_type='text/event-stream')
+    response['Cache-Control'] = 'no-cache'
+    return response
+
+@api_view(['POST'])
+@throttle_classes([AnonRateThrottle])
 def generate_text(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
@@ -166,14 +227,17 @@ def generate_text(request):
         data = json.loads(request.body)
         prompt = data.get('prompt')
     except json.JSONDecodeError:
+        print("Error decoding JSON")  # Log JSON decoding error
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
     
     if not prompt:
+        print("Prompt is missing")  # Log missing prompt
         return JsonResponse({'error': 'Prompt is required'}, status=400)
     
     # Authenticate with ZLLM and get the token
     token = get_zllm_token()
     if not token:
+        print("Failed to authenticate with ZLLM")  # Log authentication failure
         return JsonResponse({'error': 'Failed to authenticate with ZLLM'}, status=500)
     
     ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL")
@@ -192,7 +256,7 @@ def generate_text(request):
 
     try:
         response = requests.post(
-            url=f"{ZLLM_BASE_URL}/generate",
+            url=f"{ZLLM_BASE_URL}/llm/generate",
             headers=headers,
             data=json.dumps(data)
         )
@@ -200,4 +264,5 @@ def generate_text(request):
         response.raise_for_status()
         return JsonResponse(response.json())
     except requests.exceptions.RequestException as e:
+        print(f"Error during ZLLM request: {e}")  # Log the exception
         return JsonResponse({'error': str(e)}, status=500)
