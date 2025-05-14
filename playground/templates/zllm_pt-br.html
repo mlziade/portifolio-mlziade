@@ -38,11 +38,13 @@
         </div>
 
         <div class="output">
-            <h2>Response: <small class="streaming-indicator" id="streamingIndicator" style="display: none;">Streaming...</small></h2>
+            <h2>Response:</h2>
             <div id="outputText" class="output-text"></div>
         </div>
     </div>
 
     {% load static %}
+    <!-- Add marked.js library for markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <script src="{% static 'zllm.js' %}"></script>
 {% endblock %}

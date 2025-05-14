@@ -103,6 +103,7 @@ button {
     margin-top: 1rem;
     white-space: pre-wrap;
     overflow-wrap: break-word;
+    line-height: 1.6;
 }
 
 /* Animation for cursor blink effect during streaming */
@@ -126,20 +127,7 @@ button {
     to { transform: rotate(360deg); }
 }
 
-.streaming-indicator {
-    display: inline-block;
-    color: #4a90e2;
-    font-size: 1rem;
-    font-weight: normal;
-    margin-left: 0.5rem;
-    animation: pulse 1.5s ease-in-out infinite;
-}
-
-@keyframes pulse {
-    0% { opacity: 0.5; }
-    50% { opacity: 1; }
-    100% { opacity: 0.5; }
-}
+/* Remove streaming indicator styles */
 
 @media (max-width: 768px) {
     .container h1 {
@@ -163,4 +151,111 @@ button {
     font-size: 1.5rem;
     display: flex;
     align-items: center;
+}
+
+/* Markdown element styling */
+.output-text h1,
+.output-text h2,
+.output-text h3,
+.output-text h4,
+.output-text h5,
+.output-text h6 {
+    color: #4a90e2;
+    margin-top: 1.5rem;
+    margin-bottom: 1rem;
+    font-weight: bold;
+}
+
+.output-text h1 { font-size: 1.8rem; }
+.output-text h2 { font-size: 1.6rem; }
+.output-text h3 { font-size: 1.4rem; }
+.output-text h4 { font-size: 1.3rem; }
+.output-text h5 { font-size: 1.2rem; }
+.output-text h6 { font-size: 1.1rem; }
+
+.output-text p {
+    margin-bottom: 1rem;
+    color: aliceblue;
+    font-size: 1rem;
+}
+
+.output-text ul, 
+.output-text ol {
+    padding-left: 2rem;
+    margin-bottom: 1rem;
+}
+
+.output-text li {
+    margin-bottom: 0.5rem;
+}
+
+.output-text a {
+    color: #4a90e2;
+    text-decoration: underline;
+    transition: color 0.2s;
+}
+
+.output-text a:hover {
+    color: #357ac1;
+}
+
+.output-text blockquote {
+    border-left: 4px solid #4a90e2;
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #aaa;
+    font-style: italic;
+}
+
+.output-text code {
+    background-color: rgba(40, 44, 52, 0.7);
+    padding: 0.2em 0.4em;
+    border-radius: 3px;
+    font-family: monospace;
+    font-size: 0.9em;
+}
+
+.output-text pre {
+    background-color: rgba(40, 44, 52, 0.7);
+    padding: 1rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1rem 0;
+}
+
+.output-text pre code {
+    background-color: transparent;
+    padding: 0;
+    color: aliceblue;
+    display: block;
+}
+
+.output-text table {
+    border-collapse: collapse;
+    margin: 1rem 0;
+    width: 100%;
+}
+
+.output-text th,
+.output-text td {
+    border: 1px solid #444;
+    padding: 0.5rem;
+    text-align: left;
+}
+
+.output-text th {
+    background-color: rgba(40, 44, 52, 0.7);
+    font-weight: bold;
+}
+
+.output-text img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.output-text hr {
+    border: none;
+    border-bottom: 2px solid #444;
+    margin: 1.5rem 0;
 }
