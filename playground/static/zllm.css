@@ -6,56 +6,70 @@
     min-height: calc(100vh - 160px);
     text-align: center;
     padding: 2rem;
-    max-width: 1200px;
+    max-width: 1000px;
     margin: 0 auto;
 }
 
 p {
     color: aliceblue;
     font-size: 1.2rem;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .container h1 {
-    font-size: 10rem;
+    font-size: 8rem;
     margin-bottom: 1rem;
     color: aliceblue;
+    letter-spacing: -0.05em;
+    font-weight: 700;
 }
 
-.input, .output {
+.card {
     width: 100%;
     margin: 1rem 0;
+    background-color: rgba(240, 248, 255, 0.03);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(240, 248, 255, 0.1);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.input-card:focus-within {
+    border-color: rgba(74, 144, 226, 0.5);
+    box-shadow: 0 6px 28px rgba(0, 0, 0, 0.25);
 }
 
 h2 {
     color: aliceblue;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1rem;
     font-size: 1.5rem;
+    font-weight: 600;
 }
 
 textarea#inputText {
     width: 100%;
     padding: 1rem;
     border-radius: 8px;
-    border: 2px solid #444;
-    background-color: rgba(240, 248, 255, 0.1);
+    border: 1px solid rgba(240, 248, 255, 0.2);
+    background-color: rgba(240, 248, 255, 0.05);
     color: aliceblue;
     font-size: 1rem;
     resize: vertical;
-    min-height: 100px;
+    min-height: 120px;
     transition: all 0.3s ease;
 }
 
 textarea#inputText:focus {
     outline: none;
     border-color: #4a90e2;
-    box-shadow: 0 0 10px rgba(74, 144, 226, 0.5);
+    box-shadow: 0 0 10px rgba(74, 144, 226, 0.25);
 }
 
 .buttons {
     display: flex;
     gap: 1rem;
-    margin: 1rem 0;
+    margin: 1.5rem 0;
     justify-content: center;
 }
 
@@ -64,7 +78,7 @@ button {
     border-radius: 8px;
     border: none;
     font-size: 1rem;
-    font-weight: bold;
+    font-weight: 600;
     cursor: pointer;
     transition: all 0.2s ease;
     display: flex;
@@ -72,35 +86,60 @@ button {
     gap: 0.5rem;
 }
 
-#generateButton {
+.primary-button {
     background-color: #4a90e2;
     color: white;
 }
 
-#generateButton:hover {
+.primary-button:hover {
     background-color: #357ac1;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 144, 226, 0.25);
 }
 
-#clearButton {
+.secondary-button {
     background-color: #e24a4a;
     color: white;
 }
 
-#clearButton:hover {
+.secondary-button:hover {
     background-color: #c13535;
     transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(226, 74, 74, 0.25);
+}
+
+.icon-button {
+    background-color: rgba(240, 248, 255, 0.1);
+    color: aliceblue;
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+}
+
+.icon-button:hover {
+    background-color: rgba(240, 248, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.output-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.output-actions {
+    display: flex;
+    gap: 0.5rem;
 }
 
 .output-text {
-    background-color: rgba(240, 248, 255, 0.05);
+    background-color: rgba(240, 248, 255, 0.03);
     border-radius: 8px;
     padding: 1.5rem;
     min-height: 150px;
     text-align: left;
     color: aliceblue;
-    border: 2px solid #444;
-    margin-top: 1rem;
+    border: 1px solid rgba(240, 248, 255, 0.1);
     white-space: pre-wrap;
     overflow-wrap: break-word;
     line-height: 1.6;
@@ -127,30 +166,28 @@ button {
     to { transform: rotate(360deg); }
 }
 
-/* Remove streaming indicator styles */
-
 @media (max-width: 768px) {
     .container h1 {
-        font-size: 5rem;
+        font-size: 4rem;
     }
     
-    .buttons {
+    .main-buttons {
         flex-direction: column;
+    }
+
+    .output-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
     }
 }
 
 .intro-text {
     color: aliceblue;
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
     max-width: 800px;
-}
-
-.output h2 {
-    color: aliceblue;
-    margin-bottom: 0.5rem;
-    font-size: 1.5rem;
-    display: flex;
-    align-items: center;
+    line-height: 1.6;
+    opacity: 0.9;
 }
 
 /* Markdown element styling */
@@ -258,4 +295,25 @@ button {
     border: none;
     border-bottom: 2px solid #444;
     margin: 1.5rem 0;
+}
+
+/* Toast notification for copy operations */
+.toast-notification {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: rgba(74, 144, 226, 0.9);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.toast-notification.show {
+    opacity: 1;
+    transform: translateY(0);
 }

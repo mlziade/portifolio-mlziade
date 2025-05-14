@@ -22,23 +22,33 @@
             Se quiser saber mais sobre, acesse o repositório no <a href="https://github.com/mlziade/zllm" target="_blank">GitHub</a>.
         </p>
 
-        <div class="input">
-            <h2>Insira seu texto:</h2>
+        <div class="card input-card">
+            <h2>Insira seu texto</h2>
             <textarea id="inputText" rows="4" placeholder="Digite seu texto aqui..."></textarea>
         </div>
         
-        <div class="buttons">
-            <button id="generateButton">
+        <div class="buttons main-buttons">
+            <button id="generateButton" class="primary-button">
                 <i class="fas fa-robot"></i> Gerar Resposta
                 <span id="loadingSpinner" class="loading" style="display: none;"></span>
             </button>
-            <button id="clearButton">
+            <button id="clearButton" class="secondary-button">
                 <i class="fas fa-eraser"></i> Limpar
             </button>
         </div>
 
-        <div class="output">
-            <h2>Response:</h2>
+        <div class="card output-card">
+            <div class="output-header">
+                <h2>Resposta</h2>
+                <div class="output-actions">
+                    <button id="copyTextButton" class="icon-button" title="Copiar texto">
+                        <i class="fas fa-copy"></i> Copiar
+                    </button>
+                    <button id="copyMarkdownButton" class="icon-button" title="Copiar markdown">
+                        <i class="fas fa-code"></i> Copiar Markdown
+                    </button>
+                </div>
+            </div>
             <div id="outputText" class="output-text"></div>
         </div>
     </div>

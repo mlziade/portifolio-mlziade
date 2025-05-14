@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const outputText = document.getElementById('outputText');
     const clearButton = document.getElementById('clearButton');
     const loadingSpinner = document.getElementById('loadingSpinner');
+    const copyTextButton = document.getElementById('copyTextButton');
+    const copyMarkdownButton = document.getElementById('copyMarkdownButton');
 
     let eventSource = null;
     let accumulatedMarkdown = ''; // Store the accumulated markdown content
@@ -14,6 +16,61 @@ document.addEventListener('DOMContentLoaded', function() {
         sanitize: false, // Don't sanitize HTML (renderer will handle this)
         smartLists: true, // Use smarter list behavior than default markdown
         smartypants: true, // Use smart typographic punctuation
+    });
+
+    // Function to create and show toast notifications
+    function showToast(message, duration = 2000) {
+        // Remove any existing toast
+        const existingToast = document.querySelector('.toast-notification');
+        if (existingToast) {
+            existingToast.remove();
+        }
+
+        // Create and add new toast
+        const toast = document.createElement('div');
+        toast.className = 'toast-notification';
+        toast.textContent = message;
+        document.body.appendChild(toast);
+
+        // Show toast
+        setTimeout(() => toast.classList.add('show'), 10);
+
+        // Hide and remove toast after duration
+        setTimeout(() => {
+            toast.classList.remove('show');
+            setTimeout(() => toast.remove(), 300);
+        }, duration);
+    }
+
+    // Event listeners for copy buttons
+    copyTextButton.addEventListener('click', function() {
+        if (!outputText.textContent.trim()) {
+            showToast('No content to copy');
+            return;
+        }
+
+        // Copy the plain text (without formatting)
+        navigator.clipboard.writeText(outputText.textContent)
+            .then(() => showToast('Text copied to clipboard'))
+            .catch(err => {
+                console.error('Failed to copy text: ', err);
+                showToast('Failed to copy text');
+            });
+    });
+
+    copyMarkdownButton.addEventListener('click', function() {
+        if (!accumulatedMarkdown.trim()) {
+            showToast('No markdown content to copy');
+            return;
+        }
+
+        // Copy the raw markdown
+        navigator.clipboard.writeText(accumulatedMarkdown)
+            .then(() => showToast('Markdown copied to clipboard'))
+            .catch(err => {
+                console.error('Failed to copy markdown: ', err);
+                showToast('Failed to copy markdown');
+            });
     });
 
     generateButton.addEventListener('click', function() {
