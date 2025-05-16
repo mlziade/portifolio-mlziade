@@ -9,7 +9,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const tabContents = document.querySelectorAll('.tab-content');
 
     let chatHistoryForAPI = []; // Stores {role: 'user'/'assistant', content: '...'}
-    const welcomeMessage = "## Welcome to ZLLM Chat! 👋\n\nHello! I'm **ZLLM**. How can I assist you today? Feel free to ask anything about me or general questions.\n\n*You can try asking about my features, capabilities, or any programming questions you might have.*";
+    
+    // Determine language from HTML lang attribute
+    const htmlLang = document.documentElement.lang || 'en';
+    
+    const welcomeMessage_en = "## Welcome to ZLLM Chat! 👋\n\nHello! I'm **ZLLM**. How can I assist you today? Feel free to ask anything about me or general questions.\n\n*You can try asking about my features, capabilities, or any programming questions you might have.*";
+    const welcomeMessage_pt_br = "## Bem-vindo ao ZLLM Chat! 👋\n\nOlá! Eu sou o **ZLLM**. Como posso ajudar você hoje? Sinta-se à vontade para perguntar qualquer coisa sobre mim ou questões gerais.\n\n*Você pode tentar perguntar sobre minhas funcionalidades, capacidades ou qualquer dúvida de programação que possa ter.*";
+
+    let welcomeMessage;
+    if (htmlLang.startsWith('pt')) {
+        welcomeMessage = welcomeMessage_pt_br;
+    } else {
+        welcomeMessage = welcomeMessage_en;
+    }
 
     // CSRF Token
     function getCookie(name) {
