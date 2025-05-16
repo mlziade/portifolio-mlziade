@@ -5,6 +5,8 @@ from .views import (
     TryoutZllmView,
     generate_text,
     generate_text_streaming,
+    TryoutZllmChatView,
+    chat_with_zllm,
 )
 
 app_name = 'playground'
@@ -15,4 +17,6 @@ urlpatterns = [
     path('zllm/', TryoutZllmView.as_view(), name='tryout_zllm'),
     # path('zllm/generate_text/', generate_text, name='generate_text'),
     path('zllm/generate_text_streaming/', generate_text_streaming, name='generate_text_streaming'),
+    path('zllm/chat/', TryoutZllmChatView.as_view(), name='tryout_zllm_chat'),
+    path('zllm/chat/chat_with_zllm/', chat_with_zllm, name='chat_with_zllm'),
 ]

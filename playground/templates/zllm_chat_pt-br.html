@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat | zllm</title>
+    <link rel="stylesheet" href="{% static 'zllm_chat.css' %}">
+    <!-- Add the Marked library for Markdown parsing -->
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
+    <!-- Add DOMPurify for sanitizing HTML -->
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.0.1/dist/purify.min.js"></script>
+</head>
+<body>
+    <div class="app-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>ZLLM</h2>
+            </div>
+            <div class="sidebar-buttons">
+                <button id="new-chat-button" class="sidebar-button">
+                    <span class="button-icon">+</span> Novo Chat
+                </button>
+                <button class="sidebar-button tab-button" data-tab="chat">
+                    <span class="button-icon">💬</span> Chat
+                </button>
+                <button class="sidebar-button tab-button active" data-tab="instructions">
+                    <span class="button-icon">ℹ️</span> Instruções
+                </button>
+                <a href="{% url 'portifolio:home' %}?lang=pt-br" class="sidebar-button home-button">
+                    <span class="button-icon">🏠</span> Home
+                </a>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <div id="chat-tab" class="tab-content">
+                <div class="chat-window">
+                    <div id="message-list" class="message-list">
+                        <!-- Messages will be appended here -->
+                    </div>
+                </div>
+                <div class="chat-input-area">
+                    <textarea id="message-input" placeholder="Digite sua mensagem..." rows="1"></textarea>
+                    <button id="send-button">Enviar</button>
+                </div>
+            </div>
+
+            <div id="instructions-tab" class="tab-content instructions-content active">
+                <h2>Instruções sobre ZLLM Chat</h2>
+                <p>Bem-vindo ao ZLLM Chat! Estou aqui para responder a qualquer pergunta ou simplesmente conversar com você.</p>
+                
+                <h3>Dicas Rápidas</h3>
+                <ul>
+                    <li><strong>Comece do Zero:</strong> Use o botão "Novo Chat" sempre que quiser iniciar uma nova conversa.</li>
+                    <li><strong>Mensagens de Múltiplas Linhas:</strong> Pressione Shift+Enter para criar uma nova linha em sua mensagem.</li>
+                </ul>
+                
+                <h3>O Que Você Pode Perguntar?</h3>
+                <ul>
+                    <li><strong>Perguntas Gerais:</strong> Sinta-se à vontade para perguntar sobre conceitos de programação, tendências tecnológicas, ferramentas de desenvolvimento, serviços em nuvem, bancos de dados ou outras perguntas cotidianas que você possa ter.</li>
+                    <li><strong>ZLLM:</strong> Esta é minha principal área de especialização! Pergunte sobre minhas capacidades, recursos da API, stack de tecnologia, endpoints, sistemas de autenticação, gerenciamento de modelos ou qualquer aspecto técnico de como funciono. Posso explicar minha geração de texto, capacidades de chat, respostas em streaming, recursos de processamento de imagem e muito mais.</li>
+                </ul>
+                
+                <h3>Experimente Estas Perguntas de Exemplo</h3>
+                <ul>
+                    <li>"Quais recursos o ZLLM oferece?"</li>
+                    <li>"Como o ZLLM lida com autenticação?"</li>
+                    <li>"Conte-me sobre a stack de tecnologia por trás do ZLLM."</li>
+                    <li>"Quais são as diferenças entre os endpoints de streaming e não-streaming?"</li>
+                </ul>
+                
+                <h3>Sua Privacidade</h3>
+                <p>Esta é uma interface de demonstração. Suas conversas não são armazenadas no servidor após o término da sua sessão, mas são enviadas para a API ZLLM para processamento durante sua sessão.</p>
+                
+                <p>Pronto para conversar? Mude para a aba Chat e comece a fazer perguntas!</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'zllm_chat.js' %}"></script>
+</body>
+</html>

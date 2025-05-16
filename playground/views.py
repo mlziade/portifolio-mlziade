@@ -135,6 +135,17 @@ class TryoutZllmView(View):
             lang = 'pt-br'
         return render(request, f'zllm_{lang}.html', {'current_lang': lang})
 
+class TryoutZllmChatView(View):
+    def get(self, request):
+        # Access the correct template based on the language
+        # For example: home_pt-br.html or home_en.html
+        lang = request.GET.get('lang')
+
+        # Defaults to pt-br if no language or a invalid language is provided
+        if lang not in ['pt-br', 'en']:
+            lang = 'pt-br'
+        return render(request, f'zllm_chat_{lang}.html', {'current_lang': lang})
+
 # Authenticates with ZLLM and returns the token.
 def get_zllm_token():
     ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL")
@@ -265,4 +276,83 @@ def generate_text(request):
         return JsonResponse(response.json())
     except requests.exceptions.RequestException as e:
         print(f"Error during ZLLM request: {e}")  # Log the exception
+        return JsonResponse({'error': str(e)}, status=500)
+    
+@api_view(['POST'])
+@throttle_classes([AnonRateThrottle])
+def chat_with_zllm(request):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
+    
+    # Parse the JSON data from request body
+    try:
+        data = json.loads(request.body)
+        prompt = data.get('prompt')
+        messages = data.get('messages', [])
+    except json.JSONDecodeError:
+        print("Error decoding JSON")
+    
+    if not prompt:
+        print("Prompt is missing")
+        return JsonResponse({'error': 'Prompt is required'}, status=400)
+    
+    # Authenticate with ZLLM and get the token
+    token = get_zllm_token()
+    if not token:
+        print("Failed to authenticate with ZLLM")
+        return JsonResponse({'error': 'Failed to authenticate with ZLLM'}, status=500)
+    
+    ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL")
+    ZLLM_MODEL_NAME = os.getenv("ZLLM_MODEL_NAME")
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Authorization': f'Bearer {token}'
+    }
+
+    # Read the system prompt from file
+    try:
+        # Use os.path to construct the correct path relative to this file
+        prompt_file_path = os.path.join(os.path.dirname(__file__), "zllm_chat_system_prompt.txt")
+        with open(prompt_file_path, "r", encoding="utf-8") as file:
+            system_prompt = file.read().strip()
+    except FileNotFoundError:
+        print(f"System prompt file not found at {prompt_file_path}")
+        return JsonResponse({'error': 'System prompt file not found'}, status=500)
+    except Exception as e:
+        print(f"Error reading system prompt file: {e}")
+        return JsonResponse({'error': 'Error reading system prompt file'}, status=500)
+
+    # Add the system message to the messages list
+    system_message = {
+        'role': 'system',
+        'content': system_prompt
+    }    
+    messages.insert(0, system_message)
+
+    # Add the user message to the messages list
+    user_message = {
+        'role': 'user',
+        'content': prompt
+    }
+    messages.append(user_message)
+
+    # Prepare the data for the request
+    data = {
+        'messages': messages,
+        'model': ZLLM_MODEL_NAME,
+    }
+
+    try:
+        response = requests.post(
+            url=f"{ZLLM_BASE_URL}/llm/chat",
+            headers=headers,
+            data=json.dumps(data)
+        )
+    
+        response.raise_for_status()
+        response_data = response.json()
+        return JsonResponse({'response': response_data.get('response', '')})
+    except requests.exceptions.RequestException as e:
+        print(f"Error during ZLLM request: {e}")
         return JsonResponse({'error': str(e)}, status=500)
