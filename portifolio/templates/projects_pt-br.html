@@ -67,6 +67,25 @@
             </div>
             
             <div class="grid-item" id="4">
+                <a href="https://github.com/mlziade/zllm" class="project-link">
+                    <div class="item-title">
+                        <h2>ZLLM Chat</h2>
+                    </div>
+                    <div class="item-content">
+                        <div class="logo-container">
+                            <img src="{% static 'zllm-chat-logo.png' %}" alt="ZLLM Chat" class="logo">
+                        </div>
+                        <div class="item-data">
+                            <p>Uma interface de chat simples para interagir com a API ZLLM. Você pode perguntar sobre qualquer coisa, ou sobre o próprio projeto ZLLM!</p>
+                        </div>
+                    </div>
+                </a>
+                <div class="try-it-out-button">
+                    <a href="{% url 'playground:tryout_zllm_chat' %}?lang={{ current_lang }}" class="button">Experimente aqui!</a>
+                </div>
+            </div>
+            
+            <div class="grid-item" id="5">
                 <a href="https://github.com/mlziade/GameOfLifeConway" class="project-link">
                     <div class="item-title">
                         <h2>Conways's Game of Life</h2>
@@ -85,7 +104,7 @@
                 </div>
             </div>
 
-            <div class="grid-item" id="5">
+            <div class="grid-item" id="6">
                 <a href="https://github.com/mlziade/keycrypt" class="project-link">
                     <div class="item-title">
                         <h2>KeyCrypt</h2>
