@@ -3,7 +3,6 @@ from .views import (
     TryoutConwaysView,
     stream_game_of_life,
     TryoutZllmView,
-    generate_text,
     generate_text_streaming,
     TryoutZllmChatView,
     chat_with_zllm,

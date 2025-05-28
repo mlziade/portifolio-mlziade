@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.shortcuts import redirect
 from django.views import View
 from django.http import JsonResponse, StreamingHttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -12,14 +11,13 @@ from dotenv import load_dotenv
 
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.throttling import AnonRateThrottle
-from rest_framework.response import Response
 
 # Load environment variables from the .env file
 load_dotenv()
 
 class TryoutConwaysView(View):
     def get(self, request):
-        return render(request, f'conways.html')
+        return render(request, 'conways.html')
 
 def check_cell(x_pos: int, y_pos: int, cell_state: bool, grid: set[tuple[int, int]]) -> bool:    
     # Count neighbors
@@ -32,7 +30,7 @@ def check_cell(x_pos: int, y_pos: int, cell_state: bool, grid: set[tuple[int, in
             if neighbor_pos in grid:
                 total += 1
 
-    if cell_state == False:     
+    if not cell_state:
         # Dead cell with exactly 3 neighbors becomes alive
         if total == 3:
             return True
@@ -142,28 +140,6 @@ def stream_game_of_life(request):
     }
     
     return JsonResponse(response_data)
-
-class TryoutZllmView(View):
-    def get(self, request):
-        # Access the correct template based on the language
-        # For example: home_pt-br.html or home_en.html
-        lang = request.GET.get('lang')
-
-        # Defaults to pt-br if no language or a invalid language is provided
-        if lang not in ['pt-br', 'en']:
-            lang = 'pt-br'
-        return render(request, f'zllm_{lang}.html', {'current_lang': lang})
-
-class TryoutZllmChatView(View):
-    def get(self, request):
-        # Access the correct template based on the language
-        # For example: home_pt-br.html or home_en.html
-        lang = request.GET.get('lang')
-
-        # Defaults to pt-br if no language or a invalid language is provided
-        if lang not in ['pt-br', 'en']:
-            lang = 'pt-br'
-        return render(request, f'zllm_chat_{lang}.html', {'current_lang': lang})
 
 # Retry decorator for API calls
 def retry_api_call(max_retries=3, backoff_factor=1):
