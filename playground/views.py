@@ -46,74 +46,18 @@ def check_cell(x_pos: int, y_pos: int, cell_state: bool, grid: set[tuple[int, in
         # Otherwise dies
         return False
 
-# This implementation of a streaming game of life generations endpoint is based on my own implementation of the game of life in python.
+# This implementation of a chunked game of life generations endpoint is based on my own implementation of the game of life in python.
 # https://github.com/mlziade/GameOfLifeConway/
 @csrf_exempt
 def stream_game_of_life(request):
     if request.method != 'POST':
         return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
-                            
-    def event_stream(initial_grid: list[tuple[int, int]]):
-        # The grid is a set of cells, with the key being a tuple of the x and y position of the cell
-        # The middle of the grid is at (0, 0)
-        grid: set[tuple[int, int]] = set()
-
-        # Add the initial grid to the grid set
-        for cell in initial_grid:
-            grid.add((cell[0], cell[1]))
-
-        # Start the game loop (limit to a maximum of generations)
-        # This is to avoid infinite loops
-        # The frontend can restart the game at any time from the last state
-        for _ in range(1000):
-
-            # If the grid is empty, break the loop
-            if len(grid) == 0:
-                yield f"data: {json.dumps([])}\n\n"
-                break
-
-            # Create a set to store the cells that have already been checked
-            # So we don't check the same cell multiple times
-            checked_cells = set()
-
-            # Create a auxiliary grid
-            aux_grid = set()
-
-            # Iterate over the alive cells and its 8 neighbors
-            for cell in grid:
-                for i in range(-1, 2):
-                    for j in range(-1, 2):
-                        # Current cell position being checked
-                        current_cell_pos = (cell[0] + i, cell[1] + j)
-
-                        # Check if the current cell position is already checked
-                        # If it is, skip it
-                        if current_cell_pos in checked_cells:
-                            continue
-                        else:
-                            # Check the current cell
-                            new_state = check_cell(
-                                x_pos = current_cell_pos[0],
-                                y_pos = current_cell_pos[1],
-                                cell_state = current_cell_pos in grid, # False if the cell is not in the grid
-                                grid = grid,
-                            )
-
-                            # If it is alive, add the current cell to the auxiliary grid,
-                            if new_state:
-                                aux_grid.add(current_cell_pos)
-
-                            # Add the current cell to the checked cells set
-                            checked_cells.add(current_cell_pos)
-
-            # Update the grid with the new state
-            grid = aux_grid
-
-            # Stream the grid to the client
-            yield f"data: {json.dumps(list(grid))}\n\n"
-
+    
     # Parse the JSON data from request body
-    data = json.loads(request.body)
+    try:
+        data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON data'}, status=400)
     
     # Get the initial grid (array of tuples) from the request
     initial_alive_cells = data.get('alive_cells')
@@ -121,9 +65,83 @@ def stream_game_of_life(request):
     if not initial_alive_cells:
         return JsonResponse({'error': 'Initial grid is required'}, status=400)
 
-    response = StreamingHttpResponse(event_stream(initial_alive_cells), content_type='text/event-stream')
-    response['Cache-Control'] = 'no-cache'
-    return response
+    # The grid is a set of cells, with the key being a tuple of the x and y position of the cell
+    # The middle of the grid is at (0, 0)
+    grid: set[tuple[int, int]] = set()
+
+    # Add the initial grid to the grid set
+    for cell in initial_alive_cells:
+        grid.add((cell[0], cell[1]))
+
+    # Generate all generations and collect them
+    generations = []
+    
+    # Start the game loop (limit to a maximum of 1000 generations)
+    # This is to avoid infinite loops
+    for generation in range(1000):
+        # If the grid is empty, break the loop
+        if len(grid) == 0:
+            generations.append([])
+            break
+
+        # Create a set to store the cells that have already been checked
+        # So we don't check the same cell multiple times
+        checked_cells = set()
+
+        # Create a auxiliary grid
+        aux_grid = set()
+
+        # Iterate over the alive cells and its 8 neighbors
+        for cell in grid:
+            for i in range(-1, 2):
+                for j in range(-1, 2):
+                    # Current cell position being checked
+                    current_cell_pos = (cell[0] + i, cell[1] + j)
+
+                    # Check if the current cell position is already checked
+                    # If it is, skip it
+                    if current_cell_pos in checked_cells:
+                        continue
+                    else:
+                        # Check the current cell
+                        new_state = check_cell(
+                            x_pos = current_cell_pos[0],
+                            y_pos = current_cell_pos[1],
+                            cell_state = current_cell_pos in grid, # False if the cell is not in the grid
+                            grid = grid,
+                        )
+
+                        # If it is alive, add the current cell to the auxiliary grid,
+                        if new_state:
+                            aux_grid.add(current_cell_pos)
+
+                        # Add the current cell to the checked cells set
+                        checked_cells.add(current_cell_pos)
+
+        # Update the grid with the new state
+        grid = aux_grid
+
+        # Add the current generation to our list
+        generations.append(list(grid))
+
+        # Check for oscillators or still lifes by comparing with previous generations
+        if generation > 10:  # Only check after a few generations
+            # Check if current state matches any of the last 10 states (for oscillators)
+            current_state = set(grid)
+            for i in range(1, min(11, generation + 1)):
+                if i < len(generations) and set(generations[generation - i]) == current_state:
+                    # Found a cycle, stop generating
+                    break
+    
+    # Split generations into chunks of 1000
+    chunk_size = 1000
+    response_data = {
+        'total_generations': len(generations),
+        'chunk_size': chunk_size,
+        'generations': generations[:chunk_size]  # First chunk
+    }
+    
+    return JsonResponse(response_data)
 
 class TryoutZllmView(View):
     def get(self, request):

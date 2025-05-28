@@ -17,7 +17,6 @@ let isDragging = false;    // Tracks if user is currently panning the grid
 let dragStart = { x: 0, y: 0 }; // Starting point of drag operation
 let pan = { x: 0, y: 0 };  // Current pan/offset position of the grid
 let running = false;       // Whether simulation is running or paused
-let eventSource = null;    // Server-sent events source
 let animationTimeout = null; // For controlling animation delay
 let animationDelay = 100;  // Default animation delay in ms
 
@@ -160,14 +159,9 @@ function clearGrid() {
   console.log("Grid cleared");
 }
 
-// Connect to server-sent events stream and handle simulation
+// Handle chunked game of life simulation
 function startSimulation() {
   if (running) return;
-  
-  // Close any existing connection
-  if (eventSource) {
-    eventSource.close();
-  }
   
   // Clear any pending animation
   if (animationTimeout) {
@@ -186,8 +180,8 @@ function startSimulation() {
   
   console.log("Starting simulation with cells:", requestData.alive_cells);
   
-  // Make the API request to start the simulation
-  fetch('/playground/conways/stream/', {  // Use relative URL
+  // Make the API request to get all generations
+  fetch('/playground/conways/stream/', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -198,67 +192,46 @@ function startSimulation() {
     if (!response.ok) {
       throw new Error(`HTTP error: ${response.status}`);
     }
+    return response.json();
+  })
+  .then(data => {
+    if (!running) {
+      console.log("Simulation stopped before processing data");
+      return;
+    }
     
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
+    console.log("Received generations data:", data);
     
-    // Modified to process all complete messages in the buffer
-    function processStream() {
-      if (!running) {
-        console.log("Simulation stopped");
+    // Process the generations sequentially with animation delay
+    const generations = data.generations;
+    let currentGeneration = 0;
+    
+    function playNextGeneration() {
+      if (!running || currentGeneration >= generations.length) {
+        console.log("Simulation complete or stopped");
+        running = false;
+        delaySlider.disabled = false;
         return;
       }
       
-      reader.read().then(({ done, value }) => {
-        if (done) {
-          console.log("Stream complete");
-          running = false;
-          return;
-        }
-        
-        // Decode chunk and add to buffer
-        const chunk = decoder.decode(value, { stream: true });
-        console.log("Received chunk:", chunk);
-        buffer += chunk;
-        
-        // Process all complete messages in buffer
-        const messages = buffer.split('\n\n');
-        buffer = messages.pop(); // Keep the last incomplete message in buffer
-
-        for (const message of messages) {
-          if (message.trim()) {
-            try {
-              // Extract just the JSON part from the SSE format
-              const dataMatch = message.match(/^data: (.+)$/m);
-              if (dataMatch && dataMatch[1]) {
-                const data = JSON.parse(dataMatch[1]);
-                console.log("Updating with grid state:", data);
-
-                // Update grid immediately with this state
-                updateGrid(data);
-              }
-            } catch (e) {
-              console.error('Error parsing JSON:', e, 'from message:', message);
-            }
-          }
-        }
-
-        // Wait before processing the next chunk
-        animationTimeout = setTimeout(() => {
-          processStream();
-        }, animationDelay);
-      }).catch(error => {
-        console.error('Stream error:', error);
-        running = false;
-      });
+      // Update grid with current generation
+      updateGrid(generations[currentGeneration]);
+      
+      currentGeneration++;
+      
+      // Schedule next generation
+      animationTimeout = setTimeout(() => {
+        playNextGeneration();
+      }, animationDelay);
     }
     
-    processStream();
+    // Start playing generations
+    playNextGeneration();
   })
   .catch(error => {
     console.error('Fetch error:', error);
     running = false;
+    delaySlider.disabled = false;
   });
 }
 
@@ -268,11 +241,6 @@ function stopSimulation() {
   
   // Enable slider when stopped
   delaySlider.disabled = false;
-  
-  if (eventSource) {
-    eventSource.close();
-    eventSource = null;
-  }
   
   if (animationTimeout) {
     clearTimeout(animationTimeout);
