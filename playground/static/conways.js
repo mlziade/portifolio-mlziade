@@ -412,3 +412,48 @@ canvas.addEventListener("wheel", e => {
 centerGrid();
 drawGrid();
 console.log("Conway's Game of Life initialized");
+
+// Modal functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('welcomeModal');
+  const closeBtn = document.querySelector('.close');
+  const tabButtons = document.querySelectorAll('.tab-button');
+  const tabPanels = document.querySelectorAll('.tab-panel');
+
+  // Show modal on page load
+  modal.style.display = 'block';
+
+  // Close modal when X is clicked
+  closeBtn.addEventListener('click', function() {
+    modal.style.display = 'none';
+  });
+
+  // Close modal when clicking outside of it
+  window.addEventListener('click', function(event) {
+    if (event.target === modal) {
+      modal.style.display = 'none';
+    }
+  });
+
+  // Close modal when pressing Escape key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && modal.style.display === 'block') {
+      modal.style.display = 'none';
+    }
+  });
+
+  // Tab switching functionality
+  tabButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const targetTab = this.getAttribute('data-tab');
+      
+      // Remove active class from all buttons and panels
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabPanels.forEach(panel => panel.classList.remove('active'));
+      
+      // Add active class to clicked button and corresponding panel
+      this.classList.add('active');
+      document.getElementById(targetTab).classList.add('active');
+    });
+  });
+});

@@ -6,8 +6,69 @@
     <meta charset="UTF-8">
     <title>mlziade | Conways</title>
     <link rel="stylesheet" href="{% static 'conways.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body>
+<body>    <!-- Welcome Popup Modal -->
+    <div id="welcomeModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div class="tab-container">
+                <div class="tab-buttons">
+                    <button class="tab-button active" data-tab="introduction">Introduction</button>
+                    <button class="tab-button" data-tab="rules">Rules</button>
+                    <button class="tab-button" data-tab="about">About</button>
+                </div>
+                
+                <div class="tab-content">
+                    <div id="introduction" class="tab-panel active">
+                        <h2>Welcome to Conway's Game of Life!</h2>
+                        <p>This is an interactive implementation of John Conway's famous cellular automaton. The Game of Life is a zero-player game, meaning its evolution is determined by its initial state, requiring no further input.</p>
+                        <p>You can:</p>
+                        <ul>
+                            <li>Click on cells to toggle them alive/dead</li>
+                            <li>Drag to pan around the infinite grid</li>
+                            <li>Use the controls to start, stop, or clear the simulation</li>
+                            <li>Adjust the animation speed with the delay slider</li>
+                        </ul>
+                        <p>Try creating some patterns and watch them evolve!</p>
+                    </div>
+                    
+                    <div id="rules" class="tab-panel">
+                        <h2>The Rules</h2>
+                        <p>Conway's Game of Life follows four simple rules:</p>
+                        <ol>
+                            <li><strong>Underpopulation:</strong> Any live cell with fewer than two live neighbors dies, as if by underpopulation.</li>
+                            <li><strong>Survival:</strong> Any live cell with two or three live neighbors lives on to the next generation.</li>
+                            <li><strong>Overpopulation:</strong> Any live cell with more than three live neighbors dies, as if by overpopulation.</li>
+                            <li><strong>Reproduction:</strong> Any dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.</li>
+                        </ol>
+                        <p>These simple rules create complex and fascinating patterns that can evolve in unexpected ways!</p>
+                    </div>
+                      <div id="about" class="tab-panel">
+                        <h2>About the Developer</h2>
+                        <p>Hi! I'm <strong>Michel Ziade</strong>, a Backend Developer and Solution Architect passionate about creating interactive web experiences.</p>
+                        <p>This Conway's Game of Life implementation is part of my portfolio. You can view the <a href="https://github.com/mlziade/GameOfLifeConway" target="_blank" class="repo-link">source code on GitHub</a> and explore more of my work at <a href="https://mlziade.com.br" target="_blank" class="portfolio-link">mlziade.com.br</a>. I work with Python, JavaScript, TypeScript, and Go, using frameworks like Django, FastAPI, Nest.js, and Go Fiber.</p>
+                        
+                        <div class="social-links">
+                            <a href="https://www.linkedin.com/in/mlziade/" target="_blank" class="social-icon">
+                                <i class="fab fa-linkedin"></i> LinkedIn
+                            </a>
+                            <a href="https://github.com/mlziade" target="_blank" class="social-icon">
+                                <i class="fab fa-github"></i> GitHub
+                            </a>
+                            <a href="https://www.instagram.com/mlziade/" target="_blank" class="social-icon">
+                                <i class="fab fa-instagram"></i> Instagram
+                            </a>
+                            <a href="https://x.com/mlziade_dev" target="_blank" class="social-icon">
+                                <i class="fab fa-twitter"></i> Twitter
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div id="controls">
         <button id="start">Start</button>
         <button id="stop">Stop</button>
