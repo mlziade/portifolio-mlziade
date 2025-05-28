@@ -67,18 +67,49 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div id="controls">
-        <button id="start">Start</button>
-        <button id="stop">Stop</button>
-        <button id="clear">Clear</button>        <button id="center">Center</button>        <span style="margin-left: 10px;">
-            Delay: <input type="range" id="delaySlider" min="10" max="3000" value="100" step="10"> 
-            <input type="number" id="delayInput" min="10" max="3000" value="100" style="width: 60px; margin-left: 5px;">
-            <span id="delayValue">ms</span>
-        </span>
-        <button id="infoButton" title="Show information">i</button>
-        <span>Drag to move. Click to toggle cells.</span>
+    </div>    <div id="controls">
+        <div class="controls-header">
+            <h3 class="controls-title">🧬 Life Controller</h3>
+            <button id="infoButton" title="Show information" class="info-btn">
+                <i class="fas fa-info"></i>
+            </button>
+        </div>
+        
+        <div class="controls-section">
+            <div class="button-group simulation-controls">
+                <button id="start" class="btn btn-primary">
+                    <i class="fas fa-play"></i> Start
+                </button>
+                <button id="stop" class="btn btn-secondary">
+                    <i class="fas fa-pause"></i> Stop
+                </button>
+                <button id="clear" class="btn btn-danger">
+                    <i class="fas fa-trash"></i> Clear
+                </button>
+                <button id="center" class="btn btn-secondary">
+                    <i class="fas fa-crosshairs"></i> Center
+                </button>
+            </div>
+            
+            <div class="speed-control">
+                <label class="speed-label">
+                    <i class="fas fa-tachometer-alt"></i> Speed
+                </label>
+                <div class="speed-inputs">
+                    <input type="range" id="delaySlider" min="10" max="3000" value="100" step="10" class="speed-slider">
+                    <div class="speed-display">
+                        <input type="number" id="delayInput" min="10" max="3000" value="100" class="speed-input">
+                        <span id="delayValue" class="speed-unit">ms</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls-footer">
+            <span class="help-text">
+                <i class="fas fa-mouse-pointer"></i> Drag to explore • Click to create life
+            </span>
+        </div>
     </div>
     <canvas id="gridCanvas"></canvas>
     <script src="{% static 'conways.js' %}"></script>

@@ -8,52 +8,305 @@ html, body {
     display: block;
     background-color: #222;
     cursor: grab;
-  }
-  #controls {
+  }  #controls {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 20px;
+    left: 20px;
     z-index: 10;
-    background: rgba(255, 255, 255, 0.1);
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.9), rgba(0, 30, 0, 0.8));
     color: white;
-    padding: 10px;
-    border-radius: 8px;
-    font-family: sans-serif;
-  }  button {
-    margin-right: 5px;
+    padding: 0;
+    border-radius: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(0, 255, 0, 0.2);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    min-width: 320px;
+    max-width: 380px;
+    transition: all 0.3s ease;
   }
-  #infoButton {
-    background-color: rgba(255, 255, 255, 0.1);
-    border: 1px solid #666;
-    color: #ccc;
-    border-radius: 50%;
-    width: 28px;
-    height: 28px;
-    font-size: 14px;
-    font-weight: normal;
+
+  #controls:hover {
+    border-color: rgba(0, 255, 0, 0.4);
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  .controls-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid rgba(0, 255, 0, 0.2);
+  }
+
+  .controls-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #0f0;
+    text-shadow: 0 0 10px rgba(0, 255, 0, 0.3);
+  }
+
+  .controls-section {
+    padding: 16px 20px;
+  }
+
+  .controls-footer {
+    padding: 12px 20px 16px;
+    border-top: 1px solid rgba(0, 255, 0, 0.1);
+  }
+
+  .button-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
-    margin-left: 10px;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, #0f0, #0a0);
+    color: #000;
+    border-color: #0f0;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #1f1, #0f0);
+    box-shadow: 0 4px 16px rgba(0, 255, 0, 0.4);
+  }
+
+  .btn-secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ddd;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+    color: #fff;
+  }
+
+  .btn-danger {
+    background: linear-gradient(135deg, #f44, #d33);
+    color: #fff;
+    border-color: #f44;
+  }
+
+  .btn-danger:hover {
+    background: linear-gradient(135deg, #f55, #f44);
+    box-shadow: 0 4px 16px rgba(255, 68, 68, 0.4);
+  }
+
+  .speed-control {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .speed-label {
+    font-size: 13px;
+    font-weight: 500;
+    color: #0f0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .speed-inputs {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .speed-slider {
+    flex: 1;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 2px;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+
+  .speed-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #0f0;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 255, 0, 0.3);
+  }
+
+  .speed-slider::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #0f0;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0, 255, 0, 0.3);
+  }
+
+  .speed-display {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 4px 8px;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 255, 0, 0.2);
+  }
+
+  .speed-input {
+    width: 50px;
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    outline: none;
+  }
+
+  .speed-unit {
+    font-size: 11px;
+    color: #0f0;
+    font-weight: 500;
+  }
+
+  .info-btn {
+    background: rgba(0, 255, 0, 0.1);
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    color: #0f0;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
     display: inline-flex;
     align-items: center;
     justify-content: center;
   }
 
-  #infoButton:hover {
-    background-color: rgba(255, 255, 255, 0.2);
+  .info-btn:hover {
+    background: rgba(0, 255, 0, 0.2);
     color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
   }
 
-  #delaySlider {
-    width: 100px;
-    vertical-align: middle;
-    margin: 0 5px;
+  .help-text {
+    font-size: 12px;
+    color: #999;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-style: italic;
   }
-  
-  #delayValue {
-    display: inline-block;
-    width: 50px;
-    font-size: 14px;
+  .help-text i {
+    color: #0f0;
+  }
+
+  /* Subtle animations for personality */
+  @keyframes glow {
+    0%, 100% { text-shadow: 0 0 10px rgba(0, 255, 0, 0.3); }
+    50% { text-shadow: 0 0 20px rgba(0, 255, 0, 0.6); }
+  }
+
+  .controls-title {
+    animation: glow 3s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+
+  .btn-primary:not(:hover) {
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .speed-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s ease;
+  }
+
+  .speed-slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s ease;
+  }
+
+  /* Responsive design for controls */
+  @media (max-width: 768px) {
+    #controls {
+      top: 10px;
+      left: 10px;
+      right: 10px;
+      min-width: auto;
+      max-width: none;
+    }
+
+    .controls-title {
+      font-size: 16px;
+    }
+
+    .button-group {
+      justify-content: center;
+    }
+
+    .btn {
+      font-size: 12px;
+      padding: 6px 10px;
+    }
+
+    .speed-inputs {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .help-text {
+      font-size: 11px;
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #controls {
+      position: relative;
+      top: 0;
+      left: 0;
+      right: 0;
+      margin: 10px;
+      border-radius: 12px;
+    }
+
+    .button-group {
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .btn {
+      justify-content: center;
+    }
   }
 
   /* Modal Styles */
