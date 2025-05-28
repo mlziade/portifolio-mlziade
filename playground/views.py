@@ -7,6 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 import requests
 import json
 import os
+import time
 from dotenv import load_dotenv
 
 from rest_framework.decorators import api_view, throttle_classes
@@ -146,7 +147,33 @@ class TryoutZllmChatView(View):
             lang = 'pt-br'
         return render(request, f'zllm_chat_{lang}.html', {'current_lang': lang})
 
+# Retry decorator for API calls
+def retry_api_call(max_retries=3, backoff_factor=1):
+    def decorator(func):
+        def wrapper(*args, **kwargs):
+            for attempt in range(max_retries):
+                try:
+                    return func(*args, **kwargs)
+                except requests.exceptions.RequestException as e:
+                    if attempt == max_retries - 1:  # Last attempt
+                        raise e
+                    
+                    # Check if it's a server error (5xx) that might be transient
+                    if hasattr(e, 'response') and e.response is not None:
+                        status_code = e.response.status_code
+                        if status_code < 500:  # Don't retry client errors (4xx)
+                            raise e
+                    
+                    wait_time = backoff_factor * (2 ** attempt)
+                    print(f"ZLLM API attempt {attempt + 1} failed: {e}. Retrying in {wait_time} seconds...")
+                    time.sleep(wait_time)
+            
+            return None
+        return wrapper
+    return decorator
+
 # Authenticates with ZLLM and returns the token.
+@retry_api_call(max_retries=2, backoff_factor=0.5)
 def get_zllm_token():
     ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL")
     ZLLM_API_KEY = os.getenv("ZLLM_API_KEY")
@@ -157,7 +184,8 @@ def get_zllm_token():
         response = requests.post(
             url=f"{ZLLM_BASE_URL}/auth",
             headers=headers, 
-            data=json.dumps(data)
+            data=json.dumps(data),
+            timeout=(30, 300)  # (connect timeout, read timeout)
         )
 
         response.raise_for_status()
@@ -206,12 +234,13 @@ def generate_text_streaming(request):
 
     def event_stream():
         try:
-            # Use requests to make a streaming request
+            # Use requests to make a streaming request with timeout
             with requests.post(
                 url=f"{ZLLM_BASE_URL}/llm/generate/streaming",
                 headers=headers,
                 data=json.dumps(data),
-                stream=True
+                stream=True,
+                timeout=(30, 300)  # (connect timeout, read timeout)
             ) as response:
                 response.raise_for_status()
                 # Forward each chunk from the API to the client
@@ -219,12 +248,58 @@ def generate_text_streaming(request):
                     if line:
                         # Forward the SSE data
                         yield f"{line.decode('utf-8')}\n\n"
+        except requests.exceptions.Timeout:
+            print("ZLLM API timeout during streaming request")
+            yield f"data: {json.dumps({'error': 'The service is taking too long to respond. Please try again.'})}\n\n"
         except requests.exceptions.RequestException as e:
             print(f"Error during ZLLM streaming request: {e}")
-            yield f"data: {json.dumps({'error': str(e)})}\n\n"
+            if hasattr(e, 'response') and e.response is not None:
+                status_code = e.response.status_code
+                if status_code == 502:
+                    error_msg = 'The AI service is temporarily unavailable. Please try again in a moment.'
+                elif status_code >= 500:
+                    error_msg = 'The AI service is experiencing issues. Please try again later.'
+                else:
+                    error_msg = f'Request failed: {str(e)}'
+            else:
+                error_msg = 'Unable to connect to the AI service. Please check your connection and try again.'
+            yield f"data: {json.dumps({'error': error_msg})}\n\n"
     
     response = StreamingHttpResponse(event_stream(), content_type='text/event-stream')
     response['Cache-Control'] = 'no-cache'
+    return response
+
+class TryoutZllmView(View):
+    def get(self, request):
+        # Access the correct template based on the language
+        # For example: home_pt-br.html or home_en.html
+        lang = request.GET.get('lang')
+
+        # Defaults to pt-br if no language or a invalid language is provided
+        if lang not in ['pt-br', 'en']:
+            lang = 'pt-br'
+        return render(request, f'zllm_{lang}.html', {'current_lang': lang})
+
+class TryoutZllmChatView(View):
+    def get(self, request):
+        # Access the correct template based on the language
+        # For example: home_pt-br.html or home_en.html
+        lang = request.GET.get('lang')
+
+        # Defaults to pt-br if no language or a invalid language is provided
+        if lang not in ['pt-br', 'en']:
+            lang = 'pt-br'
+        return render(request, f'zllm_chat_{lang}.html', {'current_lang': lang})
+
+@retry_api_call(max_retries=3, backoff_factor=1)
+def make_zllm_request(url, headers, data):
+    response = requests.post(
+        url=url,
+        headers=headers,
+        data=json.dumps(data),
+        timeout=(30, 300)  # (connect timeout, read timeout)
+    )
+    response.raise_for_status()
     return response
 
 @api_view(['POST'])
@@ -266,17 +341,27 @@ def generate_text(request):
     }
 
     try:
-        response = requests.post(
+        response = make_zllm_request(
             url=f"{ZLLM_BASE_URL}/llm/generate",
             headers=headers,
-            data=json.dumps(data)
+            data=data
         )
-    
-        response.raise_for_status()
         return JsonResponse(response.json())
+    except requests.exceptions.Timeout:
+        print("ZLLM API timeout")
+        return JsonResponse({'error': 'The service is taking too long to respond. Please try again.'}, status=408)
     except requests.exceptions.RequestException as e:
-        print(f"Error during ZLLM request: {e}")  # Log the exception
-        return JsonResponse({'error': str(e)}, status=500)
+        print(f"Error during ZLLM request: {e}")
+        if hasattr(e, 'response') and e.response is not None:
+            status_code = e.response.status_code
+            if status_code == 502:
+                return JsonResponse({'error': 'The AI service is temporarily unavailable. Please try again in a moment.'}, status=502)
+            elif status_code >= 500:
+                return JsonResponse({'error': 'The AI service is experiencing issues. Please try again later.'}, status=status_code)
+            else:
+                return JsonResponse({'error': f'Request failed: {str(e)}'}, status=status_code)
+        else:
+            return JsonResponse({'error': 'Unable to connect to the AI service. Please check your connection and try again.'}, status=503)
     
 @api_view(['POST'])
 @throttle_classes([AnonRateThrottle])
@@ -344,15 +429,25 @@ def chat_with_zllm(request):
     }
 
     try:
-        response = requests.post(
+        response = make_zllm_request(
             url=f"{ZLLM_BASE_URL}/llm/chat",
             headers=headers,
-            data=json.dumps(data)
+            data=data
         )
-    
-        response.raise_for_status()
         response_data = response.json()
         return JsonResponse({'response': response_data.get('response', '')})
+    except requests.exceptions.Timeout:
+        print("ZLLM API timeout during chat request")
+        return JsonResponse({'error': 'The service is taking too long to respond. Please try again.'}, status=408)
     except requests.exceptions.RequestException as e:
         print(f"Error during ZLLM request: {e}")
-        return JsonResponse({'error': str(e)}, status=500)
+        if hasattr(e, 'response') and e.response is not None:
+            status_code = e.response.status_code
+            if status_code == 502:
+                return JsonResponse({'error': 'The AI service is temporarily unavailable. Please try again in a moment.'}, status=502)
+            elif status_code >= 500:
+                return JsonResponse({'error': 'The AI service is experiencing issues. Please try again later.'}, status=status_code)
+            else:
+                return JsonResponse({'error': f'Request failed: {str(e)}'}, status=status_code)
+        else:
+            return JsonResponse({'error': 'Unable to connect to the AI service. Please check your connection and try again.'}, status=503)

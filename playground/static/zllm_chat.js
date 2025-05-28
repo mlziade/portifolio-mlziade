@@ -139,7 +139,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (!response.ok) {
                 const errorData = await response.json().catch(() => ({ error: 'Failed to parse error response' }));
-                throw new Error(errorData.error || `HTTP error! status: ${response.status}`);
+                
+                // Handle specific error types
+                let errorMessage = errorData.error || `HTTP error! status: ${response.status}`;
+                
+                if (response.status === 502) {
+                    errorMessage = 'The AI service is temporarily unavailable. Please try again in a moment.';
+                } else if (response.status === 408) {
+                    errorMessage = 'Request timed out. The service might be busy. Please try again.';
+                } else if (response.status >= 500) {
+                    errorMessage = 'The AI service is experiencing issues. Please try again later.';
+                } else if (response.status === 429) {
+                    errorMessage = 'Too many requests. Please wait a moment before trying again.';
+                }
+                
+                throw new Error(errorMessage);
             }
 
             const data = await response.json();
@@ -156,7 +170,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Error sending message:', error);
-            addMessageToDisplay('assistant', `Error: ${error.message}`);
+            
+            // Check if it's a network error
+            if (error.name === 'TypeError' && error.message.includes('fetch')) {
+                addMessageToDisplay('assistant', 'Network error: Please check your internet connection and try again.');
+            } else {
+                addMessageToDisplay('assistant', `**Error:** ${error.message}\n\n*You can try sending your message again.*`);
+            }
         } finally {
             // Restore the original button text
             sendButton.innerHTML = originalButtonText;
