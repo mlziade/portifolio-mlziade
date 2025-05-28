@@ -169,9 +169,9 @@ function startSimulation() {
   }
   
   running = true;
-  
-  // Disable slider while running
+    // Disable slider and input while running
   delaySlider.disabled = true;
+  delayInput.disabled = true;
   
   // Prepare request data - the current alive cells
   const requestData = {
@@ -205,12 +205,12 @@ function startSimulation() {
     // Process the generations sequentially with animation delay
     const generations = data.generations;
     let currentGeneration = 0;
-    
-    function playNextGeneration() {
+      function playNextGeneration() {
       if (!running || currentGeneration >= generations.length) {
         console.log("Simulation complete or stopped");
         running = false;
         delaySlider.disabled = false;
+        delayInput.disabled = false;
         return;
       }
       
@@ -227,20 +227,20 @@ function startSimulation() {
     
     // Start playing generations
     playNextGeneration();
-  })
-  .catch(error => {
+  })  .catch(error => {
     console.error('Fetch error:', error);
     running = false;
     delaySlider.disabled = false;
+    delayInput.disabled = false;
   });
 }
 
 // Stop the simulation
 function stopSimulation() {
   running = false;
-  
-  // Enable slider when stopped
+    // Enable slider and input when stopped
   delaySlider.disabled = false;
+  delayInput.disabled = false;
   
   if (animationTimeout) {
     clearTimeout(animationTimeout);
@@ -313,13 +313,51 @@ window.addEventListener("resize", () => {
   drawGrid();
 });
 
-// Initialize delay slider
+// Initialize delay slider and input
 const delaySlider = document.getElementById("delaySlider");
+const delayInput = document.getElementById("delayInput");
 const delayValue = document.getElementById("delayValue");
 
+// Update delay when slider changes
 delaySlider.addEventListener("input", function() {
   animationDelay = parseInt(this.value);
-  delayValue.textContent = animationDelay + "ms";
+  delayInput.value = animationDelay;
+  delayValue.textContent = "ms";
+});
+
+// Update delay when text input changes
+delayInput.addEventListener("input", function() {
+  let value = parseInt(this.value);
+  
+  // Only validate if there's a valid number
+  if (!isNaN(value)) {
+    // Clamp value to valid range
+    if (value < 10) value = 10;
+    if (value > 3000) value = 3000;
+    
+    animationDelay = value;
+    delaySlider.value = value;
+    delayValue.textContent = "ms";
+  }
+});
+
+// Handle validation when input loses focus
+delayInput.addEventListener("blur", function() {
+  let value = parseInt(this.value);
+  
+  // If invalid or empty, reset to current delay
+  if (isNaN(value) || this.value === "") {
+    this.value = animationDelay;
+  } else {
+    // Clamp to valid range and update display
+    if (value < 10) value = 10;
+    if (value > 3000) value = 3000;
+    
+    this.value = value;
+    animationDelay = value;
+    delaySlider.value = value;
+    delayValue.textContent = "ms";
+  }
 });
 
 // Button controls for starting/stopping simulation
