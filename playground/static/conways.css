@@ -19,9 +19,29 @@ html, body {
     padding: 10px;
     border-radius: 8px;
     font-family: sans-serif;
-  }
-  button {
+  }  button {
     margin-right: 5px;
+  }
+  #infoButton {
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid #666;
+    color: #ccc;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    font-size: 14px;
+    font-weight: normal;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #infoButton:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #fff;
   }
 
   #delaySlider {

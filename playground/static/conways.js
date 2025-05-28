@@ -419,26 +419,38 @@ document.addEventListener('DOMContentLoaded', function() {
   const closeBtn = document.querySelector('.close');
   const tabButtons = document.querySelectorAll('.tab-button');
   const tabPanels = document.querySelectorAll('.tab-panel');
+  const infoButton = document.getElementById('infoButton');
 
   // Show modal on page load
   modal.style.display = 'block';
 
-  // Close modal when X is clicked
-  closeBtn.addEventListener('click', function() {
+  // Function to show modal
+  function showModal() {
+    modal.style.display = 'block';
+  }
+
+  // Function to hide modal
+  function hideModal() {
     modal.style.display = 'none';
-  });
+  }
+
+  // Show modal when info button is clicked
+  infoButton.addEventListener('click', showModal);
+
+  // Close modal when X is clicked
+  closeBtn.addEventListener('click', hideModal);
 
   // Close modal when clicking outside of it
   window.addEventListener('click', function(event) {
     if (event.target === modal) {
-      modal.style.display = 'none';
+      hideModal();
     }
   });
 
   // Close modal when pressing Escape key
   document.addEventListener('keydown', function(event) {
     if (event.key === 'Escape' && modal.style.display === 'block') {
-      modal.style.display = 'none';
+      hideModal();
     }
   });
 
