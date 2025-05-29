@@ -1,7 +1,62 @@
 {% extends "base.html" %}
 
-{% block title %}
-    mlziade | Projects
+{% block title %}mlziade Projects | Portfolio{% endblock %}
+
+{% block meta_description %}Explore mlziade's projects including MovieStars, Dontpad List, ZLLM, Conways Game of Life, and KeyCrypt. Backend developer portfolio showcasing Python, TypeScript, Go, and web development expertise.{% endblock %}
+
+{% block meta_keywords %}mlziade Projects, Backend Developer Projects, Python Projects, TypeScript Projects, Go Projects, Web Development Portfolio, ZLLM, MovieStars, Dontpad List, KeyCrypt, Conway Game of Life{% endblock %}
+
+{% block og_title %}mlziade Projects | Portfolio{% endblock %}
+
+{% block og_description %}Explore mlziade's projects including MovieStars, Dontpad List, ZLLM, and more. Backend developer portfolio showcasing Python, TypeScript, Go, and web development expertise.{% endblock %}
+
+{% block twitter_title %}mlziade Projects | Portfolio{% endblock %}
+
+{% block twitter_description %}Explore mlziade's projects including MovieStars, Dontpad List, ZLLM, and more. Backend developer portfolio showcasing web development expertise.{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",  "name": "mlziade Projects",
+  "description": "Portfolio showcasing projects by mlziade - Backend Developer and Solution Architect",
+  "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'portifolio:projects' %}",
+  "author": {
+    "@type": "Person",
+    "name": "Michel Ziade",
+    "jobTitle": "Backend Developer / Solution Architect"
+  },
+  "mainEntity": {
+    "@type": "ItemList",
+    "itemListElement": [
+      {
+        "@type": "SoftwareApplication",
+        "name": "MovieStars",
+        "description": "Chromium extension for exploring movie, series and anime reviews",
+        "url": "https://github.com/mlziade/MovieStars",
+        "applicationCategory": "Browser Extension",
+        "operatingSystem": "Chrome, Chromium"
+      },
+      {
+        "@type": "SoftwareApplication", 
+        "name": "Dontpad List",
+        "description": "Chrome extension for creating reference lists from web highlights",
+        "url": "https://github.com/mlziade/DontpadList",
+        "applicationCategory": "Browser Extension",
+        "operatingSystem": "Chrome"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "ZLLM",
+        "description": "Golang implementation of a GenAI API running local LLM models",
+        "url": "https://github.com/mlziade/zllm",
+        "applicationCategory": "API",
+        "programmingLanguage": "Go"
+      }
+    ]
+  }
+}
+</script>
 {% endblock %}
 
 {% block extra_css %}

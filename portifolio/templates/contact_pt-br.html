@@ -1,7 +1,37 @@
 {% extends "base.html" %}
 
-{% block title %}
-    mlziade | Contato 
+{% block title %}Contato mlziade | Portfólio{% endblock %}
+
+{% block meta_description %}Entre em contato com mlziade - Desenvolvedor Backend e Arquiteto de Soluções. Contato através do LinkedIn, email ou redes sociais para oportunidades de colaboração e consultas profissionais.{% endblock %}
+
+{% block meta_keywords %}Contato mlziade, Contato Desenvolvedor Backend, Contato Arquiteto de Soluções, Consultas Profissionais, Oportunidades de Colaboração, LinkedIn, Email{% endblock %}
+
+{% block og_title %}Contato mlziade | Portfólio{% endblock %}
+
+{% block og_description %}Entre em contato com mlziade - Desenvolvedor Backend e Arquiteto de Soluções. Contato através do LinkedIn, email ou redes sociais para oportunidades de colaboração.{% endblock %}
+
+{% block twitter_title %}Contato mlziade | Portfólio{% endblock %}
+
+{% block twitter_description %}Entre em contato com mlziade - Desenvolvedor Backend e Arquiteto de Soluções para oportunidades de colaboração e consultas profissionais.{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Michel Ziade",
+    "jobTitle": "Desenvolvedor Backend / Arquiteto de Soluções",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "email": ["ziade.michel@hotmail.com", "mlziade@mlziade.com.br"],
+    "sameAs": [
+      "https://www.linkedin.com/in/mlziade/",
+      "https://x.com/mlziade_dev"
+    ]
+  }
+}
+</script>
 {% endblock %}
 
 {% block extra_css %}
@@ -12,23 +42,22 @@
 
 {% block content %}
     <div class="container">
-        <h1>Contato</h1>
-        <div class="contact-links">
+        <h1>Contato</h1>        <div class="contact-links">
             <div class="contact-item">
-                <i class="fab fa-linkedin"></i>
-                <a href="https://www.linkedin.com/in/mlziade/" target="_blank">LinkedIn</a>
+                <i class="fab fa-linkedin" aria-hidden="true"></i>
+                <a href="https://www.linkedin.com/in/mlziade/" target="_blank" rel="noopener" aria-label="Contatar Michel Ziade através do LinkedIn">LinkedIn</a>
             </div>
             <div class="contact-item">
-                <i class="fab fa-twitter"></i>
-                <a href="https://x.com/mlziade_dev" target="_blank">mlzide_dev</a>
+                <i class="fab fa-twitter" aria-hidden="true"></i>
+                <a href="https://x.com/mlziade_dev" target="_blank" rel="noopener" aria-label="Contatar Michel Ziade através do Twitter/X">mlzide_dev</a>
             </div>
             <div class="contact-item">
-                <i class="fas fa-envelope"></i>
-                <a href="mailto:ziade.michel@hotmail.com">ziade.michel@hotmail.com</a>
+                <i class="fas fa-envelope" aria-hidden="true"></i>
+                <a href="mailto:ziade.michel@hotmail.com" aria-label="Enviar email para ziade.michel@hotmail.com">ziade.michel@hotmail.com</a>
             </div>
             <div class="contact-item">
-                <i class="fas fa-envelope"></i>
-                <a href="mailto:mlziade@mlziade.com.br">mlziade@mlziade.com.br</a>
+                <i class="fas fa-envelope" aria-hidden="true"></i>
+                <a href="mailto:mlziade@mlziade.com.br" aria-label="Enviar email para mlziade@mlziade.com.br">mlziade@mlziade.com.br</a>
             </div>
         </div>
     </div>

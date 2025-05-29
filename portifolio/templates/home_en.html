@@ -1,7 +1,48 @@
 {% extends "base.html" %}
 
-{% block title %}
-    mlziade | Portfolio
+{% block title %}mlziade | Portfolio{% endblock %}
+
+{% block meta_description %}mlziade - Experienced Backend Developer and Solution Architect specializing in Python, Django, TypeScript, NestJS, and cloud technologies (AWS, Azure). Portfolio showcasing projects and expertise.{% endblock %}
+
+{% block meta_keywords %}mlziade, Backend Developer, Solution Architect, Python Developer, Django, TypeScript, NestJS, AWS, Azure, IBM Cloud, Portfolio, Full Stack Developer{% endblock %}
+
+{% block og_title %}mlziade | Portfolio{% endblock %}
+
+{% block og_description %}Experienced Backend Developer and Solution Architect with expertise in Python, Django, TypeScript, NestJS, and cloud technologies. View my portfolio and projects.{% endblock %}
+
+{% block twitter_title %}mlziade | Portfolio{% endblock %}
+
+{% block twitter_description %}Experienced Backend Developer and Solution Architect with expertise in Python, Django, TypeScript, NestJS, and cloud technologies.{% endblock %}
+
+{% block structured_data %}
+{% load static %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Michel Ziade",
+  "jobTitle": "Backend Developer / Solution Architect", 
+  "description": "Experienced Backend Developer and Solution Architect specializing in Python, JavaScript, TypeScript, and Go",
+  "url": "{{ request.scheme }}://{{ request.get_host }}",
+  "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.jpg' %}",
+  "sameAs": [
+    "https://www.linkedin.com/in/mlziade/",
+    "https://github.com/mlziade",
+    "https://www.instagram.com/mlziade/",
+    "https://x.com/mlziade_dev"
+  ],
+  "knowsAbout": ["Python", "JavaScript", "TypeScript", "Go", "Django", "FastAPI", "Nest.js", "Fiber", "AWS", "Azure", "IBM Cloud"],
+  "email": "mlziade@mlziade.com.br",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Elevential Digital Solutions"
+  },
+  "alumniOf": {
+    "@type": "Organization", 
+    "name": "Redesign Consultoria de Transformação"
+  }
+}
+</script>
 {% endblock %}
 
 {% block extra_css %}
@@ -13,7 +54,7 @@
 {% block content %}
     <div class="container">
         <div class='user-summary'>
-            <img src="{% static 'profile_picture.jpg' %}" alt="User Image">
+            <img src="{% static 'profile_picture.jpg' %}" alt="Michel Ziade - Backend Developer and Solution Architect" width="110" height="110" loading="eager">
             <div class='user-info'>
                 <h1>Michel Ziade</h1>
                 <p>Backend Developer / Solution Architect</p>
@@ -23,10 +64,10 @@
             </div>
         </div>
         <div class='social-links'>
-            <a href="https://www.linkedin.com/in/mlziade/" class="social-icon"><i class="fab fa-linkedin"></i></a>
-            <a href="https://github.com/mlziade" class="social-icon"><i class="fab fa-github"></i></a>
-            <a href="https://www.instagram.com/mlziade/" class="social-icon"><i class="fab fa-instagram"></i></a>
-            <a href="https://x.com/mlziade_dev" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/in/mlziade/" class="social-icon" aria-label="Michel Ziade LinkedIn Profile" rel="noopener" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+            <a href="https://github.com/mlziade" class="social-icon" aria-label="Michel Ziade GitHub Profile" rel="noopener" target="_blank"><i class="fab fa-github" aria-hidden="true"></i></a>
+            <a href="https://www.instagram.com/mlziade/" class="social-icon" aria-label="Michel Ziade Instagram Profile" rel="noopener" target="_blank"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+            <a href="https://x.com/mlziade_dev" class="social-icon" aria-label="Michel Ziade Twitter/X Profile" rel="noopener" target="_blank"><i class="fab fa-twitter" aria-hidden="true"></i></a>
         </div>
     </div>
 {% endblock %}

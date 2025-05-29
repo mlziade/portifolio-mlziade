@@ -1,7 +1,48 @@
 {% extends "base.html" %}
 
-{% block title %}
-    mlziade | Portifolio
+{% block title %}mlziade | Portfólio{% endblock %}
+
+{% block meta_description %}mlziade - Desenvolvedor Backend experiente e Arquiteto de Soluções especializado em Python, Django, TypeScript, NestJS e tecnologias em nuvem (AWS, Azure). Portfólio com projetos e expertise.{% endblock %}
+
+{% block meta_keywords %}mlziade, Desenvolvedor Backend, Arquiteto de Soluções, Desenvolvedor Python, Django, TypeScript, NestJS, AWS, Azure, IBM Cloud, Portfólio, Desenvolvedor Full Stack{% endblock %}
+
+{% block og_title %}mlziade | Portfólio{% endblock %}
+
+{% block og_description %}Desenvolvedor Backend experiente e Arquiteto de Soluções com expertise em Python, Django, TypeScript, NestJS e tecnologias em nuvem. Veja meu portfólio e projetos.{% endblock %}
+
+{% block twitter_title %}mlziade | Portfólio{% endblock %}
+
+{% block twitter_description %}Desenvolvedor Backend experiente e Arquiteto de Soluções com expertise em Python, Django, TypeScript, NestJS e tecnologias em nuvem.{% endblock %}
+
+{% block structured_data %}
+{% load static %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Michel Ziade",
+  "jobTitle": "Desenvolvedor Backend / Arquiteto de Soluções",
+  "description": "Desenvolvedor Backend experiente e Arquiteto de Soluções especializado em Python, JavaScript, TypeScript e Go",
+  "url": "{{ request.scheme }}://{{ request.get_host }}",
+  "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.jpg' %}",
+  "sameAs": [
+    "https://www.linkedin.com/in/mlziade/",
+    "https://github.com/mlziade",
+    "https://www.instagram.com/mlziade/",
+    "https://x.com/mlziade_dev"
+  ],
+  "knowsAbout": ["Python", "JavaScript", "TypeScript", "Go", "Django", "FastAPI", "Nest.js", "Fiber", "AWS", "Azure", "IBM Cloud"],
+  "email": "mlziade@mlziade.com.br",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Elevential Digital Solutions"
+  },
+  "alumniOf": {
+    "@type": "Organization",
+    "name": "Redesign Consultoria de Transformação"
+  }
+}
+</script>
 {% endblock %}
 
 {% block extra_css %}
@@ -13,7 +54,7 @@
 {% block content %}
     <div class="container">
         <div class='user-summary'>
-            <img src="{% static 'profile_picture.jpg' %}" alt="User Image" class="profile-image">
+            <img src="{% static 'profile_picture.jpg' %}" alt="Michel Ziade - Desenvolvedor Backend e Arquiteto de Soluções" width="110" height="110" loading="eager" class="profile-image">
             <div class='user-info'>
                 <h1>Michel Ziade</h1>
                 <p>Backend Developer / Solution Architect</p>
@@ -23,10 +64,10 @@
             </div>
         </div>
         <div class='social-links'>
-            <a href="https://www.linkedin.com/in/mlziade/" class="social-icon"><i class="fab fa-linkedin"></i></a>
-            <a href="https://github.com/mlziade" class="social-icon"><i class="fab fa-github"></i></a>
-            <a href="https://www.instagram.com/mlziade/" class="social-icon"><i class="fab fa-instagram"></i></a>
-            <a href="https://x.com/mlziade_dev" class="social-icon"><i class="fab fa-twitter"></i></a>
+            <a href="https://www.linkedin.com/in/mlziade/" class="social-icon" aria-label="Perfil do Michel Ziade no LinkedIn" rel="noopener" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
+            <a href="https://github.com/mlziade" class="social-icon" aria-label="Perfil do Michel Ziade no GitHub" rel="noopener" target="_blank"><i class="fab fa-github" aria-hidden="true"></i></a>
+            <a href="https://www.instagram.com/mlziade/" class="social-icon" aria-label="Perfil do Michel Ziade no Instagram" rel="noopener" target="_blank"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+            <a href="https://x.com/mlziade_dev" class="social-icon" aria-label="Perfil do Michel Ziade no Twitter/X" rel="noopener" target="_blank"><i class="fab fa-twitter" aria-hidden="true"></i></a>
         </div>
     </div>
 {% endblock %}

@@ -1,0 +1,17 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://mlziade.com.br/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /static/admin/
+
+# Allow important pages
+Allow: /static/profile_picture.jpg
+Allow: /static/*.css
+Allow: /static/*.js
+Allow: /static/*.svg
+Allow: /static/*.png
+Allow: /static/*.gif

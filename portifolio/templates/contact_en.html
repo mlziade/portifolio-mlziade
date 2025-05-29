@@ -1,7 +1,37 @@
 {% extends "base.html" %}
 
-{% block title %}
-    mlziade | Contacts
+{% block title %}Contact mlziade | Portfolio{% endblock %}
+
+{% block meta_description %}Get in touch with mlziade - Backend Developer and Solution Architect. Contact through LinkedIn, email, or social media for collaboration opportunities and professional inquiries.{% endblock %}
+
+{% block meta_keywords %}Contact mlziade, Backend Developer Contact, Solution Architect Contact, Professional Inquiries, Collaboration Opportunities, LinkedIn, Email{% endblock %}
+
+{% block og_title %}Contact mlziade | Portfolio{% endblock %}
+
+{% block og_description %}Get in touch with mlziade - Backend Developer and Solution Architect. Contact through LinkedIn, email, or social media for collaboration opportunities.{% endblock %}
+
+{% block twitter_title %}Contact mlziade | Portfolio{% endblock %}
+
+{% block twitter_description %}Get in touch with mlziade - Backend Developer and Solution Architect for collaboration opportunities and professional inquiries.{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Michel Ziade",
+    "jobTitle": "Backend Developer / Solution Architect",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "email": ["ziade.michel@hotmail.com", "mlziade@mlziade.com.br"],
+    "sameAs": [
+      "https://www.linkedin.com/in/mlziade/",
+      "https://x.com/mlziade_dev"
+    ]
+  }
+}
+</script>
 {% endblock %}
 
 {% block extra_css %}
@@ -12,23 +42,22 @@
 
 {% block content %}
     <div class="container">
-        <h1>Contact</h1>
-        <div class="contact-links">
+        <h1>Contact</h1>        <div class="contact-links">
             <div class="contact-item">
-                <i class="fab fa-linkedin"></i>
-                <a href="https://www.linkedin.com/in/mlziade/" target="_blank">LinkedIn</a>
+                <i class="fab fa-linkedin" aria-hidden="true"></i>
+                <a href="https://www.linkedin.com/in/mlziade/" target="_blank" rel="noopener" aria-label="Contact Michel Ziade through LinkedIn">LinkedIn</a>
             </div>
             <div class="contact-item">
-                <i class="fab fa-twitter"></i>
-                <a href="https://x.com/mlziade_dev" target="_blank">mlzide_dev</a>
+                <i class="fab fa-twitter" aria-hidden="true"></i>
+                <a href="https://x.com/mlziade_dev" target="_blank" rel="noopener" aria-label="Contact Michel Ziade through Twitter/X">mlzide_dev</a>
             </div>
             <div class="contact-item">
-                <i class="fas fa-envelope"></i>
-                <a href="mailto:ziade.michel@hotmail.com">ziade.michel@hotmail.com</a>
+                <i class="fas fa-envelope" aria-hidden="true"></i>
+                <a href="mailto:ziade.michel@hotmail.com" aria-label="Send email to ziade.michel@hotmail.com">ziade.michel@hotmail.com</a>
             </div>
             <div class="contact-item">
-                <i class="fas fa-envelope"></i>
-                <a href="mailto:mlziade@mlziade.com.br">mlziade@mlziade.com.br</a>
+                <i class="fas fa-envelope" aria-hidden="true"></i>
+                <a href="mailto:mlziade@mlziade.com.br" aria-label="Send email to mlziade@mlziade.com.br">mlziade@mlziade.com.br</a>
             </div>
         </div>
     </div>

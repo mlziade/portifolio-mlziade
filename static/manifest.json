@@ -1,0 +1,43 @@
+{
+  "name": "Michel Ziade Portfolio",
+  "short_name": "mlziade",
+  "description": "Michel Ziade - Backend Developer and Solution Architect Portfolio",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#121212",
+  "theme_color": "#121212",
+  "orientation": "portrait-primary",  "icons": [
+    {
+      "src": "/static/favicon/favicon-16x16.png",
+      "sizes": "16x16",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/favicon/favicon-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    },
+    {
+      "src": "/static/profile_picture.jpg",
+      "sizes": "110x110",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/static/profile_picture.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any"
+    },
+    {
+      "src": "/static/profile_picture.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "lang": "en",
+  "dir": "ltr",
+  "scope": "/",
+  "categories": ["portfolio", "developer", "technology"]
+}

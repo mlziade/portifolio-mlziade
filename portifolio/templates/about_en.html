@@ -1,7 +1,44 @@
 {% extends "base.html" %}
 
-{% block title %}
-    mlziade | About
+{% block title %}About mlziade | Portfolio{% endblock %}
+
+{% block meta_description %}Learn about mlziade, a Brazilian Backend Developer and Solution Architect with years of experience in technology consulting, web development, cloud engineering, and RPA automation.{% endblock %}
+
+{% block meta_keywords %}About mlziade, Backend Developer Biography, Solution Architect Background, Technology Consultant, Web Developer, Cloud Engineer, RPA Developer, Brazil{% endblock %}
+
+{% block og_title %}About mlziade | Portfolio{% endblock %}
+
+{% block og_description %}Learn about mlziade, a Brazilian Backend Developer and Solution Architect with years of experience in technology consulting, web development, and cloud engineering.{% endblock %}
+
+{% block twitter_title %}About mlziade | Portfolio{% endblock %}
+
+{% block twitter_description %}Learn about mlziade, a Brazilian Backend Developer and Solution Architect with years of experience in technology consulting and web development.{% endblock %}
+
+{% block structured_data %}
+{% load static %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Michel Ziade",
+    "jobTitle": "Backend Developer / Solution Architect",
+    "description": "Brazilian Backend Developer and Solution Architect with years of experience in technology consulting, web development, cloud engineering, and automation",
+    "nationality": "Brazilian",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.jpg' %}",
+    "sameAs": [
+      "https://www.linkedin.com/in/mlziade/",
+      "https://github.com/mlziade",
+      "https://www.instagram.com/mlziade/",
+      "https://x.com/mlziade_dev"
+    ],
+    "knowsAbout": ["Web Development", "Cloud Computing", "Infrastructure", "Process Automation", "RPA", "Customer Experience", "Machine Learning", "Generative AI", "ETL"],
+    "email": "mlziade@mlziade.com.br"
+  }
+}
+</script>
 {% endblock %}
 
 {% block extra_css %}

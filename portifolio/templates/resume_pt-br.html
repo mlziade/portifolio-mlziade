@@ -1,7 +1,75 @@
 {% extends "base.html" %}
 
-{% block title %}
-    mlziade | Currículo 
+{% block title %}Currículo mlziade | Portfólio{% endblock %}
+
+{% block meta_description %}Veja o currículo e CV profissional de mlziade. Desenvolvedor Backend e Arquiteto de Soluções com experiência na Elevential Digital Solutions, Redesign, especializado em Python, TypeScript, AWS, Azure e tecnologias em nuvem.{% endblock %}
+
+{% block meta_keywords %}Currículo mlziade, CV mlziade, Currículo Desenvolvedor Backend, CV Arquiteto de Soluções, Desenvolvedor Python, Desenvolvedor TypeScript, Experiência AWS, Experiência Azure, Experiência Profissional{% endblock %}
+
+{% block og_title %}Currículo mlziade | Portfólio{% endblock %}
+
+{% block og_description %}Veja o currículo e CV profissional de mlziade. Desenvolvedor Backend e Arquiteto de Soluções com experiência em Python, TypeScript, AWS, Azure e tecnologias em nuvem.{% endblock %}
+
+{% block twitter_title %}Currículo mlziade | Portfólio{% endblock %}
+
+{% block twitter_description %}Veja o currículo e CV profissional de mlziade. Desenvolvedor Backend e Arquiteto de Soluções com experiência em Python, TypeScript e tecnologias em nuvem.{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Michel Ziade",
+    "jobTitle": "Desenvolvedor Backend / Arquiteto de Soluções",
+    "description": "Desenvolvedor Backend e Arquiteto de Soluções com experiência em Python, TypeScript, Go e tecnologias em nuvem",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "email": "mlziade@mlziade.com.br",
+    "sameAs": [
+      "https://www.linkedin.com/in/mlziade/",
+      "https://github.com/mlziade",
+      "https://www.instagram.com/mlziade/",
+      "https://x.com/mlziade_dev"
+    ],
+    "worksFor": [
+      {
+        "@type": "Organization",
+        "name": "Elevential Digital Solutions",
+        "startDate": "2024-08"
+      }
+    ],
+    "alumniOf": [
+      {
+        "@type": "Organization",
+        "name": "Redesign Consultoria de Transformação"
+      }
+    ],
+    "hasCredential": [
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "AWS Certified Cloud Practitioner",
+        "credentialCategory": "Certificado Profissional",
+        "recognizedBy": {
+          "@type": "Organization",
+          "name": "Amazon Web Services (AWS)"
+        },
+        "dateCreated": "2022-10"
+      },
+      {
+        "@type": "EducationalOccupationalCredential",
+        "name": "UiPath Advanced RPA Developer (UiARD)",
+        "credentialCategory": "Certificado Profissional", 
+        "recognizedBy": {
+          "@type": "Organization",
+          "name": "UiPath"
+        },
+        "dateCreated": "2022-09"
+      }
+    ]
+  }
+}
+</script>
 {% endblock %}
 
 {% block extra_css %}

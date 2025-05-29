@@ -1,7 +1,44 @@
 {% extends "base.html" %}
 
-{% block title %}
-    mlziade | Sobre
+{% block title %}Sobre mlziade | Portfólio{% endblock %}
+
+{% block meta_description %}Conheça mlziade, um Desenvolvedor Backend e Arquiteto de Soluções brasileiro com anos de experiência em consultoria de tecnologia, desenvolvimento web, engenharia em nuvem e automação RPA.{% endblock %}
+
+{% block meta_keywords %}Sobre mlziade, Biografia Desenvolvedor Backend, Background Arquiteto de Soluções, Consultor Tecnologia, Desenvolvedor Web, Engenheiro Cloud, Desenvolvedor RPA, Brasil{% endblock %}
+
+{% block og_title %}Sobre mlziade | Portfólio{% endblock %}
+
+{% block og_description %}Conheça mlziade, um Desenvolvedor Backend e Arquiteto de Soluções brasileiro com anos de experiência em consultoria de tecnologia, desenvolvimento web e engenharia em nuvem.{% endblock %}
+
+{% block twitter_title %}Sobre mlziade | Portfólio{% endblock %}
+
+{% block twitter_description %}Conheça mlziade, um Desenvolvedor Backend e Arquiteto de Soluções brasileiro com anos de experiência em consultoria de tecnologia e desenvolvimento web.{% endblock %}
+
+{% block structured_data %}
+{% load static %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Michel Ziade",
+    "jobTitle": "Desenvolvedor Backend / Arquiteto de Soluções",
+    "description": "Desenvolvedor Backend e Arquiteto de Soluções brasileiro com anos de experiência em consultoria de tecnologia, desenvolvimento web, engenharia em nuvem e automação",
+    "nationality": "Brazilian",
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.jpg' %}",
+    "sameAs": [
+      "https://www.linkedin.com/in/mlziade/",
+      "https://github.com/mlziade",
+      "https://www.instagram.com/mlziade/",
+      "https://x.com/mlziade_dev"
+    ],
+    "knowsAbout": ["Desenvolvimento Web", "Computação em Nuvem", "Infraestrutura", "Automação de Processos", "RPA", "Customer Experience", "Machine Learning", "Inteligência Artificial Generativa", "ETL"],
+    "email": "mlziade@mlziade.com.br"
+  }
+}
+</script>
 {% endblock %}
 
 {% block extra_css %}
