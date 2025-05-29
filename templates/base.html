@@ -26,19 +26,9 @@
   <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}">
   <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.jpg' %}{% endblock %}">
   <meta property="og:image:alt" content="Michel Ziade Profile Picture">
-  <meta property="og:site_name" content="Michel Ziade Portfolio">
-  <meta property="og:locale" content="{% if current_lang == 'pt-br' %}pt_BR{% else %}en_US{% endif %}">
+  <meta property="og:site_name" content="Michel Ziade Portfolio">  <meta property="og:locale" content="{% if current_lang == 'pt-br' %}pt_BR{% else %}en_US{% endif %}">
   
-  <!-- Twitter Card Meta Tags -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:site" content="@mlziade_dev">
-  <meta name="twitter:creator" content="@mlziade_dev">
-  <meta name="twitter:title" content="{% block twitter_title %}{% endblock %}">
-  <meta name="twitter:description" content="{% block twitter_description %}Michel Ziade - Backend Developer and Solution Architect{% endblock %}">
-  <meta name="twitter:image" content="{% block twitter_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.jpg' %}{% endblock %}">
-  <meta name="twitter:image:alt" content="Michel Ziade Profile Picture">
-  
-  <!-- Canonical URL -->  <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
+  <!-- Canonical URL --><link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
   <!-- Language Alternates -->
   <link rel="alternate" hreflang="en" href="{{ request.path }}?lang=en">
   <link rel="alternate" hreflang="pt-BR" href="{{ request.path }}?lang=pt-br">

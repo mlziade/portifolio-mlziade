@@ -10,10 +10,6 @@
 
 {% block og_description %}Experienced Backend Developer and Solution Architect with expertise in Python, Django, TypeScript, NestJS, and cloud technologies. View my portfolio and projects.{% endblock %}
 
-{% block twitter_title %}mlziade | Portfolio{% endblock %}
-
-{% block twitter_description %}Experienced Backend Developer and Solution Architect with expertise in Python, Django, TypeScript, NestJS, and cloud technologies.{% endblock %}
-
 {% block structured_data %}
 {% load static %}
 <script type="application/ld+json">
@@ -24,12 +20,10 @@
   "jobTitle": "Backend Developer / Solution Architect", 
   "description": "Experienced Backend Developer and Solution Architect specializing in Python, JavaScript, TypeScript, and Go",
   "url": "{{ request.scheme }}://{{ request.get_host }}",
-  "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.jpg' %}",
-  "sameAs": [
+  "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.jpg' %}",  "sameAs": [
     "https://www.linkedin.com/in/mlziade/",
     "https://github.com/mlziade",
-    "https://www.instagram.com/mlziade/",
-    "https://x.com/mlziade_dev"
+    "https://www.instagram.com/mlziade/"
   ],
   "knowsAbout": ["Python", "JavaScript", "TypeScript", "Go", "Django", "FastAPI", "Nest.js", "Fiber", "AWS", "Azure", "IBM Cloud"],
   "email": "mlziade@mlziade.com.br",
@@ -62,12 +56,10 @@
                 <p>Django, FastAPI, Nest.js, Fiber</p>
                 <p>AWS, Azure, IBM Cloud</p>
             </div>
-        </div>
-        <div class='social-links'>
+        </div>        <div class='social-links'>
             <a href="https://www.linkedin.com/in/mlziade/" class="social-icon" aria-label="Michel Ziade LinkedIn Profile" rel="noopener" target="_blank"><i class="fab fa-linkedin" aria-hidden="true"></i></a>
             <a href="https://github.com/mlziade" class="social-icon" aria-label="Michel Ziade GitHub Profile" rel="noopener" target="_blank"><i class="fab fa-github" aria-hidden="true"></i></a>
             <a href="https://www.instagram.com/mlziade/" class="social-icon" aria-label="Michel Ziade Instagram Profile" rel="noopener" target="_blank"><i class="fab fa-instagram" aria-hidden="true"></i></a>
-            <a href="https://x.com/mlziade_dev" class="social-icon" aria-label="Michel Ziade Twitter/X Profile" rel="noopener" target="_blank"><i class="fab fa-twitter" aria-hidden="true"></i></a>
         </div>
     </div>
 {% endblock %}

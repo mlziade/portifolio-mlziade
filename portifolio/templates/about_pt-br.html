@@ -10,10 +10,6 @@
 
 {% block og_description %}Conheça mlziade, um Desenvolvedor Backend e Arquiteto de Soluções brasileiro com anos de experiência em consultoria de tecnologia, desenvolvimento web e engenharia em nuvem.{% endblock %}
 
-{% block twitter_title %}Sobre mlziade | Portfólio{% endblock %}
-
-{% block twitter_description %}Conheça mlziade, um Desenvolvedor Backend e Arquiteto de Soluções brasileiro com anos de experiência em consultoria de tecnologia e desenvolvimento web.{% endblock %}
-
 {% block structured_data %}
 {% load static %}
 <script type="application/ld+json">
@@ -27,12 +23,10 @@
     "description": "Desenvolvedor Backend e Arquiteto de Soluções brasileiro com anos de experiência em consultoria de tecnologia, desenvolvimento web, engenharia em nuvem e automação",
     "nationality": "Brazilian",
     "url": "{{ request.scheme }}://{{ request.get_host }}",
-    "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.jpg' %}",
-    "sameAs": [
+    "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.jpg' %}",    "sameAs": [
       "https://www.linkedin.com/in/mlziade/",
       "https://github.com/mlziade",
-      "https://www.instagram.com/mlziade/",
-      "https://x.com/mlziade_dev"
+      "https://www.instagram.com/mlziade/"
     ],
     "knowsAbout": ["Desenvolvimento Web", "Computação em Nuvem", "Infraestrutura", "Automação de Processos", "RPA", "Customer Experience", "Machine Learning", "Inteligência Artificial Generativa", "ETL"],
     "email": "mlziade@mlziade.com.br"
