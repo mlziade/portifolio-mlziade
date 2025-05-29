@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Página Não Encontrada - Michel Ziade{% endblock %}
+
+{% block meta_description %}Página não encontrada. A página que você está procurando não existe ou foi removida.{% endblock %}
+
+{% block meta_keywords %}404, página não encontrada, erro, Michel Ziade{% endblock %}
+
+{% block og_title %}Página Não Encontrada - Michel Ziade{% endblock %}
+
+{% block og_description %}A página que você está procurando não existe ou foi removida.{% endblock %}
+
+{% block extra_css %}
+{% load static %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+    .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: calc(100vh - 160px);
+        text-align: center;
+        padding-top: 2rem;
+        padding-bottom: 2rem;
+    }
+
+    .error-code {
+        font-size: 10rem;
+        margin-bottom: 1rem;
+        color: aliceblue;
+        font-weight: bold;
+    }
+
+    .error-message {
+        max-width: 70%;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: justify;
+        color: rgb(182, 182, 182);
+        margin-bottom: 2rem;
+        line-height: 1.6;
+    }
+
+    .error-actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        width: 100%;
+        max-width: 600px;
+    }
+
+    .back-home-btn {
+        background-color: rgba(255, 255, 255, 0.1);
+        color: aliceblue;
+        padding: 1rem 2rem;
+        font-size: 1.2rem;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .back-home-btn:hover {
+        background-color: rgba(255, 255, 255, 0.15);
+        transform: translateY(-2px);
+        color: aliceblue;
+        text-decoration: none;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .suggestions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .suggestions h3 {
+        color: aliceblue;
+        font-size: 1.5rem;
+        margin: 0;
+    }
+
+    .suggestion-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 1rem;
+    }
+
+    .suggestion-link {
+        color: rgb(182, 182, 182);
+        text-decoration: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .suggestion-link:hover {
+        color: aliceblue;
+        background-color: rgba(255, 255, 255, 0.1);
+        text-decoration: none;
+        transform: translateY(-1px);
+    }
+
+    /* Media queries for responsiveness */
+    @media (max-width: 992px) {
+        .error-code {
+            font-size: 8rem;
+        }
+        
+        .error-message {
+            max-width: 85%;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .error-code {
+            font-size: 6rem;
+        }
+        
+        .error-message {
+            max-width: 90%;
+        }
+        
+        .back-home-btn {
+            font-size: 1.1rem;
+            padding: 0.8rem 1.5rem;
+        }
+        
+        .suggestion-links {
+            flex-direction: column;
+            width: 100%;
+            max-width: 300px;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .error-code {
+            font-size: 4rem;
+        }
+        
+        .error-message {
+            max-width: 95%;
+            font-size: 0.95rem;
+        }
+        
+        .back-home-btn {
+            font-size: 1rem;
+            padding: 0.7rem 1.2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="error-code">404</h1>
+    
+    <p class="error-message">
+        Oops! A página que você está procurando não existe, foi removida ou você digitou o endereço incorretamente.
+        Não se preocupe, isso acontece com todo mundo!
+    </p>
+    
+    <div class="error-actions">
+        <a href="{% url 'portifolio:home' %}?lang=pt-br" class="back-home-btn">
+            <i class="fas fa-home"></i> Voltar ao Início
+        </a>
+        
+        <div class="suggestions">
+            <h3>Talvez você esteja procurando por:</h3>
+            <div class="suggestion-links">
+                <a href="{% url 'portifolio:about' %}?lang=pt-br" class="suggestion-link">Sobre</a>
+                <a href="{% url 'portifolio:projects' %}?lang=pt-br" class="suggestion-link">Projetos</a>
+                <a href="{% url 'portifolio:resume' %}?lang=pt-br" class="suggestion-link">Currículo</a>
+                <a href="{% url 'portifolio:contact' %}?lang=pt-br" class="suggestion-link">Contato</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
