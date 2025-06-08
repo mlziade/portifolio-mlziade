@@ -20,12 +20,12 @@ from django.conf import settings
 from django.views.generic import RedirectView
 from django.conf.urls.static import static
 from django.contrib.sitemaps.views import sitemap
-from portifolio.sitemaps import StaticViewSitemap, MultiLanguageStaticViewSitemap
+from portifolio.sitemaps import StaticViewSitemap, LanguageSpecificSitemap
 
 # Sitemap configuration
 sitemaps = {
     'static': StaticViewSitemap,
-    'static_pt': MultiLanguageStaticViewSitemap,
+    'languages': LanguageSpecificSitemap,
 }
 
 urlpatterns = [
