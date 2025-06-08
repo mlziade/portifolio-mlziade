@@ -69,14 +69,12 @@
     .container{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:calc(100vh - 160px);text-align:center;padding-top:2rem;padding-bottom:2rem}
     h1{color:aliceblue;margin:0 0 0.7rem 0}
     p{color:rgb(182,182,182)}
-  </style>
+  </style>  
+  
   <!-- Bootstrap CSS and JS -->
   {% load django_bootstrap5 %}
   {% bootstrap_css %}
-  
-  {% compress js %}
   {% bootstrap_javascript %}
-  {% endcompress %}
   
   <!-- CSS -->
   {% load static %}
