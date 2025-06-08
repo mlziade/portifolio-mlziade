@@ -29,9 +29,14 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
-  ],
-  "lang": "en",
+  ],  "lang": "en",
   "dir": "ltr",
   "scope": "/",
-  "categories": ["portfolio", "developer", "technology"]
+  "categories": ["portfolio", "developer", "technology", "backend", "python", "javascript"],
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://x.com/mlziade_dev"
+    }
+  ]
 }

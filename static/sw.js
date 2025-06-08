@@ -8,6 +8,15 @@ const STATIC_CACHE_URLS = [
   '/static/br.svg'
 ];
 
+// External domains to allow for social media integration
+const ALLOWED_EXTERNAL_DOMAINS = [
+  'x.com',
+  'twitter.com',
+  'linkedin.com',
+  'github.com',
+  'instagram.com'
+];
+
 // Install event - cache static assets
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -40,6 +49,12 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   // Only handle GET requests
   if (event.request.method !== 'GET') {
+    return;
+  }
+
+  // Allow external social media requests to pass through
+  const url = new URL(event.request.url);
+  if (ALLOWED_EXTERNAL_DOMAINS.some(domain => url.hostname.includes(domain))) {
     return;
   }
 
