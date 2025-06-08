@@ -56,7 +56,10 @@
 {% endblock %}
 
 {% block extra_css %}    {% load static %}
+    {% load compress %}
+    {% compress css %}
     <link rel="stylesheet" href="{% static 'projects.css' %}">
+    {% endcompress %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 {% endblock %}
 
@@ -172,4 +175,11 @@
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block extra_js %}
+{% load compress %}
+{% compress js %}
+<script src="{% static 'projects.js' %}"></script>
+{% endcompress %}
 {% endblock %}

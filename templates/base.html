@@ -1,4 +1,5 @@
 {% load static %}
+{% load compress %}
 <!DOCTYPE html>
 <html lang="{% if current_lang == 'pt-br' %}pt-BR{% else %}en{% endif %}">
 
@@ -69,15 +70,20 @@
     h1{color:aliceblue;margin:0 0 0.7rem 0}
     p{color:rgb(182,182,182)}
   </style>
-  
   <!-- Bootstrap CSS and JS -->
   {% load django_bootstrap5 %}
   {% bootstrap_css %}
+  
+  {% compress js %}
   {% bootstrap_javascript %}
-      <!-- CSS -->
+  {% endcompress %}
+  
+  <!-- CSS -->
   {% load static %}
+  {% compress css %}
   <link rel="stylesheet" href="{% static 'base.css' %}">
   <link rel="stylesheet" href="{% static 'responsive.css' %}">
+  {% endcompress %}
   {% block extra_css %}
   {% endblock %}
   
@@ -174,12 +180,13 @@
   </main>
   <footer role="contentinfo">
     <p><strong>&copy; 2025 mlziade</strong></p>
-  </footer>
-  
+  </footer>  
   <!-- JavaScript -->
+  {% compress js %}
   <script src="{% static 'base.js' %}"></script>
   {% block extra_js %}
   {% endblock %}
+  {% endcompress %}
 </body>
 
 </html>

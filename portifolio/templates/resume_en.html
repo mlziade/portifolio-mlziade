@@ -67,7 +67,11 @@
 {% endblock %}
 
 {% block extra_css %}
-    {% load static %}    <link rel="stylesheet" href="{% static 'resume.css' %}">
+    {% load static %}
+    {% load compress %}
+    {% compress css %}
+    <link rel="stylesheet" href="{% static 'resume.css' %}">
+    {% endcompress %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 {% endblock %}
 
@@ -192,4 +196,11 @@
             </div>
         </div>                        
     </div>
+{% endblock %}
+
+{% block extra_js %}
+{% load compress %}
+{% compress js %}
+<script src="{% static 'resume.js' %}"></script>
+{% endcompress %}
 {% endblock %}

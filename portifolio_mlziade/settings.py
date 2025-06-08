@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False')
 
 ALLOWED_HOSTS = [
         'www.mlziade.com.br',
@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'django_bootstrap5',
+    'compressor',
     'rest_framework',
     'portifolio',
     'playground',
@@ -157,3 +158,23 @@ REST_FRAMEWORK = {
         'anon': '5/minute',
     }
 }
+
+# Compressor settings
+
+STATICFILES_FINDERS = [
+    'django.contrib.staticfiles.finders.FileSystemFinder',      # Finds files in STATICFILES_DIRS
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',  # Finds files in app/static/ folders
+    'compressor.finders.CompressorFinder',                      # Finds compressed files
+]
+
+COMPRESS_ENABLED = True # Enable django-compressor
+COMPRESS_OFFLINE = not DEBUG # Files are compressed during deployment (via manage.py compress)
+COMPRESS_ROOT = STATIC_ROOT
+
+COMPRESS_CSS_FILTERS = [
+    'compressor.filters.cssmin.rCSSMinFilter',
+]
+
+COMPRESS_JS_FILTERS = [
+    'compressor.filters.jsmin.rJSMinFilter',
+]

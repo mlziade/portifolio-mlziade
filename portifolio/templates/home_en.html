@@ -38,7 +38,11 @@
 {% endblock %}
 
 {% block extra_css %}
-  {% load static %}  <link rel="stylesheet" href="{% static 'home.css' %}">
+  {% load static %}
+  {% load compress %}
+  {% compress css %}
+  <link rel="stylesheet" href="{% static 'home.css' %}">
+  {% endcompress %}
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 {% endblock %}
 
@@ -61,4 +65,11 @@
     <a href="https://x.com/mlziade_dev" class="social-icon" aria-label="Michel Ziade Twitter/X Profile" rel="noopener" target="_blank"><i class="fab fa-x-twitter" aria-hidden="true"></i></a>
   </div>
 </div>
+{% endblock %}
+
+{% block extra_js %}
+{% load compress %}
+{% compress js %}
+<script src="{% static 'home.js' %}"></script>
+{% endcompress %}
 {% endblock %}
