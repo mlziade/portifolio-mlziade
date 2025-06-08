@@ -26,12 +26,17 @@
   <meta property="og:url" content="{% block og_url %}{{ request.build_absolute_uri }}{% endblock %}">
   <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.jpg' %}{% endblock %}">
   <meta property="og:image:alt" content="Michel Ziade Profile Picture">
-  <meta property="og:site_name" content="Michel Ziade Portfolio">  <meta property="og:locale" content="{% if current_lang == 'pt-br' %}pt_BR{% else %}en_US{% endif %}">
-    <!-- Canonical URL --><link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
+  <meta property="og:site_name" content="Michel Ziade Portfolio">
+  <meta property="og:locale" content="{% if current_lang == 'pt-br' %}pt_BR{% else %}en_US{% endif %}">
+  
+  <!-- Canonical URL -->
+  <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
+  
   <!-- Language Alternates -->
   <link rel="alternate" hreflang="en" href="{{ request.path }}">
   <link rel="alternate" hreflang="pt-BR" href="{{ request.path }}">
   <link rel="alternate" hreflang="x-default" href="{{ request.path }}">
+  
   <!-- Page Title -->
   <title>{% block title %}{% endblock %}</title>
   
@@ -43,6 +48,7 @@
   <!-- Resource hints for better performance -->
   <link rel="preload" href="{% static 'critical.css' %}" as="style">
   <link rel="preload" href="{% static 'base.css' %}" as="style">
+  
   <!-- PWA Manifest -->
   <link rel="manifest" href="{% static 'manifest.json' %}">
   
@@ -55,20 +61,26 @@
   
   <!-- Critical CSS inline for performance -->
   <style>
-    body{padding-top:80px;background-color:rgb(18,18,18);margin:0;position:relative;min-height:100vh;display:flex;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif}header{position:fixed;top:0;width:100%;z-index:1000;background-color:rgb(18,18,18);height:80px;display:flex;justify-content:flex-end;align-items:center;padding:0 20px;box-sizing:border-box}.hamburger-menu{cursor:pointer;padding:10px;z-index:1001}.bar1,.bar2,.bar3{width:35px;height:5px;background-color:white;margin:6px 0;transition:0.4s}.container{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:calc(100vh - 160px);text-align:center;padding-top:2rem;padding-bottom:2rem}h1{color:aliceblue;margin:0 0 0.7rem 0}p{color:rgb(182,182,182)}
+    body{padding-top:80px;background-color:rgb(18,18,18);margin:0;position:relative;min-height:100vh;display:flex;flex-direction:column;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Oxygen,Ubuntu,Cantarell,sans-serif}
+    header{position:fixed;top:0;width:100%;z-index:1000;background-color:rgb(18,18,18);height:80px;display:flex;justify-content:flex-end;align-items:center;padding:0 20px;box-sizing:border-box}
+    .hamburger-menu{cursor:pointer;padding:10px;z-index:1001}
+    .bar1,.bar2,.bar3{width:35px;height:5px;background-color:white;margin:6px 0;transition:0.4s}
+    .container{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:calc(100vh - 160px);text-align:center;padding-top:2rem;padding-bottom:2rem}
+    h1{color:aliceblue;margin:0 0 0.7rem 0}
+    p{color:rgb(182,182,182)}
   </style>
   
   <!-- Bootstrap CSS and JS -->
   {% load django_bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
-    
-  <!-- CSS -->
+      <!-- CSS -->
   {% load static %}
   <link rel="stylesheet" href="{% static 'base.css' %}">
   <link rel="stylesheet" href="{% static 'responsive.css' %}">
   {% block extra_css %}
   {% endblock %}
+  
   <!-- Structured Data -->
   {% block structured_data %}
   <script type="application/ld+json">
@@ -91,10 +103,6 @@
     "worksFor": {
       "@type": "Organization",
       "name": "Elevential Digital Solutions"
-    },
-    "alumniOf": {
-      "@type": "Organization",
-      "name": "Redesign Consultoria de Transformação"
     }
   }
   </script>
@@ -135,7 +143,8 @@
   
   <!-- Side Navigation -->
   <div class="side-nav" id="sideNav" role="navigation" aria-label="Main navigation menu">
-    <nav>      <ul class="nav-links">
+    <nav>
+      <ul class="nav-links">
         <li><a href="{% url 'portifolio:home' %}" aria-label="{% if current_lang == 'en' %}Go to Home page{% else %}Ir para página Home{% endif %}">
           {% if current_lang == 'en' %}Home{% else %}Home{% endif %}
         </a></li>
@@ -163,80 +172,14 @@
     {% block content %}
     {% endblock %}
   </main>
-
   <footer role="contentinfo">
     <p><strong>&copy; 2025 mlziade</strong></p>
-  </footer>    <script>
-    document.getElementById('hamburgerMenu').addEventListener('click', function() {
-      this.classList.toggle('change');
-      document.getElementById('sideNav').classList.toggle('open');
-    });
-    
-    // Add keyboard navigation support
-    document.getElementById('hamburgerMenu').addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        this.click();
-      }
-    });
-
-    // Language switching function
-    function switchLanguage(language) {
-      // Get CSRF token
-      function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-          const cookies = document.cookie.split(';');
-          for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.substring(0, name.length + 1) === (name + '=')) {
-              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-              break;
-            }
-          }
-        }
-        return cookieValue;
-      }
-
-      // Send AJAX request to switch language
-      fetch('{% url "portifolio:switch_language" %}', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-          'X-CSRFToken': getCookie('csrftoken'),
-          'X-Requested-With': 'XMLHttpRequest'
-        },
-        body: 'language=' + encodeURIComponent(language)
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.success) {
-          // Reload the page to see the changes
-          window.location.reload();
-        } else {
-          console.error('Language switch failed:', data.error);
-        }
-      })
-      .catch(error => {
-        console.error('Error switching language:', error);
-        // Fallback: redirect with query parameter for backward compatibility
-        window.location.href = window.location.pathname + '?lang=' + language;
-      });
-    }
-
-    // Register service worker for performance
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function() {
-        navigator.serviceWorker.register('/static/sw.js')
-          .then(function(registration) {
-            console.log('ServiceWorker registration successful');
-          })
-          .catch(function(error) {
-            console.log('ServiceWorker registration failed: ', error);
-          });
-      });
-    }
-  </script>
+  </footer>
+  
+  <!-- JavaScript -->
+  <script src="{% static 'base.js' %}"></script>
+  {% block extra_js %}
+  {% endblock %}
 </body>
 
 </html>
