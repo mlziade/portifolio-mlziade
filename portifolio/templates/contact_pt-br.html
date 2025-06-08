@@ -19,7 +19,11 @@
     "@type": "Person",
     "name": "Michel Ziade",
     "jobTitle": "Desenvolvedor Backend / Arquiteto de Soluções",
-    "url": "{{ request.scheme }}://{{ request.get_host }}",    "email": ["ziade.michel@hotmail.com", "mlziade@mlziade.com.br"],
+    "url": "{{ request.scheme }}://{{ request.get_host }}",
+    "email": [
+        "ziade.michel@hotmail.com", 
+        "mlziade@mlziade.com.br"
+    ],
     "sameAs": [
       "https://www.linkedin.com/in/mlziade/",
       "https://x.com/mlziade_dev"
@@ -29,22 +33,22 @@
 </script>
 {% endblock %}
 
-{% block extra_css %}
-    {% load static %}
+{% block extra_css %}    {% load static %}
     <link rel="stylesheet" href="{% static 'contact.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 {% endblock %}
 
 {% block content %}
     <div class="container">
-        <h1>Contato</h1>        <div class="contact-links">
+        <h1>Contato</h1>
+        <div class="contact-links">
             <div class="contact-item">
                 <i class="fab fa-linkedin" aria-hidden="true"></i>
                 <a href="https://www.linkedin.com/in/mlziade/" target="_blank" rel="noopener" aria-label="Contatar Michel Ziade através do LinkedIn">LinkedIn</a>
             </div>
             <div class="contact-item">
                 <i class="fab fa-x-twitter" aria-hidden="true"></i>
-                <a href="https://x.com/mlziade_dev" target="_blank" rel="noopener" aria-label="Contatar Michel Ziade através do Twitter/X">Twitter/X</a>
+                <a href="https://x.com/mlziade_dev" target="_blank" rel="noopener" aria-label="Contatar Michel Ziade através do Twitter/X">mlziade_dev</a>
             </div>
             <div class="contact-item">
                 <i class="fas fa-envelope" aria-hidden="true"></i>
