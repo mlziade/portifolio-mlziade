@@ -27,12 +27,11 @@
   <meta property="og:image" content="{% block og_image %}{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.jpg' %}{% endblock %}">
   <meta property="og:image:alt" content="Michel Ziade Profile Picture">
   <meta property="og:site_name" content="Michel Ziade Portfolio">  <meta property="og:locale" content="{% if current_lang == 'pt-br' %}pt_BR{% else %}en_US{% endif %}">
-  
-  <!-- Canonical URL --><link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
+    <!-- Canonical URL --><link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
   <!-- Language Alternates -->
-  <link rel="alternate" hreflang="en" href="{{ request.path }}?lang=en">
-  <link rel="alternate" hreflang="pt-BR" href="{{ request.path }}?lang=pt-br">
-  <link rel="alternate" hreflang="x-default" href="{{ request.path }}?lang=en">
+  <link rel="alternate" hreflang="en" href="{{ request.path }}">
+  <link rel="alternate" hreflang="pt-BR" href="{{ request.path }}">
+  <link rel="alternate" hreflang="x-default" href="{{ request.path }}">
   <!-- Page Title -->
   <title>{% block title %}{% endblock %}</title>
   
@@ -136,27 +135,26 @@
   
   <!-- Side Navigation -->
   <div class="side-nav" id="sideNav" role="navigation" aria-label="Main navigation menu">
-    <nav>
-      <ul class="nav-links">
-        <li><a href="{% url 'portifolio:home' %}?lang={{ current_lang }}" aria-label="{% if current_lang == 'en' %}Go to Home page{% else %}Ir para página Home{% endif %}">
+    <nav>      <ul class="nav-links">
+        <li><a href="{% url 'portifolio:home' %}" aria-label="{% if current_lang == 'en' %}Go to Home page{% else %}Ir para página Home{% endif %}">
           {% if current_lang == 'en' %}Home{% else %}Home{% endif %}
         </a></li>
-        <li><a href="{% url 'portifolio:about' %}?lang={{ current_lang }}" aria-label="{% if current_lang == 'en' %}Go to About page{% else %}Ir para página Sobre{% endif %}">
+        <li><a href="{% url 'portifolio:about' %}" aria-label="{% if current_lang == 'en' %}Go to About page{% else %}Ir para página Sobre{% endif %}">
           {% if current_lang == 'en' %}About{% else %}Sobre{% endif %}
         </a></li>
-        <li><a href="{% url 'portifolio:resume' %}?lang={{ current_lang }}" aria-label="{% if current_lang == 'en' %}Go to Resume page{% else %}Ir para página Currículo{% endif %}">
+        <li><a href="{% url 'portifolio:resume' %}" aria-label="{% if current_lang == 'en' %}Go to Resume page{% else %}Ir para página Currículo{% endif %}">
           {% if current_lang == 'en' %}Resume{% else %}Currículo{% endif %}
         </a></li>
-        <li><a href="{% url 'portifolio:projects' %}?lang={{ current_lang }}" aria-label="{% if current_lang == 'en' %}Go to Projects page{% else %}Ir para página Projetos{% endif %}">
+        <li><a href="{% url 'portifolio:projects' %}" aria-label="{% if current_lang == 'en' %}Go to Projects page{% else %}Ir para página Projetos{% endif %}">
           {% if current_lang == 'en' %}Projects{% else %}Projetos{% endif %}
         </a></li>
-        <li><a href="{% url 'portifolio:contact' %}?lang={{ current_lang }}" aria-label="{% if current_lang == 'en' %}Go to Contact page{% else %}Ir para página Contato{% endif %}">
+        <li><a href="{% url 'portifolio:contact' %}" aria-label="{% if current_lang == 'en' %}Go to Contact page{% else %}Ir para página Contato{% endif %}">
           {% if current_lang == 'en' %}Contact{% else %}Contato{% endif %}
         </a></li>
       </ul>
       <ul class="lang-links">
-        <li><a href="{{ request.path }}?lang=en" aria-label="Switch to English"><img src="{% static 'us.svg' %}" alt="US Flag - Switch to English" width="30" height="20"></a></li>
-        <li><a href="{{ request.path }}?lang=pt-br" aria-label="Mudar para Português"><img src="{% static 'br.svg' %}" alt="BR Flag - Mudar para Português" width="30" height="20"></a></li>
+        <li><a href="#" onclick="switchLanguage('en')" aria-label="Switch to English"><img src="{% static 'us.svg' %}" alt="US Flag - Switch to English" width="30" height="20"></a></li>
+        <li><a href="#" onclick="switchLanguage('pt-br')" aria-label="Mudar para Português"><img src="{% static 'br.svg' %}" alt="BR Flag - Mudar para Português" width="30" height="20"></a></li>
       </ul>
     </nav>
   </div>
@@ -168,8 +166,7 @@
 
   <footer role="contentinfo">
     <p><strong>&copy; 2025 mlziade</strong></p>
-  </footer>  
-  <script>
+  </footer>    <script>
     document.getElementById('hamburgerMenu').addEventListener('click', function() {
       this.classList.toggle('change');
       document.getElementById('sideNav').classList.toggle('open');
@@ -182,6 +179,50 @@
         this.click();
       }
     });
+
+    // Language switching function
+    function switchLanguage(language) {
+      // Get CSRF token
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+          const cookies = document.cookie.split(';');
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+
+      // Send AJAX request to switch language
+      fetch('{% url "portifolio:switch_language" %}', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-CSRFToken': getCookie('csrftoken'),
+          'X-Requested-With': 'XMLHttpRequest'
+        },
+        body: 'language=' + encodeURIComponent(language)
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          // Reload the page to see the changes
+          window.location.reload();
+        } else {
+          console.error('Language switch failed:', data.error);
+        }
+      })
+      .catch(error => {
+        console.error('Error switching language:', error);
+        // Fallback: redirect with query parameter for backward compatibility
+        window.location.href = window.location.pathname + '?lang=' + language;
+      });
+    }
 
     // Register service worker for performance
     if ('serviceWorker' in navigator) {

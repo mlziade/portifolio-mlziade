@@ -171,19 +171,18 @@
         Oops! A página que você está procurando não existe, foi removida ou você digitou o endereço incorretamente.
         Não se preocupe, isso acontece com todo mundo!
     </p>
-    
-    <div class="error-actions">
-        <a href="{% url 'portifolio:home' %}?lang=pt-br" class="back-home-btn">
+      <div class="error-actions">
+        <a href="{% url 'portifolio:home' %}" class="back-home-btn">
             <i class="fas fa-home"></i> Voltar ao Início
         </a>
         
         <div class="suggestions">
             <h3>Talvez você esteja procurando por:</h3>
             <div class="suggestion-links">
-                <a href="{% url 'portifolio:about' %}?lang=pt-br" class="suggestion-link">Sobre</a>
-                <a href="{% url 'portifolio:projects' %}?lang=pt-br" class="suggestion-link">Projetos</a>
-                <a href="{% url 'portifolio:resume' %}?lang=pt-br" class="suggestion-link">Currículo</a>
-                <a href="{% url 'portifolio:contact' %}?lang=pt-br" class="suggestion-link">Contato</a>
+                <a href="{% url 'portifolio:about' %}" class="suggestion-link">Sobre</a>
+                <a href="{% url 'portifolio:projects' %}" class="suggestion-link">Projetos</a>
+                <a href="{% url 'portifolio:resume' %}" class="suggestion-link">Currículo</a>
+                <a href="{% url 'portifolio:contact' %}" class="suggestion-link">Contato</a>
             </div>
         </div>
     </div>

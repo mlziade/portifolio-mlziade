@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.throttling import AnonRateThrottle
+from portifolio.language_utils import get_current_language, get_template_name, get_language_context
 
 # Load environment variables from the .env file
 load_dotenv()
@@ -265,25 +266,17 @@ def generate_text_streaming(request):
 
 class TryoutZllmView(View):
     def get(self, request):
-        # Access the correct template based on the language
-        # For example: home_pt-br.html or home_en.html
-        lang = request.GET.get('lang')
-
-        # Defaults to pt-br if no language or a invalid language is provided
-        if lang not in ['pt-br', 'en']:
-            lang = 'pt-br'
-        return render(request, f'zllm_{lang}.html', {'current_lang': lang})
+        # Get language from middleware (session/cookie based)
+        template_name = get_template_name('zllm', request)
+        context = get_language_context(request)
+        return render(request, template_name, context)
 
 class TryoutZllmChatView(View):
     def get(self, request):
-        # Access the correct template based on the language
-        # For example: home_pt-br.html or home_en.html
-        lang = request.GET.get('lang')
-
-        # Defaults to pt-br if no language or a invalid language is provided
-        if lang not in ['pt-br', 'en']:
-            lang = 'pt-br'
-        return render(request, f'zllm_chat_{lang}.html', {'current_lang': lang})
+        # Get language from middleware (session/cookie based)
+        template_name = get_template_name('zllm_chat', request)
+        context = get_language_context(request)
+        return render(request, template_name, context)
 
 @retry_api_call(max_retries=3, backoff_factor=1)
 def make_zllm_request(url, headers, data):

@@ -5,6 +5,7 @@ from .views import (
     ContactView,
     ResumeView,
     ProjectsView,
+    LanguageSwitchView,
 )
 
 app_name = 'portifolio'
@@ -15,4 +16,5 @@ urlpatterns = [
     path('resume/', ResumeView.as_view(), name='resume'),
     path('projects/', ProjectsView.as_view(), name='projects'),
     path('contact/', ContactView.as_view(), name='contact'),
+    path('switch-language/', LanguageSwitchView.as_view(), name='switch_language'),
 ]
