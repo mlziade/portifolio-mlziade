@@ -47,6 +47,9 @@ jobs:
           
           echo "Collecting static files..."
           /home/portifolio/.local/bin/uv run manage.py collectstatic --noinput || { echo "Failed to collect static files"; exit 1; }
+
+          echo "Compressing static files..."
+          /home/portifolio/.local/bin/uv run manage.py compress --force || { echo "Failed to compress static files"; exit 1; }
           
           echo "Restarting service..."
           sudo /bin/systemctl restart $SERVICE_NAME || { echo "Failed to restart service"; exit 1; }
