@@ -55,6 +55,8 @@
     padding: 1rem;
     width: 30%;
     flex-shrink: 0;
+    min-height: 150px; /* Reserve space for images */
+    border-radius: 8px;
 }
 
 .item-title {
@@ -79,13 +81,30 @@
     line-height: 1.5;
 }
 
-.item-content img {
+.item-content img,
+.item-content picture {
     width: 100%;
     height: auto;
     max-height: 150px;
     object-fit: contain;
     display: block;
     margin: 0 auto;
+}
+
+.item-content picture img {
+    width: 100%;
+    height: auto;
+    max-height: 150px;
+    object-fit: contain;
+    display: block;
+    margin: 0 auto;
+    /* Smooth loading transition */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.item-content picture img[src] {
+    opacity: 1;
 }
 
 .item-data {

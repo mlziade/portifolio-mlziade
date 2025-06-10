@@ -10,6 +10,13 @@
 
 {% block og_description %}Explore mlziade's projects including MovieStars, Dontpad List, ZLLM, and more. Backend developer portfolio showcasing Python, TypeScript, Go, and web development expertise.{% endblock %}
 
+{% block preload_resources %}
+  {% load static %}
+  <!-- Preload first project images that are above the fold -->
+  <link rel="preload" as="image" href="{% static 'logo-moviestars.webp' %}" type="image/webp">
+  <link rel="preload" as="image" href="{% static 'dontpad-list-logo.webp' %}" type="image/webp">
+{% endblock %}
+
 {% block structured_data %}
 <script type="application/ld+json">
 {
@@ -72,10 +79,17 @@
                 <a href="https://github.com/mlziade/MovieStars" class="project-link">
                     <div class="item-title">
                         <h2>MovieStars</h2>
-                    </div>
-                    <div class="item-content">
+                    </div>                    <div class="item-content">
                         <div class="logo-container">
-                            <img src="{% static 'logo-moviestars.png' %}" alt="MovieStars" class="logo">
+                            <picture>
+                                <source srcset="{% static 'logo-moviestars.webp' %}" type="image/webp">
+                                <img src="{% static 'logo-moviestars_optimized.png' %}" 
+                                     alt="MovieStars - Movie and TV show review aggregator" 
+                                     class="logo" 
+                                     loading="eager"
+                                     width="150" 
+                                     height="50">
+                            </picture>
                         </div>
                         <div class="item-data">
                             <p>MovieStars is a Chromium extension that helps users explore reviews from both users and critics, aggregating details from leading entertainment websites. It provides a comprehensive overview of movies, series and animes.</p>
@@ -91,7 +105,15 @@
                     </div>
                     <div class="item-content">
                         <div class="logo-container">
-                            <img src="{% static 'dontpad-list-logo.png' %}" alt="DontpadList" class="logo">
+                            <picture>
+                                <source srcset="{% static 'dontpad-list-logo.webp' %}" type="image/webp">
+                                <img src="{% static 'dontpad-list-logo_optimized.png' %}" 
+                                     alt="Dontpad List - Chrome extension for reference formatting" 
+                                     class="logo" 
+                                     loading="eager"
+                                     width="150" 
+                                     height="150">
+                            </picture>
                         </div>
                         <div class="item-data">
                             <p>Dontpad List! is a Chrome extension that allows users to append highlighted text from webpages as a list entry to a Dontpad page, based on the Brazilian ABNT reference formatting style.</p>
@@ -107,7 +129,15 @@
                     </div>
                     <div class="item-content">
                         <div class="logo-container">
-                            <img src="{% static 'github-logo.png' %}" alt="zllm" class="logo">
+                            <picture>
+                                <source srcset="{% static 'github-logo.webp' %}" type="image/webp">
+                                <img src="{% static 'github-logo_optimized.png' %}" 
+                                     alt="ZLLM - Golang GenAI API implementation" 
+                                     class="logo" 
+                                     loading="lazy"
+                                     width="150" 
+                                     height="150">
+                            </picture>
                         </div>
                         <div class="item-data">
                             <p>Zllm is a Golang implementation of a GenAI API, running local LLM models through Ollama. It includes tools like local OCR, multimodal models, and translation to support LLM utilization.</p>
@@ -126,7 +156,15 @@
                     </div>
                     <div class="item-content">
                         <div class="logo-container">
-                            <img src="{% static 'zllm-chat-logo.png' %}" alt="ZLLM Chat" class="logo">
+                            <picture>
+                                <source srcset="{% static 'zllm-chat-logo.webp' %}" type="image/webp">
+                                <img src="{% static 'zllm-chat-logo_optimized.png' %}" 
+                                     alt="ZLLM Chat - Simple chat interface for ZLLM API" 
+                                     class="logo" 
+                                     loading="lazy"
+                                     width="150" 
+                                     height="150">
+                            </picture>
                         </div>
                         <div class="item-data">
                             <p>A simple chat interface for interacting with the ZLLM API. You can ask about anything, or about the ZLLM project itself!</p>
@@ -145,7 +183,15 @@
                     </div>
                     <div class="item-content">
                         <div class="logo-container">
-                            <img src="{% static 'conways.gif' %}" alt="Conways" class="logo">
+                            <picture>
+                                <source srcset="{% static 'conways.gif' %}" type="image/gif">
+                                <img src="{% static 'conways.gif' %}" 
+                                     alt="Conway's Game of Life - Cellular automaton simulation" 
+                                     class="logo" 
+                                     loading="lazy"
+                                     width="150" 
+                                     height="108">
+                            </picture>
                         </div>
                         <div class="item-data">
                             <p>A Python implementation of Conway's Game of Life, simulating the evolution of cells based on simple rules. Its also called the first 0-player game.</p>
@@ -164,7 +210,15 @@
                     </div>
                     <div class="item-content">
                         <div class="logo-container">
-                            <img src="{% static 'logo-keycrypt.png' %}" alt="Conways" class="logo">
+                            <picture>
+                                <source srcset="{% static 'logo-keycrypt.webp' %}" type="image/webp">
+                                <img src="{% static 'logo-keycrypt_optimized.png' %}" 
+                                     alt="KeyCrypt - Puzzle and messaging cryptography game" 
+                                     class="logo" 
+                                     loading="lazy"
+                                     width="150" 
+                                     height="61">
+                            </picture>
                         </div>
                         <div class="item-data">
                             <p>A fun and challenging puzzle and messaging site. You can create puzzles for friends and other players to solve! Only then can they decrypt your message...
