@@ -10,6 +10,12 @@
 
 {% block og_description %}Experienced Backend Developer and Solution Architect with expertise in Python, Django, TypeScript, NestJS, and cloud technologies. View my portfolio and projects.{% endblock %}
 
+{% block preload_resources %}
+  {% load static %}
+  <link rel="preload" as="image" href="{% static 'profile_picture.webp' %}" type="image/webp" fetchpriority="high">
+  <link rel="preload" as="image" href="{% static 'profile_picture.jpg' %}" fetchpriority="high">
+{% endblock %}
+
 {% block structured_data %}
   {% load static %}
   <script type="application/ld+json">
@@ -49,7 +55,25 @@
 {% block content %}
 <div class="container">
   <div class='user-summary'>
-    <img src="{% static 'profile_picture.jpg' %}" alt="Michel Ziade - Backend Developer and Solution Architect" width="110" height="110" loading="eager">
+    <picture>
+      <!-- WebP format for modern browsers -->
+      <source media="(min-width: 768px)" srcset="{% static 'profile_picture.webp' %}" type="image/webp">
+      <source media="(min-width: 576px)" srcset="{% static 'profile_picture_88.webp' %}" type="image/webp">
+      <source srcset="{% static 'profile_picture_66.webp' %}" type="image/webp">
+      
+      <!-- Fallback JPEG for older browsers -->
+      <source media="(min-width: 768px)" srcset="{% static 'profile_picture.jpg' %}" type="image/jpeg">
+      <source media="(min-width: 576px)" srcset="{% static 'profile_picture_88.jpg' %}" type="image/jpeg">
+      <source srcset="{% static 'profile_picture_66.jpg' %}" type="image/jpeg">
+      
+      <!-- Final fallback -->
+      <img src="{% static 'profile_picture.jpg' %}" 
+           alt="Michel Ziade - Backend Developer and Solution Architect" 
+           width="110" 
+           height="110" 
+           loading="eager"
+           fetchpriority="high">
+    </picture>
     <div class='user-info'>
       <h1>Michel Ziade</h1>
       <p>Backend Developer / Solution Architect</p>

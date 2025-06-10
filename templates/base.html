@@ -37,9 +37,11 @@
   <link rel="alternate" hreflang="en" href="{{ request.path }}">
   <link rel="alternate" hreflang="pt-BR" href="{{ request.path }}">
   <link rel="alternate" hreflang="x-default" href="{{ request.path }}">
-  
-  <!-- Page Title -->
+    <!-- Page Title -->
   <title>{% block title %}{% endblock %}</title>
+  
+  <!-- Preload critical resources -->
+  {% block preload_resources %}{% endblock %}
   
   <!-- Performance optimizations -->
   <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
