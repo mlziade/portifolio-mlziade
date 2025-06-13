@@ -213,8 +213,11 @@
         font-size: 0.95rem;
         margin-left: 0;
     }
+      .item-content img {
+        max-height: 120px; /* Increased from 100px for better quality */
+    }
     
-    .item-content img {
-        max-height: 100px;
+    .item-content picture img {
+        max-height: 120px; /* Increased from 100px for better quality */
     }
 }

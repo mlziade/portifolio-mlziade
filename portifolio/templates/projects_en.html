@@ -11,53 +11,53 @@
 {% block og_description %}Explore mlziade's projects including MovieStars, Dontpad List, ZLLM, and more. Backend developer portfolio showcasing Python, TypeScript, Go, and web development expertise.{% endblock %}
 
 {% block preload_resources %}
-  {% load static %}
-  <!-- Preload first project images that are above the fold -->
-  <link rel="preload" as="image" href="{% static 'logo-moviestars.webp' %}" type="image/webp">
-  <link rel="preload" as="image" href="{% static 'dontpad-list-logo.webp' %}" type="image/webp">
+    {% load static %}
+    <!-- Preload first project images that are above the fold -->
+    <link rel="preload" as="image" href="{% static 'logo-moviestars.webp' %}" type="image/webp">
+    <link rel="preload" as="image" href="{% static 'dontpad-list-logo.webp' %}" type="image/webp">
 {% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",  "name": "mlziade Projects",
-  "description": "Portfolio showcasing projects by mlziade - Backend Developer and Solution Architect",
-  "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'portifolio:projects' %}",
-  "author": {
-    "@type": "Person",
-    "name": "Michel Ziade",
-    "jobTitle": "Backend Developer / Solution Architect"
-  },
-  "mainEntity": {
-    "@type": "ItemList",
-    "itemListElement": [
-      {
-        "@type": "SoftwareApplication",
-        "name": "MovieStars",
-        "description": "Chromium extension for exploring movie, series and anime reviews",
-        "url": "https://github.com/mlziade/MovieStars",
-        "applicationCategory": "Browser Extension",
-        "operatingSystem": "Chrome, Chromium"
-      },
-      {
-        "@type": "SoftwareApplication", 
-        "name": "Dontpad List",
-        "description": "Chrome extension for creating reference lists from web highlights",
-        "url": "https://github.com/mlziade/DontpadList",
-        "applicationCategory": "Browser Extension",
-        "operatingSystem": "Chrome"
-      },
-      {
-        "@type": "SoftwareApplication",
-        "name": "ZLLM",
-        "description": "Golang implementation of a GenAI API running local LLM models",
-        "url": "https://github.com/mlziade/zllm",
-        "applicationCategory": "API",
-        "programmingLanguage": "Go"
-      }
-    ]
-  }
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",  "name": "mlziade Projects",
+    "description": "Portfolio showcasing projects by mlziade - Backend Developer and Solution Architect",
+    "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'portifolio:projects' %}",
+    "author": {
+        "@type": "Person",
+        "name": "Michel Ziade",
+        "jobTitle": "Backend Developer / Solution Architect"
+    },
+    "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+            {
+                "@type": "SoftwareApplication",
+                "name": "MovieStars",
+                "description": "Chromium extension for exploring movie, series and anime reviews",
+                "url": "https://github.com/mlziade/MovieStars",
+                "applicationCategory": "Browser Extension",
+                "operatingSystem": "Chrome, Chromium"
+            },
+            {
+                "@type": "SoftwareApplication", 
+                "name": "Dontpad List",
+                "description": "Chrome extension for creating reference lists from web highlights",
+                "url": "https://github.com/mlziade/DontpadList",
+                "applicationCategory": "Browser Extension",
+                "operatingSystem": "Chrome"
+            },
+            {
+                "@type": "SoftwareApplication",
+                "name": "ZLLM",
+                "description": "Golang implementation of a GenAI API running local LLM models",
+                "url": "https://github.com/mlziade/zllm",
+                "applicationCategory": "API",
+                "programmingLanguage": "Go"
+            }
+        ]
+    }
 }
 </script>
 {% endblock %}
@@ -79,16 +79,20 @@
                 <a href="https://github.com/mlziade/MovieStars" class="project-link">
                     <div class="item-title">
                         <h2>MovieStars</h2>
-                    </div>                    <div class="item-content">
-                        <div class="logo-container">
+                    </div>                    
+                    <div class="item-content">                          <div class="logo-container">
                             <picture>
-                                <source srcset="{% static 'logo-moviestars.webp' %}" type="image/webp">
-                                <img src="{% static 'logo-moviestars_optimized.png' %}" 
-                                     alt="MovieStars - Movie and TV show review aggregator" 
-                                     class="logo" 
-                                     loading="eager"
-                                     width="150" 
-                                     height="50">
+                                <source srcset="{% static 'logo-moviestars.webp' %} 1x, {% static 'logo-moviestars@2x.webp' %} 2x" 
+                                        type="image/webp" 
+                                        sizes="(max-width: 576px) 120px, 150px">
+                                <img src="{% static 'logo-moviestars.webp' %}" 
+                                    srcset="{% static 'logo-moviestars.webp' %} 1x, {% static 'logo-moviestars@2x.webp' %} 2x"
+                                    sizes="(max-width: 576px) 120px, 150px"
+                                    alt="MovieStars - Movie and TV show review aggregator" 
+                                    class="logo" 
+                                    loading="eager"
+                                    width="150" 
+                                    height="50">
                             </picture>
                         </div>
                         <div class="item-data">
@@ -103,16 +107,20 @@
                     <div class="item-title">
                         <h2>Dontpad List!</h2>
                     </div>
-                    <div class="item-content">
+                    <div class="item-content">                          
                         <div class="logo-container">
                             <picture>
-                                <source srcset="{% static 'dontpad-list-logo.webp' %}" type="image/webp">
-                                <img src="{% static 'dontpad-list-logo_optimized.png' %}" 
-                                     alt="Dontpad List - Chrome extension for reference formatting" 
-                                     class="logo" 
-                                     loading="eager"
-                                     width="150" 
-                                     height="150">
+                                <source srcset="{% static 'dontpad-list-logo.webp' %} 1x, {% static 'dontpad-list-logo@2x.webp' %} 2x" 
+                                    type="image/webp"
+                                    sizes="(max-width: 576px) 120px, 150px">
+                                <img src="{% static 'dontpad-list-logo.webp' %}" 
+                                    srcset="{% static 'dontpad-list-logo.webp' %} 1x, {% static 'dontpad-list-logo@2x.webp' %} 2x"
+                                    sizes="(max-width: 576px) 120px, 150px"
+                                    alt="Dontpad List - Chrome extension for reference formatting" 
+                                    class="logo" 
+                                    loading="eager"
+                                    width="150" 
+                                    height="150">
                             </picture>
                         </div>
                         <div class="item-data">
@@ -127,16 +135,20 @@
                     <div class="item-title">
                         <h2>ZLLM</h2>
                     </div>
-                    <div class="item-content">
+                    <div class="item-content">                          
                         <div class="logo-container">
                             <picture>
-                                <source srcset="{% static 'github-logo.webp' %}" type="image/webp">
-                                <img src="{% static 'github-logo_optimized.png' %}" 
-                                     alt="ZLLM - Golang GenAI API implementation" 
-                                     class="logo" 
-                                     loading="lazy"
-                                     width="150" 
-                                     height="150">
+                                <source srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x" 
+                                    type="image/webp"
+                                    sizes="(max-width: 576px) 120px, 150px">
+                                <img src="{% static 'github-logo.webp' %}" 
+                                    srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x"
+                                    sizes="(max-width: 576px) 120px, 150px"
+                                    alt="ZLLM - Golang GenAI API implementation" 
+                                    class="logo" 
+                                    loading="lazy"
+                                    width="150" 
+                                    height="150">
                             </picture>
                         </div>
                         <div class="item-data">
@@ -154,16 +166,20 @@
                     <div class="item-title">
                         <h2>ZLLM Chat</h2>
                     </div>
-                    <div class="item-content">
+                    <div class="item-content">                          
                         <div class="logo-container">
                             <picture>
-                                <source srcset="{% static 'zllm-chat-logo.webp' %}" type="image/webp">
-                                <img src="{% static 'zllm-chat-logo_optimized.png' %}" 
-                                     alt="ZLLM Chat - Simple chat interface for ZLLM API" 
-                                     class="logo" 
-                                     loading="lazy"
-                                     width="150" 
-                                     height="150">
+                                <source srcset="{% static 'zllm-chat-logo.webp' %} 1x, {% static 'zllm-chat-logo@2x.webp' %} 2x" 
+                                    type="image/webp"
+                                    sizes="(max-width: 576px) 120px, 150px">
+                                <img src="{% static 'zllm-chat-logo.webp' %}" 
+                                    srcset="{% static 'zllm-chat-logo.webp' %} 1x, {% static 'zllm-chat-logo@2x.webp' %} 2x"
+                                    sizes="(max-width: 576px) 120px, 150px"
+                                    alt="ZLLM Chat - Simple chat interface for ZLLM API" 
+                                    class="logo" 
+                                    loading="lazy"
+                                    width="150" 
+                                    height="150">
                             </picture>
                         </div>
                         <div class="item-data">
@@ -208,20 +224,25 @@
                     <div class="item-title">
                         <h2>KeyCrypt</h2>
                     </div>
-                    <div class="item-content">
+                    <div class="item-content">                          
                         <div class="logo-container">
                             <picture>
-                                <source srcset="{% static 'logo-keycrypt.webp' %}" type="image/webp">
-                                <img src="{% static 'logo-keycrypt_optimized.png' %}" 
-                                     alt="KeyCrypt - Puzzle and messaging cryptography game" 
-                                     class="logo" 
-                                     loading="lazy"
-                                     width="150" 
-                                     height="61">
+                                <source srcset="{% static 'logo-keycrypt.webp' %} 1x, {% static 'logo-keycrypt@2x.webp' %} 2x" 
+                                    type="image/webp"
+                                    sizes="(max-width: 576px) 120px, 150px">
+                                <img src="{% static 'logo-keycrypt.webp' %}" 
+                                    srcset="{% static 'logo-keycrypt.webp' %} 1x, {% static 'logo-keycrypt@2x.webp' %} 2x"
+                                    sizes="(max-width: 576px) 120px, 150px"
+                                    alt="KeyCrypt - Puzzle and messaging cryptography game" 
+                                    class="logo" 
+                                    loading="lazy"
+                                    width="150" 
+                                    height="61">
                             </picture>
                         </div>
                         <div class="item-data">
-                            <p>A fun and challenging puzzle and messaging site. You can create puzzles for friends and other players to solve! Only then can they decrypt your message...
+                            <p>
+                                A fun and challenging puzzle and messaging site. You can create puzzles for friends and other players to solve! Only then can they decrypt your message...
                             </p>
                         </div>
                     </div>
@@ -234,6 +255,6 @@
 {% block extra_js %}
 {% load compress %}
 {% compress js %}
-<script src="{% static 'projects.js' %}"></script>
+    <script src="{% static 'projects.js' %}"></script>
 {% endcompress %}
 {% endblock %}
