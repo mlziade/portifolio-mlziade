@@ -85,3 +85,24 @@ class LanguageMiddleware(MiddlewareMixin):
         
         # 5. Default to English
         return self.DEFAULT_LANGUAGE
+
+
+class StaticFilesCookieMiddleware(MiddlewareMixin):
+    """
+    Middleware to prevent cookies from being sent with static file requests.
+    This improves performance by reducing request size for static resources.
+    """
+    
+    def process_response(self, request, response):
+        """Remove cookies from static file responses."""
+        # Check if this is a request for static files
+        if request.path.startswith('/static/'):
+            # Clear all cookies for static file responses
+            for cookie_name in response.cookies:
+                response.delete_cookie(cookie_name)
+            
+            # Remove Set-Cookie headers
+            if 'Set-Cookie' in response:
+                del response['Set-Cookie']
+                
+        return response

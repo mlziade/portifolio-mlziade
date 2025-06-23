@@ -29,12 +29,8 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'False')
 
-ALLOWED_HOSTS = [
-        'www.mlziade.com.br',
-        'mlziade.com.br',
-        '188.245.32.185',
-        '127.0.0.1',
-]
+# Get allowed hosts from environment variable, fallback to localhost for development
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
 # Application definition
 
@@ -56,7 +52,8 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'portifolio.middleware.LanguageMiddleware',  # Add our custom language middleware
+    'portifolio.middleware.StaticFilesCookieMiddleware',    # Add static files cookie middleware first
+    'portifolio.middleware.LanguageMiddleware',             # Add our custom language middleware
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
