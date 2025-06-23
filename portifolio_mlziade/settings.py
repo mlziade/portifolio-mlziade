@@ -135,6 +135,14 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+# Static files optimization settings
+# These help with Cloudflare caching and overall performance
+STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
+# Media files configuration (for user uploads)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
@@ -156,8 +164,7 @@ REST_FRAMEWORK = {
     }
 }
 
-# Compressor settings
-
+# Compressor settings for better static file optimization
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',      # Finds files in STATICFILES_DIRS
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',  # Finds files in app/static/ folders
@@ -168,6 +175,10 @@ COMPRESS_ENABLED = True # Enable django-compressor
 COMPRESS_OFFLINE = not DEBUG # Files are compressed during deployment (via manage.py compress)
 COMPRESS_ROOT = STATIC_ROOT
 
+# Ensure compressed files also get proper URLs
+COMPRESS_URL = STATIC_URL
+
+# Optimize CSS and JS compression
 COMPRESS_CSS_FILTERS = [
     'compressor.filters.cssmin.rCSSMinFilter',
 ]
@@ -175,3 +186,7 @@ COMPRESS_CSS_FILTERS = [
 COMPRESS_JS_FILTERS = [
     'compressor.filters.jsmin.rJSMinFilter',
 ]
+
+# Output compressed files with hashed names for better caching
+COMPRESS_CSS_HASHING_METHOD = 'content'
+COMPRESS_JS_HASHING_METHOD = 'content'

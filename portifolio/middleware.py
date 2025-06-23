@@ -91,18 +91,42 @@ class StaticFilesCookieMiddleware(MiddlewareMixin):
     """
     Middleware to prevent cookies from being sent with static file requests.
     This improves performance by reducing request size for static resources.
+    Also adds caching headers for better performance.
     """
     
+    # Static file extensions that should be served without cookies
+    STATIC_EXTENSIONS = {
+        '.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.webp', '.svg', 
+        '.ico', '.woff', '.woff2', '.ttf', '.eot', '.mp3', '.mp4', '.pdf'
+    }
+    
     def process_response(self, request, response):
-        """Remove cookies from static file responses."""
-        # Check if this is a request for static files
-        if request.path.startswith('/static/'):
+        """Remove cookies from static file responses and add caching headers."""
+        
+        # Check if this is a request for static files (by path or extension)
+        is_static = (
+            request.path.startswith('/static/') or 
+            request.path.startswith('/staticfiles/') or
+            request.path.startswith('/media/') or
+            any(request.path.lower().endswith(ext) for ext in self.STATIC_EXTENSIONS)
+        )
+        
+        if is_static:
             # Clear all cookies for static file responses
-            for cookie_name in response.cookies:
-                response.delete_cookie(cookie_name)
+            response.cookies.clear()
             
-            # Remove Set-Cookie headers
+            # Remove Set-Cookie headers completely
             if 'Set-Cookie' in response:
                 del response['Set-Cookie']
+            
+            # Add cache headers for better performance (1 year for static assets)
+            if not response.get('Cache-Control'):
+                response['Cache-Control'] = 'public, max-age=31536000, immutable'
+            
+            # Add ETag for better caching if not present
+            if not response.get('ETag') and hasattr(response, 'content'):
+                import hashlib
+                etag = hashlib.md5(response.content).hexdigest()[:16]
+                response['ETag'] = f'"{etag}"'
                 
         return response
