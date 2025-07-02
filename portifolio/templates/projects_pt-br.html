@@ -2,15 +2,15 @@
 
 {% block title %}Projetos mlziade | Portfólio{% endblock %}
 
-{% block meta_description %}Explore os projetos de mlziade incluindo MovieStars, Dontpad List, ZLLM, Conways Game of Life e KeyCrypt. Portfólio de desenvolvedor backend com expertise em Python, TypeScript, Go e desenvolvimento web.{% endblock %}
+{% block meta_description %}Explore os projetos de mlziade incluindo MovieStars, Dontpad List, ZLLM, Conways Game of Life, KeyCrypt e Librarian. Portfólio de desenvolvedor backend com expertise em Python, TypeScript, Go e desenvolvimento web.{% endblock %}
 
-{% block meta_keywords %}Projetos mlziade, Projetos Desenvolvedor Backend, Projetos Python, Projetos TypeScript, Projetos Go, Portfólio Desenvolvimento Web, ZLLM, MovieStars, Dontpad List, KeyCrypt, Conway Game of Life{% endblock %}
+{% block meta_keywords %}Projetos mlziade, Projetos Desenvolvedor Backend, Projetos Python, Projetos TypeScript, Projetos Go, Portfólio Desenvolvimento Web, ZLLM, MovieStars, Dontpad List, KeyCrypt, Conway Game of Life, Librarian, Servidor MCP{% endblock %}
 
 {% block og_title %}Projetos mlziade | Portfólio{% endblock %}
 
 {% block twitter_title %}Projetos mlziade | Portfólio{% endblock %}
 
-{% block og_description %}Explore os projetos de mlziade incluindo MovieStars, Dontpad List, ZLLM e mais. Portfólio de desenvolvedor backend com expertise em Python, TypeScript, Go e desenvolvimento web.{% endblock %}
+{% block og_description %}Explore os projetos de mlziade incluindo MovieStars, Dontpad List, ZLLM, Librarian e mais. Portfólio de desenvolvedor backend com expertise em Python, TypeScript, Go e desenvolvimento web.{% endblock %}
 
 {% block preload_resources %}
   {% load static %}
@@ -57,6 +57,14 @@
         "url": "https://github.com/mlziade/zllm",
         "applicationCategory": "API",
         "programmingLanguage": "Go"
+      },
+      {
+        "@type": "SoftwareApplication",
+        "name": "Librarian",
+        "description": "Servidor MCP que permite que qualquer LLM com um cliente MCP compatível consulte informações na Wikipedia",
+        "url": "https://github.com/mlziade/librarian",
+        "applicationCategory": "API",
+        "programmingLanguage": "Python"
       }
     ]
   }
@@ -246,6 +254,61 @@
                 </a>
                 <div class="try-it-out-button">
                     <a href="https://keycrypt.mlziade.com.br" class="button">Experimente aqui!</a>
+                </div>
+            </div>
+            
+            <div class="grid-item" id="7">
+                <a href="https://github.com/mlziade/librarian" class="project-link">
+                    <div class="item-title">
+                        <h2>Librarian</h2>
+                    </div>
+                    <div class="item-content">                          
+                        <div class="logo-container">
+                            <picture>
+                                <source srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x" 
+                                    type="image/webp"
+                                    sizes="(max-width: 576px) 120px, 150px">
+                                <img src="{% static 'github-logo.webp' %}" 
+                                    srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x"
+                                    sizes="(max-width: 576px) 120px, 150px"
+                                    alt="Librarian - Servidor MCP para consultas de informações da Wikipedia" 
+                                    class="logo" 
+                                    loading="lazy"
+                                    width="150" 
+                                    height="150">
+                            </picture>
+                        </div>                        
+                        <div class="item-data">
+                            <p>Librarian é um servidor MCP que permite que qualquer LLM com um cliente MCP compatível consulte informações na Wikipedia</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            
+            <div class="grid-item" id="8">
+                <div class="item-title">
+                    <h2>Em Breve...</h2>
+                </div>
+                <div class="item-content">                          
+                    <div class="logo-container">
+                        <picture>
+                            <source srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x" 
+                                type="image/webp"
+                                sizes="(max-width: 576px) 120px, 150px">
+                            <img src="{% static 'github-logo.webp' %}" 
+                                srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x"
+                                sizes="(max-width: 576px) 120px, 150px"
+                                alt="Em Breve - Novo projeto em desenvolvimento" 
+                                class="logo" 
+                                loading="lazy"
+                                width="150" 
+                                height="150"
+                                style="opacity: 0.5;">
+                        </picture>
+                    </div>                        
+                    <div class="item-data">
+                        <p style="font-style: italic; opacity: 0.7;">Um novo projeto empolgante está atualmente em desenvolvimento. Fique atento às atualizações!</p>
+                    </div>
                 </div>
             </div>
         </div>
