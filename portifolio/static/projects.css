@@ -143,6 +143,32 @@
     color: #ffffff;
 }
 
+/* Tag styles for projects */
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    margin-left: 1rem;
+}
+
+.tag {
+    color: rgb(220, 220, 220);
+    background-color: rgba(70, 70, 70, 0.3);
+    border: 1px solid rgba(200, 200, 200, 0.7);
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px;
+    transition: all 0.2s ease-in-out;
+    font-size: 0.85rem;
+}
+
+.tag:hover {
+    color: white;
+    background-color: rgba(100, 100, 100, 0.8);
+    border-color: rgba(230, 230, 230, 0.9);
+    cursor: pointer;
+}
+
 /* Media queries for responsiveness */
 @media (max-width: 992px) {
     .container h1 {
@@ -219,5 +245,14 @@
     
     .item-content picture img {
         max-height: 120px; /* Increased from 100px for better quality */
+    }
+    
+    .tag {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
+    }
+    
+    .tags {
+        margin-left: 0;
     }
 }

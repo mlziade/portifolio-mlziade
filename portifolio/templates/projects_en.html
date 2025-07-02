@@ -23,7 +23,8 @@
 <script type="application/ld+json">
 {
     "@context": "https://schema.org",
-    "@type": "CollectionPage",  "name": "mlziade Projects",
+    "@type": "CollectionPage",  
+    "name": "mlziade Projects",
     "description": "Portfolio showcasing projects by mlziade - Backend Developer and Solution Architect",
     "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'portifolio:projects' %}",
     "author": {
@@ -90,7 +91,8 @@
                     <div class="item-title">
                         <h2>MovieStars</h2>
                     </div>                    
-                    <div class="item-content">                          <div class="logo-container">
+                    <div class="item-content">                          
+                        <div class="logo-container">
                             <picture>
                                 <source srcset="{% static 'logo-moviestars.webp' %} 1x, {% static 'logo-moviestars@2x.webp' %} 2x" 
                                         type="image/webp" 
@@ -107,6 +109,11 @@
                         </div>
                         <div class="item-data">
                             <p>MovieStars is a Chromium extension that helps users explore reviews from both users and critics, aggregating details from leading entertainment websites. It provides a comprehensive overview of movies, series and animes.</p>
+                            <div class='tags'>
+                                <span class='tag'>JS</span>
+                                <span class='tag'>Chrome Extension</span>
+                                <span class='tag'>Web Scraping</span>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -135,6 +142,13 @@
                         </div>
                         <div class="item-data">
                             <p>Dontpad List! is a Chrome extension that allows users to append highlighted text from webpages as a list entry to a Dontpad page, based on the Brazilian ABNT reference formatting style.</p>
+                            <div class='tags'>
+                                <span class='tag'>JS</span>
+                                <span class='tag'>Chrome Extension</span>
+                                <span class='tag'>Dontpad</span>
+                                <span class='tag'>Lists</span>
+                                <span class='tag'>ABNT</span>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -163,6 +177,14 @@
                         </div>
                         <div class="item-data">
                             <p>Zllm is a Golang implementation of a GenAI API, running local LLM models through Ollama. It includes tools like local OCR, multimodal models, and translation to support LLM utilization.</p>
+                            <div class='tags'>
+                                <span class='tag'>Golang</span>
+                                <span class='tag'>Fiber</span>
+                                <span class='tag'>API</span>
+                                <span class='tag'>LLMs / GenAI</span>
+                                <span class='tag'>OCR</span>
+                                <span class='tag'>Ollama</span>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -194,6 +216,10 @@
                         </div>
                         <div class="item-data">
                             <p>A simple chat interface for interacting with the ZLLM API. You can ask about anything, or about the ZLLM project itself!</p>
+                            <div class='tags'>
+                                <span class='tag'>Chat</span>
+                                <span class='tag'>LLMs / GenAI</span>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -221,6 +247,11 @@
                         </div>
                         <div class="item-data">
                             <p>A Python implementation of Conway's Game of Life, simulating the evolution of cells based on simple rules. Its also called the first 0-player game.</p>
+                            <div class='tags'>
+                                <span class='tag'>Python</span>
+                                <span class='tag'>Algorithm</span>
+                                <span class='tag'>0-player game</span>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -254,6 +285,13 @@
                             <p>
                                 A fun and challenging puzzle and messaging site. You can create puzzles for friends and other players to solve! Only then can they decrypt your message...
                             </p>
+                            <div class='tags'>
+                                <span class='tag'>Django</span>
+                                <span class='tag'>Python</span>
+                                <span class='tag'>Cryptography</span>
+                                <span class='tag'>Puzzle Game</span>
+                                <span class='tag'>Web Dev</span>
+                            </div>
                         </div>
                     </div>
                 </a>
@@ -285,6 +323,11 @@
                         </div>                        
                         <div class="item-data">
                             <p>Librarian is a MCP Server that allows any LLM with a compatible MCP client to query for information on Wikipedia</p>
+                            <div class='tags'>
+                                <span class='tag'>Python</span>
+                                <span class='tag'>MCP Server</span>
+                                <span class='tag'>Wikipedia</span>
+                            </div>
                         </div>
                     </div>
                 </a>
