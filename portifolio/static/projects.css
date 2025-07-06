@@ -112,35 +112,59 @@
     flex-grow: 1;
 }
 
-.project-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    flex: 1; /* Make the link area take available space */
-    display: flex;
-    flex-direction: column;
-}
-
-.try-it-out-button {
+.project-buttons {
     margin-top: auto; /* Push to bottom */
-    text-align: center;
+    display: flex;
+    gap: 0.5rem;
     padding-top: 1rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
 }
 
 .button {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
     background-color: #ffffff;
     color: rgb(0, 0, 0);
-    padding: 0.4rem 1.0rem;
-    border-radius: 4px;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
     transition: background-color 0.3s ease;
+    flex: 1;
+    justify-content: center;
+    text-align: center;
+    min-width: 120px;
 }
 
 .button:hover {
     background-color: #4da6ff;
     color: #ffffff;
+}
+
+.button.disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.button.disabled:hover {
+    background-color: #cccccc;
+    color: #666666;
+}
+
+.button-icon {
+    font-size: 0.9em;
+}
+
+.disabled-message {
+    font-size: 0.7em;
+    color: #888;
+    margin-top: 0.2rem;
+    text-align: center;
+    font-style: italic;
 }
 
 /* Tag styles for projects */

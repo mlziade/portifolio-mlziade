@@ -87,249 +87,279 @@
 
         <div class="grid">
             <div class="grid-item" id="1">
-                <a href="https://github.com/mlziade/MovieStars" class="project-link">
-                    <div class="item-title">
-                        <h2>MovieStars</h2>
-                    </div>                    
-                    <div class="item-content">                          
-                        <div class="logo-container">
-                            <picture>
-                                <source srcset="{% static 'logo-moviestars.webp' %} 1x, {% static 'logo-moviestars@2x.webp' %} 2x" 
-                                        type="image/webp" 
-                                        sizes="(max-width: 576px) 120px, 150px">
-                                <img src="{% static 'logo-moviestars.webp' %}" 
-                                    srcset="{% static 'logo-moviestars.webp' %} 1x, {% static 'logo-moviestars@2x.webp' %} 2x"
-                                    sizes="(max-width: 576px) 120px, 150px"
-                                    alt="MovieStars - Movie and TV show review aggregator" 
-                                    class="logo" 
-                                    loading="eager"
-                                    width="150" 
-                                    height="50">
-                            </picture>
-                        </div>
-                        <div class="item-data">
-                            <p>MovieStars is a Chromium extension that helps users explore reviews from both users and critics, aggregating details from leading entertainment websites. It provides a comprehensive overview of movies, series and animes.</p>
-                            <div class='tags'>
-                                <span class='tag'>JS</span>
-                                <span class='tag'>Chrome Extension</span>
-                                <span class='tag'>Web Scraping</span>
-                            </div>
+                <div class="item-title">
+                    <h2>MovieStars</h2>
+                </div>                    
+                <div class="item-content">                          
+                    <div class="logo-container">
+                        <picture>
+                            <source srcset="{% static 'logo-moviestars.webp' %} 1x, {% static 'logo-moviestars@2x.webp' %} 2x" 
+                                    type="image/webp" 
+                                    sizes="(max-width: 576px) 120px, 150px">
+                            <img src="{% static 'logo-moviestars.webp' %}" 
+                                srcset="{% static 'logo-moviestars.webp' %} 1x, {% static 'logo-moviestars@2x.webp' %} 2x"
+                                sizes="(max-width: 576px) 120px, 150px"
+                                alt="MovieStars - Movie and TV show review aggregator" 
+                                class="logo" 
+                                loading="eager"
+                                width="150" 
+                                height="50">
+                        </picture>
+                    </div>
+                    <div class="item-data">
+                        <p>MovieStars is a Chromium extension that helps users explore reviews from both users and critics, aggregating details from leading entertainment websites. It provides a comprehensive overview of movies, series and animes.</p>
+                        <div class='tags'>
+                            <span class='tag'>JS</span>
+                            <span class='tag'>Chrome Extension</span>
+                            <span class='tag'>Web Scraping</span>
                         </div>
                     </div>
-                </a>
+                </div>
+                <div class="project-buttons">
+                    <a href="https://github.com/mlziade/MovieStars" class="button" target="_blank" rel="noopener">
+                        <i class="fab fa-github button-icon"></i>Repository
+                    </a>
+                    <span class="button disabled">
+                        <i class="fas fa-external-link-alt button-icon"></i>Try it out!
+                    </span>
+                </div>
             </div>
 
             <div class="grid-item" id="2">
-                <a href="https://github.com/mlziade/DontpadList" class="project-link">
-                    <div class="item-title">
-                        <h2>Dontpad List!</h2>
+                <div class="item-title">
+                    <h2>Dontpad List!</h2>
+                </div>
+                <div class="item-content">                          
+                    <div class="logo-container">
+                        <picture>
+                            <source srcset="{% static 'dontpad-list-logo.webp' %} 1x, {% static 'dontpad-list-logo@2x.webp' %} 2x" 
+                                type="image/webp"
+                                sizes="(max-width: 576px) 120px, 150px">
+                            <img src="{% static 'dontpad-list-logo.webp' %}" 
+                                srcset="{% static 'dontpad-list-logo.webp' %} 1x, {% static 'dontpad-list-logo@2x.webp' %} 2x"
+                                sizes="(max-width: 576px) 120px, 150px"
+                                alt="Dontpad List - Chrome extension for reference formatting" 
+                                class="logo" 
+                                loading="eager"
+                                width="150" 
+                                height="150">
+                        </picture>
                     </div>
-                    <div class="item-content">                          
-                        <div class="logo-container">
-                            <picture>
-                                <source srcset="{% static 'dontpad-list-logo.webp' %} 1x, {% static 'dontpad-list-logo@2x.webp' %} 2x" 
-                                    type="image/webp"
-                                    sizes="(max-width: 576px) 120px, 150px">
-                                <img src="{% static 'dontpad-list-logo.webp' %}" 
-                                    srcset="{% static 'dontpad-list-logo.webp' %} 1x, {% static 'dontpad-list-logo@2x.webp' %} 2x"
-                                    sizes="(max-width: 576px) 120px, 150px"
-                                    alt="Dontpad List - Chrome extension for reference formatting" 
-                                    class="logo" 
-                                    loading="eager"
-                                    width="150" 
-                                    height="150">
-                            </picture>
-                        </div>
-                        <div class="item-data">
-                            <p>Dontpad List! is a Chrome extension that allows users to append highlighted text from webpages as a list entry to a Dontpad page, based on the Brazilian ABNT reference formatting style.</p>
-                            <div class='tags'>
-                                <span class='tag'>JS</span>
-                                <span class='tag'>Chrome Extension</span>
-                                <span class='tag'>Dontpad</span>
-                                <span class='tag'>ABNT</span>
-                            </div>
+                    <div class="item-data">
+                        <p>Dontpad List! is a Chrome extension that allows users to append highlighted text from webpages as a list entry to a Dontpad page, based on the Brazilian ABNT reference formatting style.</p>
+                        <div class='tags'>
+                            <span class='tag'>JS</span>
+                            <span class='tag'>Chrome Extension</span>
+                            <span class='tag'>Dontpad</span>
+                            <span class='tag'>ABNT</span>
                         </div>
                     </div>
-                </a>
+                </div>
+                <div class="project-buttons">
+                    <a href="https://github.com/mlziade/DontpadList" class="button" target="_blank" rel="noopener">
+                        <i class="fab fa-github button-icon"></i>Repository
+                    </a>
+                    <span class="button disabled">
+                        <i class="fas fa-external-link-alt button-icon"></i>Try it out!
+                    </span>
+                </div>
             </div>
             
             <div class="grid-item" id="3">
-                <a href="https://github.com/mlziade/zllm" class="project-link">
-                    <div class="item-title">
-                        <h2>ZLLM</h2>
+                <div class="item-title">
+                    <h2>ZLLM</h2>
+                </div>
+                <div class="item-content">                          
+                    <div class="logo-container">
+                        <picture>
+                            <source srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x" 
+                                type="image/webp"
+                                sizes="(max-width: 576px) 120px, 150px">
+                            <img src="{% static 'github-logo.webp' %}" 
+                                srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x"
+                                sizes="(max-width: 576px) 120px, 150px"
+                                alt="ZLLM - Golang GenAI API implementation" 
+                                class="logo" 
+                                loading="lazy"
+                                width="150" 
+                                height="150">
+                        </picture>
                     </div>
-                    <div class="item-content">                          
-                        <div class="logo-container">
-                            <picture>
-                                <source srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x" 
-                                    type="image/webp"
-                                    sizes="(max-width: 576px) 120px, 150px">
-                                <img src="{% static 'github-logo.webp' %}" 
-                                    srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x"
-                                    sizes="(max-width: 576px) 120px, 150px"
-                                    alt="ZLLM - Golang GenAI API implementation" 
-                                    class="logo" 
-                                    loading="lazy"
-                                    width="150" 
-                                    height="150">
-                            </picture>
-                        </div>
-                        <div class="item-data">
-                            <p>Zllm is a Golang implementation of a GenAI API, running local LLM models through Ollama. It includes tools like local OCR, multimodal models, and translation to support LLM utilization.</p>
-                            <div class='tags'>
-                                <span class='tag'>Go</span>
-                                <span class='tag'>Fiber</span>
-                                <span class='tag'>API</span>
-                                <span class='tag'>LLMs</span>
-                                <span class='tag'>OCR</span>
-                                <span class='tag'>Ollama</span>
-                            </div>
+                    <div class="item-data">
+                        <p>Zllm is a Golang implementation of a GenAI API, running local LLM models through Ollama. It includes tools like local OCR, multimodal models, and translation to support LLM utilization.</p>
+                        <div class='tags'>
+                            <span class='tag'>Go</span>
+                            <span class='tag'>Fiber</span>
+                            <span class='tag'>API</span>
+                            <span class='tag'>LLMs</span>
+                            <span class='tag'>OCR</span>
+                            <span class='tag'>Ollama</span>
                         </div>
                     </div>
-                </a>
-                <div class="try-it-out-button">
-                    <a href="{% url 'playground:tryout_zllm' %}" class="button">Try it out!</a>
+                </div>
+                <div class="project-buttons">
+                    <a href="https://github.com/mlziade/zllm" class="button" target="_blank" rel="noopener">
+                        <i class="fab fa-github button-icon"></i>Repository
+                    </a>
+                    <a href="{% url 'playground:tryout_zllm' %}" class="button">
+                        <i class="fas fa-external-link-alt button-icon"></i>Try it out!
+                    </a>
                 </div>
             </div>
             
             <div class="grid-item" id="4">
-                <a href="https://github.com/mlziade/zllm" class="project-link">
-                    <div class="item-title">
-                        <h2>ZLLM Chat</h2>
+                <div class="item-title">
+                    <h2>ZLLM Chat</h2>
+                </div>
+                <div class="item-content">                          
+                    <div class="logo-container">
+                        <picture>
+                            <source srcset="{% static 'zllm-chat-logo.webp' %} 1x, {% static 'zllm-chat-logo@2x.webp' %} 2x" 
+                                type="image/webp"
+                                sizes="(max-width: 576px) 120px, 150px">
+                            <img src="{% static 'zllm-chat-logo.webp' %}" 
+                                srcset="{% static 'zllm-chat-logo.webp' %} 1x, {% static 'zllm-chat-logo@2x.webp' %} 2x"
+                                sizes="(max-width: 576px) 120px, 150px"
+                                alt="ZLLM Chat - Simple chat interface for ZLLM API" 
+                                class="logo" 
+                                loading="lazy"
+                                width="150" 
+                                height="150">
+                        </picture>
                     </div>
-                    <div class="item-content">                          
-                        <div class="logo-container">
-                            <picture>
-                                <source srcset="{% static 'zllm-chat-logo.webp' %} 1x, {% static 'zllm-chat-logo@2x.webp' %} 2x" 
-                                    type="image/webp"
-                                    sizes="(max-width: 576px) 120px, 150px">
-                                <img src="{% static 'zllm-chat-logo.webp' %}" 
-                                    srcset="{% static 'zllm-chat-logo.webp' %} 1x, {% static 'zllm-chat-logo@2x.webp' %} 2x"
-                                    sizes="(max-width: 576px) 120px, 150px"
-                                    alt="ZLLM Chat - Simple chat interface for ZLLM API" 
-                                    class="logo" 
-                                    loading="lazy"
-                                    width="150" 
-                                    height="150">
-                            </picture>
-                        </div>
-                        <div class="item-data">
-                            <p>A simple chat interface for interacting with the ZLLM API. You can ask about anything, or about the ZLLM project itself!</p>
-                            <div class='tags'>
-                                <span class='tag'>Chat</span>
-                                <span class='tag'>LLMs</span>
-                            </div>
+                    <div class="item-data">
+                        <p>A simple chat interface for interacting with the ZLLM API. You can ask about anything, or about the ZLLM project itself!</p>
+                        <div class='tags'>
+                            <span class='tag'>Chat</span>
+                            <span class='tag'>LLMs</span>
                         </div>
                     </div>
-                </a>
-                <div class="try-it-out-button">
-                    <a href="{% url 'playground:tryout_zllm_chat' %}" class="button">Try it out!</a>
+                </div>
+                <div class="project-buttons">
+                    <a href="https://github.com/mlziade/zllm" class="button" target="_blank" rel="noopener">
+                        <i class="fab fa-github button-icon"></i>Repository
+                    </a>
+                    <a href="{% url 'playground:tryout_zllm_chat' %}" class="button">
+                        <i class="fas fa-external-link-alt button-icon"></i>Try it out!
+                    </a>
                 </div>
             </div>
             
             <div class="grid-item" id="5">
-                <a href="https://github.com/mlziade/GameOfLifeConway" class="project-link">
-                    <div class="item-title">
-                        <h2>Conways's Game of Life</h2>
+                <div class="item-title">
+                    <h2>Conways's Game of Life</h2>
+                </div>
+                <div class="item-content">
+                    <div class="logo-container">
+                        <picture>
+                            <source srcset="{% static 'conways.gif' %}" type="image/gif">
+                            <img src="{% static 'conways.gif' %}" 
+                                 alt="Conway's Game of Life - Cellular automaton simulation" 
+                                 class="logo" 
+                                 loading="lazy"
+                                 width="150" 
+                                 height="108">
+                        </picture>
                     </div>
-                    <div class="item-content">
-                        <div class="logo-container">
-                            <picture>
-                                <source srcset="{% static 'conways.gif' %}" type="image/gif">
-                                <img src="{% static 'conways.gif' %}" 
-                                     alt="Conway's Game of Life - Cellular automaton simulation" 
-                                     class="logo" 
-                                     loading="lazy"
-                                     width="150" 
-                                     height="108">
-                            </picture>
-                        </div>
-                        <div class="item-data">
-                            <p>A Python implementation of Conway's Game of Life, simulating the evolution of cells based on simple rules. Its also called the first 0-player game.</p>
-                            <div class='tags'>
-                                <span class='tag'>Python</span>
-                                <span class='tag'>Algorithm</span>
-                                <span class='tag'>0-player game</span>
-                            </div>
+                    <div class="item-data">
+                        <p>A Python implementation of Conway's Game of Life, simulating the evolution of cells based on simple rules. Its also called the first 0-player game.</p>
+                        <div class='tags'>
+                            <span class='tag'>Python</span>
+                            <span class='tag'>Algorithm</span>
+                            <span class='tag'>0-player game</span>
                         </div>
                     </div>
-                </a>
-                <div class="try-it-out-button">
-                    <a href="{% url 'playground:tryout_conways' %}" class="button">Try it out!</a>
+                </div>
+                <div class="project-buttons">
+                    <a href="https://github.com/mlziade/GameOfLifeConway" class="button" target="_blank" rel="noopener">
+                        <i class="fab fa-github button-icon"></i>Repository
+                    </a>
+                    <a href="{% url 'playground:tryout_conways' %}" class="button">
+                        <i class="fas fa-external-link-alt button-icon"></i>Try it out!
+                    </a>
                 </div>
             </div>
 
             <div class="grid-item" id="6">
-                <a href="https://github.com/mlziade/keycrypt" class="project-link">
-                    <div class="item-title">
-                        <h2>KeyCrypt</h2>
-                    </div>
-                    <div class="item-content">                          
-                        <div class="logo-container">
-                            <picture>
-                                <source srcset="{% static 'logo-keycrypt.webp' %} 1x, {% static 'logo-keycrypt@2x.webp' %} 2x" 
-                                    type="image/webp"
-                                    sizes="(max-width: 576px) 120px, 150px">
-                                <img src="{% static 'logo-keycrypt.webp' %}" 
-                                    srcset="{% static 'logo-keycrypt.webp' %} 1x, {% static 'logo-keycrypt@2x.webp' %} 2x"
-                                    sizes="(max-width: 576px) 120px, 150px"
-                                    alt="KeyCrypt - Puzzle and messaging cryptography game" 
-                                    class="logo" 
-                                    loading="lazy"
-                                    width="150" 
-                                    height="61">
-                            </picture>
-                        </div>                        
-                        <div class="item-data">
-                            <p>
-                                A fun and challenging puzzle and messaging site. You can create puzzles for friends and other players to solve! Only then can they decrypt your message...
-                            </p>
-                            <div class='tags'>
-                                <span class='tag'>Django</span>
-                                <span class='tag'>Python</span>
-                                <span class='tag'>Cryptography</span>
-                                <span class='tag'>Puzzle</span>
-                                <span class='tag'>Web Dev</span>
-                            </div>
+                <div class="item-title">
+                    <h2>KeyCrypt</h2>
+                </div>
+                <div class="item-content">                          
+                    <div class="logo-container">
+                        <picture>
+                            <source srcset="{% static 'logo-keycrypt.webp' %} 1x, {% static 'logo-keycrypt@2x.webp' %} 2x" 
+                                type="image/webp"
+                                sizes="(max-width: 576px) 120px, 150px">
+                            <img src="{% static 'logo-keycrypt.webp' %}" 
+                                srcset="{% static 'logo-keycrypt.webp' %} 1x, {% static 'logo-keycrypt@2x.webp' %} 2x"
+                                sizes="(max-width: 576px) 120px, 150px"
+                                alt="KeyCrypt - Puzzle and messaging cryptography game" 
+                                class="logo" 
+                                loading="lazy"
+                                width="150" 
+                                height="61">
+                        </picture>
+                    </div>                        
+                    <div class="item-data">
+                        <p>
+                            A fun and challenging puzzle and messaging site. You can create puzzles for friends and other players to solve! Only then can they decrypt your message...
+                        </p>
+                        <div class='tags'>
+                            <span class='tag'>Django</span>
+                            <span class='tag'>Python</span>
+                            <span class='tag'>Cryptography</span>
+                            <span class='tag'>Puzzle</span>
+                            <span class='tag'>Web Dev</span>
                         </div>
                     </div>
-                </a>
-                <div class="try-it-out-button">
-                    <a href="https://keycrypt.mlziade.com.br" class="button">Try it out!</a>
+                </div>
+                <div class="project-buttons">
+                    <a href="https://github.com/mlziade/keycrypt" class="button" target="_blank" rel="noopener">
+                        <i class="fab fa-github button-icon"></i>Repository
+                    </a>
+                    <a href="https://keycrypt.mlziade.com.br" class="button" target="_blank" rel="noopener">
+                        <i class="fas fa-external-link-alt button-icon"></i>Try it out!
+                    </a>
                 </div>
             </div>
             
             <div class="grid-item" id="7">
-                <a href="https://github.com/mlziade/librarian" class="project-link">
-                    <div class="item-title">
-                        <h2>Librarian</h2>
-                    </div>
-                    <div class="item-content">                          
-                        <div class="logo-container">
-                            <picture>
-                                <source srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x" 
-                                    type="image/webp"
-                                    sizes="(max-width: 576px) 120px, 150px">
-                                <img src="{% static 'github-logo.webp' %}" 
-                                    srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x"
-                                    sizes="(max-width: 576px) 120px, 150px"
-                                    alt="Librarian - MCP Server for Wikipedia information queries" 
-                                    class="logo" 
-                                    loading="lazy"
-                                    width="150" 
-                                    height="150">
-                            </picture>
-                        </div>                        
-                        <div class="item-data">
-                            <p>Librarian is a MCP Server that allows any LLM with a compatible MCP client to query for information on Wikipedia</p>
-                            <div class='tags'>
-                                <span class='tag'>Python</span>
-                                <span class='tag'>MCP Server</span>
-                                <span class='tag'>Wikipedia</span>
-                            </div>
+                <div class="item-title">
+                    <h2>Librarian</h2>
+                </div>
+                <div class="item-content">                          
+                    <div class="logo-container">
+                        <picture>
+                            <source srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x" 
+                                type="image/webp"
+                                sizes="(max-width: 576px) 120px, 150px">
+                            <img src="{% static 'github-logo.webp' %}" 
+                                srcset="{% static 'github-logo.webp' %} 1x, {% static 'github-logo@2x.webp' %} 2x"
+                                sizes="(max-width: 576px) 120px, 150px"
+                                alt="Librarian - MCP Server for Wikipedia information queries" 
+                                class="logo" 
+                                loading="lazy"
+                                width="150" 
+                                height="150">
+                        </picture>
+                    </div>                        
+                    <div class="item-data">
+                        <p>Librarian is a MCP Server that allows any LLM with a compatible MCP client to query for information on Wikipedia</p>
+                        <div class='tags'>
+                            <span class='tag'>Python</span>
+                            <span class='tag'>MCP Server</span>
+                            <span class='tag'>Wikipedia</span>
                         </div>
                     </div>
-                </a>
+                </div>
+                <div class="project-buttons">
+                    <a href="https://github.com/mlziade/librarian" class="button" target="_blank" rel="noopener">
+                        <i class="fab fa-github button-icon"></i>Repository
+                    </a>
+                    <span class="button disabled">
+                        <i class="fas fa-external-link-alt button-icon"></i>Try it out!
+                    </span>
+                </div>
             </div>
             
             <div class="grid-item" id="8">
@@ -356,6 +386,14 @@
                     <div class="item-data">
                         <p style="font-style: italic; opacity: 0.7;">A new exciting project is currently in development. Stay tuned for updates!</p>
                     </div>
+                </div>
+                <div class="project-buttons">
+                    <span class="button disabled">
+                        <i class="fab fa-github button-icon"></i>Repository
+                    </span>
+                    <span class="button disabled">
+                        <i class="fas fa-external-link-alt button-icon"></i>Try it out!
+                    </span>
                 </div>
             </div>
         </div>
