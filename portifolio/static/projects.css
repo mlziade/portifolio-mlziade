@@ -131,6 +131,7 @@
     border-radius: 8px;
     text-decoration: none;
     font-weight: bold;
+    font-size: 0.9rem;
     transition: background-color 0.3s ease;
     flex: 1;
     justify-content: center;
@@ -210,13 +211,18 @@
 }
 
 @media (max-width: 768px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+    
     .container h1 {
         font-size: 6rem;
     }
     
     .grid {
         grid-template-columns: 1fr; /* Change to single column */
-        max-width: 90%;
+        max-width: 100%;
         gap: 1.5rem;
     }
     
@@ -230,12 +236,17 @@
 }
 
 @media (max-width: 576px) {
+    .container {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+    }
+    
     .container h1 {
         font-size: 4rem;
     }
     
     .grid {
-        max-width: 95%;
+        max-width: 100%;
         gap: 1rem;
     }
     
