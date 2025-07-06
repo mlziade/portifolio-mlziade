@@ -223,6 +223,10 @@
     .item-title h2 {
         font-size: 1.6rem;
     }
+    
+    .tags {
+        justify-content: center;
+    }
 }
 
 @media (max-width: 576px) {
@@ -278,5 +282,6 @@
     
     .tags {
         margin-left: 0;
+        justify-content: center;
     }
 }
