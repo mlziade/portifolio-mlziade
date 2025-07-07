@@ -93,13 +93,25 @@ def generate_text_streaming(request):
         return JsonResponse({'error': 'Prompt is required'}, status=400)
     
     # Authenticate with ZLLM and get the token
-    token = get_zllm_token()
-    if not token:
-        print("Failed to authenticate with ZLLM")
-        return JsonResponse({'error': 'Failed to authenticate with ZLLM'}, status=500)
+    try:
+        token = get_zllm_token()
+    except ValueError as e:
+        print(f"Configuration error: {e}")
+        return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
+    except requests.exceptions.RequestException as e:
+        print(f"Authentication request failed: {e}")
+        return JsonResponse({'error': 'Failed to authenticate with ZLLM service'}, status=500)
     
-    ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL")
-    ZLLM_MODEL_NAME = os.getenv("ZLLM_MODEL_NAME")
+    ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL", None)
+    ZLLM_MODEL_NAME = os.getenv("ZLLM_MODEL_NAME", None)
+
+    if not ZLLM_BASE_URL:
+        print("ZLLM_BASE_URL environment variable is not set")
+        return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
+    
+    if not ZLLM_MODEL_NAME:
+        print("ZLLM_MODEL_NAME environment variable is not set")
+        return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
 
     headers = {
         'Content-Type': 'application/json',
@@ -175,13 +187,25 @@ def generate_text(request):
         return JsonResponse({'error': 'Prompt is required'}, status=400)
     
     # Authenticate with ZLLM and get the token
-    token = get_zllm_token()
-    if not token:
-        print("Failed to authenticate with ZLLM")  # Log authentication failure
-        return JsonResponse({'error': 'Failed to authenticate with ZLLM'}, status=500)
+    try:
+        token = get_zllm_token()
+    except ValueError as e:
+        print(f"Configuration error: {e}")
+        return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
+    except requests.exceptions.RequestException as e:
+        print(f"Authentication request failed: {e}")
+        return JsonResponse({'error': 'Failed to authenticate with ZLLM service'}, status=500)
     
-    ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL")
-    ZLLM_MODEL_NAME = os.getenv("ZLLM_MODEL_NAME")
+    ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL", None)
+    ZLLM_MODEL_NAME = os.getenv("ZLLM_MODEL_NAME", None)
+
+    if not ZLLM_BASE_URL:
+        print("ZLLM_BASE_URL environment variable is not set")
+        return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
+    
+    if not ZLLM_MODEL_NAME:
+        print("ZLLM_MODEL_NAME environment variable is not set")
+        return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
 
     headers = {
         'Content-Type': 'application/json',
@@ -241,13 +265,25 @@ def chat_with_zllm(request):
         return JsonResponse({'error': 'Prompt is required'}, status=400)
     
     # Authenticate with ZLLM and get the token
-    token = get_zllm_token()
-    if not token:
-        print("Failed to authenticate with ZLLM")
-        return JsonResponse({'error': 'Failed to authenticate with ZLLM'}, status=500)
+    try:
+        token = get_zllm_token()
+    except ValueError as e:
+        print(f"Configuration error: {e}")
+        return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
+    except requests.exceptions.RequestException as e:
+        print(f"Authentication request failed: {e}")
+        return JsonResponse({'error': 'Failed to authenticate with ZLLM service'}, status=500)
     
-    ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL")
-    ZLLM_MODEL_NAME = os.getenv("ZLLM_MODEL_NAME")
+    ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL", None)
+    ZLLM_MODEL_NAME = os.getenv("ZLLM_MODEL_NAME", None)
+
+    if not ZLLM_BASE_URL:
+        print("ZLLM_BASE_URL environment variable is not set")
+        return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
+    
+    if not ZLLM_MODEL_NAME:
+        print("ZLLM_MODEL_NAME environment variable is not set")
+        return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
 
     headers = {
         'Content-Type': 'application/json',
