@@ -12,43 +12,26 @@ from dotenv import load_dotenv
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.throttling import AnonRateThrottle
 from portifolio.language_utils import get_current_language, get_template_name, get_language_context
+from .game_of_life.engine import play_game_of_life
 
 # Load environment variables from the .env file
 load_dotenv()
 
+### Conway's Game of Life Views and Functions ###
 class TryoutConwaysView(View):
     def get(self, request):
         return render(request, 'conways.html')
 
-def check_cell(x_pos: int, y_pos: int, cell_state: bool, grid: set[tuple[int, int]]) -> bool:    
-    # Count neighbors
-    total = 0
-    for i in range(-1, 2):
-        for j in range(-1, 2):
-            if i == 0 and j == 0:
-                continue  # Skip the cell itself
-            neighbor_pos = (x_pos + i, y_pos + j)
-            if neighbor_pos in grid:
-                total += 1
-
-    if not cell_state:
-        # Dead cell with exactly 3 neighbors becomes alive
-        if total == 3:
-            return True
-        # Otherwise remains dead
-        return False
-    
-    else:  # Cell is alive
-        # Live cell with 2 or 3 neighbors survives
-        if total == 2 or total == 3:
-            return True
-        # Otherwise dies
-        return False
-
-# This implementation of a chunked game of life generations endpoint is based on my own implementation of the game of life in python.
-# https://github.com/mlziade/GameOfLifeConway/
-@csrf_exempt
+@api_view(['POST'])
+@throttle_classes([AnonRateThrottle])
 def stream_game_of_life(request):
+    """
+    API controller for Game of Life endpoint - handles HTTP request/response logic.
+    
+    Accepts POST requests with JSON data containing 'alive_cells' - an array of [x, y] coordinates
+    representing the initial alive cells. Returns up to 1000 generations or until the pattern
+    stabilizes/dies out.
+    """
     if request.method != 'POST':
         return JsonResponse({'error': 'Only POST method is allowed'}, status=405)
     
@@ -64,73 +47,15 @@ def stream_game_of_life(request):
     if not initial_alive_cells:
         return JsonResponse({'error': 'Initial grid is required'}, status=400)
 
-    # The grid is a set of cells, with the key being a tuple of the x and y position of the cell
-    # The middle of the grid is at (0, 0)
-    grid: set[tuple[int, int]] = set()
+    # Validate input format
+    try:
+        # Ensure each cell is a valid coordinate pair
+        validated_cells = [(int(cell[0]), int(cell[1])) for cell in initial_alive_cells]
+    except (ValueError, TypeError, IndexError):
+        return JsonResponse({'error': 'Invalid cell coordinates format'}, status=400)
 
-    # Add the initial grid to the grid set
-    for cell in initial_alive_cells:
-        grid.add((cell[0], cell[1]))
-
-    # Generate all generations and collect them
-    generations = []
-    
-    # Start the game loop (limit to a maximum of 1000 generations)
-    # This is to avoid infinite loops
-    for generation in range(1000):
-        # If the grid is empty, break the loop
-        if len(grid) == 0:
-            generations.append([])
-            break
-
-        # Create a set to store the cells that have already been checked
-        # So we don't check the same cell multiple times
-        checked_cells = set()
-
-        # Create a auxiliary grid
-        aux_grid = set()
-
-        # Iterate over the alive cells and its 8 neighbors
-        for cell in grid:
-            for i in range(-1, 2):
-                for j in range(-1, 2):
-                    # Current cell position being checked
-                    current_cell_pos = (cell[0] + i, cell[1] + j)
-
-                    # Check if the current cell position is already checked
-                    # If it is, skip it
-                    if current_cell_pos in checked_cells:
-                        continue
-                    else:
-                        # Check the current cell
-                        new_state = check_cell(
-                            x_pos = current_cell_pos[0],
-                            y_pos = current_cell_pos[1],
-                            cell_state = current_cell_pos in grid, # False if the cell is not in the grid
-                            grid = grid,
-                        )
-
-                        # If it is alive, add the current cell to the auxiliary grid,
-                        if new_state:
-                            aux_grid.add(current_cell_pos)
-
-                        # Add the current cell to the checked cells set
-                        checked_cells.add(current_cell_pos)
-
-        # Update the grid with the new state
-        grid = aux_grid
-
-        # Add the current generation to our list
-        generations.append(list(grid))
-
-        # Check for oscillators or still lifes by comparing with previous generations
-        if generation > 10:  # Only check after a few generations
-            # Check if current state matches any of the last 10 states (for oscillators)
-            current_state = set(grid)
-            for i in range(1, min(11, generation + 1)):
-                if i < len(generations) and set(generations[generation - i]) == current_state:
-                    # Found a cycle, stop generating
-                    break
+    # Run the game logic
+    generations = play_game_of_life(validated_cells)
     
     # Split generations into chunks of 1000
     chunk_size = 1000
@@ -141,6 +66,8 @@ def stream_game_of_life(request):
     }
     
     return JsonResponse(response_data)
+    
+### ZLLM Related Views and Functions ###
 
 # Retry decorator for API calls
 def retry_api_call(max_retries=3, backoff_factor=1):
