@@ -6,7 +6,6 @@ with the ZLLM API service.
 """
 
 from .service import (
-    retry_api_call,
     get_zllm_token,
     make_zllm_request,
     generate_text_streaming,
@@ -15,7 +14,6 @@ from .service import (
 )
 
 __all__ = [
-    'retry_api_call',
     'get_zllm_token', 
     'make_zllm_request',
     'generate_text_streaming',

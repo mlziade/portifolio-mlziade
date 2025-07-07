@@ -8,48 +8,9 @@ including authentication, request handling, and response processing.
 import requests
 import json
 import os
-import time
 from django.http import JsonResponse, StreamingHttpResponse
-from django.views.decorators.csrf import csrf_exempt
 
 
-# Retry decorator for API calls
-def retry_api_call(max_retries=3, backoff_factor=1):
-    """
-    Decorator that retries API calls with exponential backoff.
-    
-    Args:
-        max_retries: Maximum number of retry attempts
-        backoff_factor: Factor for exponential backoff calculation
-        
-    Returns:
-        Decorated function with retry logic
-    """
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            for attempt in range(max_retries):
-                try:
-                    return func(*args, **kwargs)
-                except requests.exceptions.RequestException as e:
-                    if attempt == max_retries - 1:  # Last attempt
-                        raise e
-                    
-                    # Check if it's a server error (5xx) that might be transient
-                    if hasattr(e, 'response') and e.response is not None:
-                        status_code = e.response.status_code
-                        if status_code < 500:  # Don't retry client errors (4xx)
-                            raise e
-                    
-                    wait_time = backoff_factor * (2 ** attempt)
-                    print(f"ZLLM API attempt {attempt + 1} failed: {e}. Retrying in {wait_time} seconds...")
-                    time.sleep(wait_time)
-            
-            return None
-        return wrapper
-    return decorator
-
-
-@retry_api_call(max_retries=2, backoff_factor=0.5)
 def get_zllm_token():
     """
     Authenticates with ZLLM and returns the access token.
@@ -77,7 +38,6 @@ def get_zllm_token():
         return None
 
 
-@retry_api_call(max_retries=3, backoff_factor=1)
 def make_zllm_request(url, headers, data):
     """
     Makes a request to the ZLLM API with retry logic.
