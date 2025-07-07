@@ -239,10 +239,13 @@ def generate_text_streaming(request):
             ) as response:
                 response.raise_for_status()
                 # Forward each chunk from the API to the client
-                for line in response.iter_lines():
+                for line in response.iter_lines(decode_unicode=False):
                     if line:
-                        # Forward the SSE data
-                        yield f"{line.decode('utf-8')}\n\n"
+                        # Ensure proper SSE formatting and flush immediately
+                        decoded_line = line.decode('utf-8')
+                        if not decoded_line.startswith('data:'):
+                            decoded_line = f"data: {decoded_line}"
+                        yield f"{decoded_line}\n\n"
         except requests.exceptions.Timeout:
             print("ZLLM API timeout during streaming request")
             yield f"data: {json.dumps({'error': 'The service is taking too long to respond. Please try again.'})}\n\n"
