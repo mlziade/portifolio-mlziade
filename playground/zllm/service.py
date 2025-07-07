@@ -16,13 +16,24 @@ def get_zllm_token():
     Authenticates with ZLLM and returns the access token.
     
     Returns:
-        str: Authentication token if successful, None if failed
+        str: Authentication token if successful
+        
+    Raises:
+        ValueError: If required environment variables are missing
+        requests.exceptions.RequestException: If authentication request fails
     """
-    ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL")
-    ZLLM_API_KEY = os.getenv("ZLLM_API_KEY")
+    ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL", None)
+    ZLLM_API_KEY = os.getenv("ZLLM_API_KEY", None)
+
+    if not ZLLM_BASE_URL:
+        raise ValueError("ZLLM_BASE_URL environment variable is not set")
+    
+    if not ZLLM_API_KEY:
+        raise ValueError("ZLLM_API_KEY environment variable is not set")
 
     headers = {'Content-Type': 'application/json'}
     data = {'api_key': ZLLM_API_KEY}
+    
     try:
         response = requests.post(
             url=f"{ZLLM_BASE_URL}/auth",
@@ -34,8 +45,8 @@ def get_zllm_token():
         response.raise_for_status()
         return response.json()['token']
     except requests.exceptions.RequestException as e:
-        print(f"Error authenticating with ZLLM: {e}")
-        return None
+        print(f"Error during ZLLM authentication: {e}")
+        return e
 
 
 def make_zllm_request(url, headers, data):
