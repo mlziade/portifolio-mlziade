@@ -181,10 +181,10 @@
     color: rgb(220, 220, 220);
     background-color: rgba(70, 70, 70, 0.3);
     border: 1px solid rgba(200, 200, 200, 0.7);
-    padding: 0.3rem 0.6rem;
+    padding: 0.255rem 0.51rem;
     border-radius: 12px;
     transition: all 0.2s ease-in-out;
-    font-size: 0.85rem;
+    font-size: 0.7225rem;
 }
 
 .tag:hover {
@@ -287,8 +287,8 @@
     }
     
     .tag {
-        font-size: 0.75rem;
-        padding: 0.2rem 0.5rem;
+        font-size: 0.6375rem;
+        padding: 0.17rem 0.425rem;
     }
     
     .tags {
