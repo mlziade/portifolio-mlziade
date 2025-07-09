@@ -166,6 +166,45 @@ button {
     to { transform: rotate(360deg); }
 }
 
+/* Status Cube Styles */
+.status-cube {
+    width: 48px;
+    height: 48px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    align-self: center;
+    margin: 0 0.5rem;
+}
+
+.status-cube.gray {
+    background-color: #6b7280;
+}
+
+.status-cube.blue {
+    background-color: #3b82f6;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.status-cube.green {
+    background-color: #10b981;
+}
+
+.status-cube.red {
+    background-color: #ef4444;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 0.7;
+        transform: scale(1.1);
+    }
+}
+
 @media (max-width: 768px) {
     .container h1 {
         font-size: 4rem;

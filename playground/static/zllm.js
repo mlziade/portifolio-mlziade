@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const loadingSpinner = document.getElementById('loadingSpinner');
     const copyTextButton = document.getElementById('copyTextButton');
     const copyMarkdownButton = document.getElementById('copyMarkdownButton');
+    const statusCube = document.getElementById('statusCube');
 
     let eventSource = null;
     let accumulatedMarkdown = ''; // Store the accumulated markdown content
@@ -40,6 +41,11 @@ document.addEventListener('DOMContentLoaded', function() {
             toast.classList.remove('show');
             setTimeout(() => toast.remove(), 300);
         }, duration);
+    }
+
+    // Function to update status cube
+    function updateStatusCube(status) {
+        statusCube.className = `status-cube ${status}`;
     }
 
     // Event listeners for copy buttons
@@ -104,9 +110,10 @@ document.addEventListener('DOMContentLoaded', function() {
         outputText.innerHTML = '';
         accumulatedMarkdown = '';
         
-        // Show loading spinner
+        // Show loading spinner and set status cube to blue (loading)
         loadingSpinner.style.display = 'inline-block';
         generateButton.disabled = true;
+        updateStatusCube('blue');
 
         // Close any existing connection
         if (eventSource) {
@@ -155,6 +162,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Stream is complete
                         loadingSpinner.style.display = 'none';
                         generateButton.disabled = false;
+                        updateStatusCube('green');
                         
                         // Final render of complete markdown
                         renderMarkdown(accumulatedMarkdown);
@@ -180,6 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                         } else {
                                             accumulatedMarkdown += `Error: ${data.error}\n`;
                                         }
+                                        updateStatusCube('red');
                                     } else if (data.response) {
                                         accumulatedMarkdown += data.response;
                                     } else if (data.token) {
@@ -203,6 +212,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }).catch(error => {
                     loadingSpinner.style.display = 'none';
                     generateButton.disabled = false;
+                    updateStatusCube('red');
                     
                     let errorMessage = '';
                     
@@ -235,6 +245,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Error:', error);
             loadingSpinner.style.display = 'none';
             generateButton.disabled = false;
+            updateStatusCube('red');
             
             let errorMessage = '';
             
@@ -310,9 +321,10 @@ document.addEventListener('DOMContentLoaded', function() {
             eventSource = null;
         }
         
-        // Reset UI
+        // Reset UI and status cube
         loadingSpinner.style.display = 'none';
         generateButton.disabled = false;
+        updateStatusCube('gray');
     });
 
     // Function to get CSRF token from cookies
