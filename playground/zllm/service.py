@@ -135,6 +135,7 @@ def generate_text_streaming(request):
                 timeout=(30, 300)  # (connect timeout, read timeout)
             ) as response:
                 response.raise_for_status()
+                first_message = True
                 # Forward each chunk from the API to the client
                 for line in response.iter_lines(decode_unicode=False):
                     if line:
@@ -142,6 +143,21 @@ def generate_text_streaming(request):
                         decoded_line = line.decode('utf-8')
                         if not decoded_line.startswith('data:'):
                             decoded_line = f"data: {decoded_line}"
+                        
+                        # Check for memory error in the first message
+                        if first_message:
+                            try:
+                                # Extract JSON content from SSE data
+                                content = decoded_line[5:].strip() if decoded_line.startswith('data:') else decoded_line
+                                parsed_data = json.loads(content)
+                                if 'error' in parsed_data and parsed_data['error'] == 'model requires more system memory':
+                                    yield f"data: {json.dumps({'error': 'The AI model requires more system memory to process your request. Please try again later or contact support.'})}\n\n"
+                                    return
+                            except json.JSONDecodeError:
+                                # If it's not JSON, continue with normal processing
+                                pass
+                            first_message = False
+                        
                         yield f"{decoded_line}\n\n"
         except requests.exceptions.Timeout:
             print("ZLLM API timeout during streaming request")
@@ -232,6 +248,15 @@ def generate_text(request):
         print(f"Error during ZLLM request: {e}")
         if hasattr(e, 'response') and e.response is not None:
             status_code = e.response.status_code
+            try:
+                # Check if it's a memory error in the response body
+                response_data = e.response.json()
+                if 'error' in response_data and response_data['error'] == 'model requires more system memory':
+                    return JsonResponse({'error': 'The AI model requires more system memory to process your request. Please try again later or contact support.'}, status=503)
+            except (json.JSONDecodeError, ValueError):
+                # If we can't parse the response, continue with normal error handling
+                pass
+            
             if status_code == 502:
                 return JsonResponse({'error': 'The AI service is temporarily unavailable. Please try again in a moment.'}, status=502)
             elif status_code >= 500:
@@ -338,6 +363,15 @@ def chat_with_zllm(request):
         print(f"Error during ZLLM request: {e}")
         if hasattr(e, 'response') and e.response is not None:
             status_code = e.response.status_code
+            try:
+                # Check if it's a memory error in the response body
+                response_data = e.response.json()
+                if 'error' in response_data and response_data['error'] == 'model requires more system memory':
+                    return JsonResponse({'error': 'The AI model requires more system memory to process your request. Please try again later or contact support.'}, status=503)
+            except (json.JSONDecodeError, ValueError):
+                # If we can't parse the response, continue with normal error handling
+                pass
+            
             if status_code == 502:
                 return JsonResponse({'error': 'The AI service is temporarily unavailable. Please try again in a moment.'}, status=502)
             elif status_code >= 500:

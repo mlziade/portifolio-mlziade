@@ -54,7 +54,17 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(() => showToast('Text copied to clipboard'))
             .catch(err => {
                 console.error('Failed to copy text: ', err);
-                showToast('Failed to copy text');
+                
+                // Provide specific error messages for clipboard issues
+                if (err.name === 'NotAllowedError') {
+                    showToast('Clipboard access denied. Enable permissions or use HTTPS.');
+                } else if (err.name === 'SecurityError') {
+                    showToast('Clipboard blocked by security policy. Ensure HTTPS connection.');
+                } else if (err.message.includes('secure context')) {
+                    showToast('Clipboard requires secure context (HTTPS).');
+                } else {
+                    showToast('Failed to copy text - try manual copy');
+                }
             });
     });
 
@@ -69,7 +79,17 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(() => showToast('Markdown copied to clipboard'))
             .catch(err => {
                 console.error('Failed to copy markdown: ', err);
-                showToast('Failed to copy markdown');
+                
+                // Provide specific error messages for clipboard issues
+                if (err.name === 'NotAllowedError') {
+                    showToast('Clipboard access denied. Enable permissions or use HTTPS.');
+                } else if (err.name === 'SecurityError') {
+                    showToast('Clipboard blocked by security policy. Ensure HTTPS connection.');
+                } else if (err.message.includes('secure context')) {
+                    showToast('Clipboard requires secure context (HTTPS).');
+                } else {
+                    showToast('Failed to copy markdown - try manual copy');
+                }
             });
     });
 
@@ -106,8 +126,22 @@ document.addEventListener('DOMContentLoaded', function() {
             if (response.status === 429) {
                 throw new Error('RATE_LIMIT_EXCEEDED');
             }
+            if (response.status === 403) {
+                throw new Error('Access forbidden (403): Authentication or permission issue');
+            }
+            if (response.status === 404) {
+                throw new Error('Service not found (404): The streaming endpoint is not available');
+            }
+            if (response.status >= 500) {
+                throw new Error(`Server error (${response.status}): The server is experiencing issues`);
+            }
             if (!response.ok) {
-                throw new Error(`HTTP error! Status: ${response.status}`);
+                throw new Error(`HTTP error! Status: ${response.status} - ${response.statusText}`);
+            }
+            
+            // Check if response is actually a stream
+            if (!response.body) {
+                throw new Error('Response does not support streaming');
             }
             
             // Process the streaming response
@@ -139,7 +173,13 @@ document.addEventListener('DOMContentLoaded', function() {
                                 if (content) {
                                     const data = JSON.parse(content);
                                     if (data.error) {
-                                        accumulatedMarkdown += `Error: ${data.error}\n`;
+                                        // Special handling for memory error
+                                        if (data.error.includes('model requires more system memory') || 
+                                            data.error.includes('The AI model requires more system memory')) {
+                                            accumulatedMarkdown += `**⚠️ Not enough memory**: Please try again with a shorter message or wait a moment.\n`;
+                                        } else {
+                                            accumulatedMarkdown += `Error: ${data.error}\n`;
+                                        }
                                     } else if (data.response) {
                                         accumulatedMarkdown += data.response;
                                     } else if (data.token) {
@@ -163,9 +203,29 @@ document.addEventListener('DOMContentLoaded', function() {
                 }).catch(error => {
                     loadingSpinner.style.display = 'none';
                     generateButton.disabled = false;
-                    accumulatedMarkdown += `\nError: ${error.message}`;
+                    
+                    let errorMessage = '';
+                    
+                    if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                        errorMessage = 'Network error during streaming: Connection lost or HTTPS/SSL issues detected.';
+                    } else if (error.message.includes('SSL') || error.message.includes('certificate') || error.message.includes('TLS')) {
+                        errorMessage = 'HTTPS/SSL streaming error: Security certificate problem detected.';
+                    } else if (error.message.includes('timeout') || error.message.includes('Timeout')) {
+                        errorMessage = 'Streaming timeout: Connection timed out while receiving data.';
+                    } else if (error.message.includes('net::ERR_')) {
+                        errorMessage = `Network error: ${error.message}`;
+                    } else {
+                        errorMessage = `Streaming error: ${error.message}`;
+                    }
+                    
+                    accumulatedMarkdown += `\n\n**Error**: ${errorMessage}`;
                     renderMarkdown(accumulatedMarkdown);
                     console.error('Stream reading error:', error);
+                    
+                    // Show toast for critical streaming errors
+                    if (error.name === 'TypeError' || error.message.includes('SSL') || error.message.includes('certificate')) {
+                        showToast('Streaming connection error', 3000);
+                    }
                 });
             }
             
@@ -176,15 +236,46 @@ document.addEventListener('DOMContentLoaded', function() {
             loadingSpinner.style.display = 'none';
             generateButton.disabled = false;
             
+            let errorMessage = '';
+            
             if (error.message === 'RATE_LIMIT_EXCEEDED') {
-                outputText.innerHTML = '<p>Rate limit exceeded. You can only send 5 messages per minute. Wait a few seconds before making another request.</p>';
+                errorMessage = 'Rate limit exceeded. You can only send 5 messages per minute. Wait a few seconds before making another request.';
                 // Disable the button for a minute
                 generateButton.disabled = true;
                 setTimeout(() => {
                     generateButton.disabled = false;
                 }, 60000); // Re-enable after 1 minute
+            } else if (error.message.includes('model requires more system memory') || error.message.includes('The AI model requires more system memory')) {
+                errorMessage = 'Not enough memory: Please try again with a shorter message or wait a moment.';
+            } else if (error.name === 'TypeError' && error.message.includes('Failed to fetch')) {
+                errorMessage = 'Network error: Unable to connect to the server. This could be due to HTTPS/SSL certificate issues, network connectivity problems, or server downtime. Please check your connection and try again.';
+            } else if (error.message.includes('SSL') || error.message.includes('certificate') || error.message.includes('TLS')) {
+                errorMessage = 'HTTPS/SSL Error: There\'s a problem with the server\'s security certificate. This may be due to an expired certificate, self-signed certificate, or certificate mismatch. Please contact the administrator.';
+            } else if (error.message.includes('CORS') || error.message.includes('cross-origin')) {
+                errorMessage = 'Cross-origin request blocked: The server may have CORS configuration issues or mixed content policies (HTTP/HTTPS mismatch).';
+            } else if (error.message.includes('timeout') || error.message.includes('Timeout')) {
+                errorMessage = 'Request timeout: The server took too long to respond. Please try again later.';
+            } else if (error.message.includes('403')) {
+                errorMessage = 'Access forbidden: You don\'t have permission to access this resource. Please check your authentication.';
+            } else if (error.message.includes('404')) {
+                errorMessage = 'Service not found: The requested service endpoint is not available. Please check the URL or contact support.';
+            } else if (error.message.includes('500') || error.message.includes('502') || error.message.includes('503')) {
+                errorMessage = 'Server error: The server is experiencing issues. Please try again later.';
+            } else if (error.message.includes('net::ERR_CERT_')) {
+                errorMessage = 'Certificate error: The server\'s SSL certificate is invalid or expired. This is an HTTPS security issue that needs to be resolved by the server administrator.';
+            } else if (error.message.includes('net::ERR_SSL_')) {
+                errorMessage = 'SSL/TLS error: There\'s a problem establishing a secure connection. This could be due to outdated security protocols or certificate issues.';
+            } else if (error.message.includes('net::ERR_CONNECTION_')) {
+                errorMessage = 'Connection error: Unable to establish a connection to the server. Please check your internet connection and try again.';
             } else {
-                outputText.innerHTML = `<p>An error occurred: ${error.message}</p>`;
+                errorMessage = `An unexpected error occurred: ${error.message}`;
+            }
+            
+            outputText.innerHTML = `<p style="color: #e74c3c; padding: 10px; background-color: #fdf2f2; border-left: 4px solid #e74c3c; margin: 10px 0;">${errorMessage}</p>`;
+            
+            // Show toast notification for critical errors
+            if (error.message.includes('SSL') || error.message.includes('certificate') || error.message.includes('TLS') || error.name === 'TypeError') {
+                showToast('Connection error - check console for details', 4000);
             }
         });
     });
