@@ -617,3 +617,22 @@ html, body {
   .pattern-item button:active {
     transform: scale(0.95);
   }
+
+  /* Pattern preview styling */
+  .pattern-preview-container {
+    display: flex;
+    justify-content: center;
+    margin: 10px 0;
+  }
+
+  .pattern-preview {
+    border: 1px solid rgba(0, 255, 0, 0.3);
+    border-radius: 6px;
+    background: #222;
+    transition: all 0.3s ease;
+  }
+
+  .pattern-preview:hover {
+    border-color: rgba(0, 255, 0, 0.5);
+    box-shadow: 0 4px 12px rgba(0, 255, 0, 0.2);
+  }

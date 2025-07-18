@@ -510,13 +510,99 @@ function displayPatterns(patterns) {
   patterns.forEach(pattern => {
     const patternDiv = document.createElement('div');
     patternDiv.className = 'pattern-item';
+    
+    // Create pattern preview canvas
+    const canvas = document.createElement('canvas');
+    canvas.width = 100;
+    canvas.height = 60;
+    canvas.className = 'pattern-preview';
+    
+    drawPatternPreview(canvas, pattern.cells);
+    
     patternDiv.innerHTML = `
       <h3>${pattern.name}</h3>
+      <div class="pattern-preview-container"></div>
       <p>${pattern.description}</p>
       <button onclick="loadPattern('${pattern.name}', ${JSON.stringify(pattern.cells).replace(/"/g, '&quot;')})">Load Pattern</button>
     `;
+    
+    // Insert canvas into the preview container
+    const previewContainer = patternDiv.querySelector('.pattern-preview-container');
+    previewContainer.appendChild(canvas);
+    
     patternsList.appendChild(patternDiv);
   });
+}
+
+// Draw pattern preview on canvas
+function drawPatternPreview(canvas, cells) {
+  const ctx = canvas.getContext('2d');
+  const width = canvas.width;
+  const height = canvas.height;
+  
+  // Clear canvas
+  ctx.fillStyle = '#222';
+  ctx.fillRect(0, 0, width, height);
+  
+  if (cells.length === 0) return;
+  
+  // Calculate bounds of the pattern
+  const minX = Math.min(...cells.map(cell => cell[0]));
+  const maxX = Math.max(...cells.map(cell => cell[0]));
+  const minY = Math.min(...cells.map(cell => cell[1]));
+  const maxY = Math.max(...cells.map(cell => cell[1]));
+  
+  const patternWidth = maxX - minX + 1;
+  const patternHeight = maxY - minY + 1;
+  
+  // Calculate scale to fit pattern in canvas with padding
+  const padding = 8;
+  const availableWidth = width - 2 * padding;
+  const availableHeight = height - 2 * padding;
+  
+  const scaleX = availableWidth / patternWidth;
+  const scaleY = availableHeight / patternHeight;
+  const scale = Math.min(scaleX, scaleY, 8); // Max cell size of 8px
+  
+  const cellSize = Math.max(1, Math.floor(scale));
+  
+  // Calculate offset to center the pattern
+  const patternPixelWidth = patternWidth * cellSize;
+  const patternPixelHeight = patternHeight * cellSize;
+  const offsetX = (width - patternPixelWidth) / 2;
+  const offsetY = (height - patternPixelHeight) / 2;
+  
+  // Draw alive cells
+  ctx.fillStyle = '#0f0';
+  cells.forEach(cell => {
+    const x = offsetX + (cell[0] - minX) * cellSize;
+    const y = offsetY + (cell[1] - minY) * cellSize;
+    ctx.fillRect(x, y, cellSize, cellSize);
+  });
+  
+  // Add subtle grid lines for larger cells
+  if (cellSize >= 3) {
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 1;
+    
+    // Vertical lines
+    for (let i = 0; i <= patternWidth; i++) {
+      const x = offsetX + i * cellSize;
+      ctx.beginPath();
+      ctx.moveTo(x, offsetY);
+      ctx.lineTo(x, offsetY + patternPixelHeight);
+      ctx.stroke();
+    }
+    
+    // Horizontal lines
+    for (let i = 0; i <= patternHeight; i++) {
+      const y = offsetY + i * cellSize;
+      ctx.beginPath();
+      ctx.moveTo(offsetX, y);
+      ctx.lineTo(offsetX + patternPixelWidth, y);
+      ctx.stroke();
+    }
+  }
 }
 
 // Load a specific pattern onto the grid
