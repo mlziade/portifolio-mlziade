@@ -475,14 +475,13 @@ document.addEventListener('DOMContentLoaded', function() {
 // Patterns modal functionality
 function showPatternsModal() {
   const modal = document.getElementById('patternsModal');
-  modal.style.display = 'block';
-  modal.style.setProperty('display', 'block', 'important');
+  modal.classList.add('show');
   loadPatterns();
 }
 
 function hidePatternsModal() {
   const modal = document.getElementById('patternsModal');
-  modal.style.display = 'none';
+  modal.classList.remove('show');
 }
 
 // Load patterns from server
@@ -648,7 +647,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Close modal when pressing Escape key
   document.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape' && patternsModal.style.display === 'block') {
+    if (event.key === 'Escape' && patternsModal.classList.contains('show')) {
       hidePatternsModal();
     }
   });
