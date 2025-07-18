@@ -177,6 +177,3 @@ cython_debug/
 # In production, collect all static files in a directory outside of the repository
 # using the collectstatic management command
 staticfiles/
-
-# LLM Files
-CLAUDE_CODE.md
