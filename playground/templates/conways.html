@@ -23,14 +23,17 @@
                     <div id="introduction" class="tab-panel active">
                         <h2>Welcome to Conway's Game of Life!</h2>
                         <p>This is an interactive implementation of John Conway's famous cellular automaton. The Game of Life is a zero-player game, meaning its evolution is determined by its initial state, requiring no further input.</p>
+                        <p>New to Conway's Game of Life?</p>
+                        <p><a href="https://www.youtube.com/watch?v=ouipbDkwHWA" target="_blank" class="video-link">Watch this explanation video</a> to understand more!</p>
                         <p>You can:</p>
                         <ul>
                             <li>Click on cells to toggle them alive/dead</li>
                             <li>Drag to pan around the infinite grid</li>
                             <li>Use the controls to start, stop, or clear the simulation</li>
                             <li>Adjust the animation speed with the delay slider</li>
+                            <li>Explore predefined patterns</li>
                         </ul>
-                        <p>Try creating some patterns and watch them evolve!</p>
+                        <p>Try creating some interesting patterns and watch how they evolve over time!</p>
                     </div>
                     
                     <div id="rules" class="tab-panel">
@@ -63,7 +66,21 @@
                 </div>
             </div>
         </div>
-    </div>    <div id="controls">
+    </div>
+
+    <!-- Patterns Modal -->
+    <div id="patternsModal" class="modal patterns-modal">
+        <div class="modal-content">
+            <span class="close patterns-close">&times;</span>
+            <h2>Predefined Patterns</h2>
+            <p>Select a classic Game of Life pattern to explore:</p>
+            <div id="patternsList" class="patterns-list">
+                <!-- Patterns will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <div id="controls">
         <div class="controls-header">
             <a href="https://mlziade.com.br" target="_blank" class="home-btn" title="Go to mlziade.com.br">
                 <i class="fas fa-home"></i>
@@ -87,6 +104,9 @@
                 </button>
                 <button id="center" class="btn btn-secondary">
                     <i class="fas fa-crosshairs"></i> Center
+                </button>
+                <button id="patterns" class="btn btn-info">
+                    <i class="fas fa-shapes"></i> Patterns
                 </button>
             </div>
             

@@ -360,11 +360,13 @@ delayInput.addEventListener("blur", function() {
   }
 });
 
+
 // Button controls for starting/stopping simulation
 document.getElementById("start").addEventListener("click", startSimulation);
 document.getElementById("stop").addEventListener("click", stopSimulation);
 document.getElementById("clear").addEventListener("click", clearGrid);
 document.getElementById("center").addEventListener("click", centerGrid);
+document.getElementById("patterns").addEventListener("click", showPatternsModal);
 
 // Center grid function - positions (0,0) at the center of the screen
 function centerGrid() {
@@ -467,5 +469,101 @@ document.addEventListener('DOMContentLoaded', function() {
       this.classList.add('active');
       document.getElementById(targetTab).classList.add('active');
     });
+  });
+});
+
+// Patterns modal functionality
+function showPatternsModal() {
+  const modal = document.getElementById('patternsModal');
+  modal.style.display = 'block';
+  modal.style.setProperty('display', 'block', 'important');
+  loadPatterns();
+}
+
+function hidePatternsModal() {
+  const modal = document.getElementById('patternsModal');
+  modal.style.display = 'none';
+}
+
+// Load patterns from server
+async function loadPatterns() {
+  try {
+    const response = await fetch('/playground/conways/patterns/');
+    const data = await response.json();
+    
+    if (data.error) {
+      console.error('Error loading patterns:', data.error);
+      return;
+    }
+    
+    displayPatterns(data.patterns);
+  } catch (error) {
+    console.error('Failed to load patterns:', error);
+  }
+}
+
+// Display patterns in the modal
+function displayPatterns(patterns) {
+  const patternsList = document.getElementById('patternsList');
+  patternsList.innerHTML = '';
+  
+  patterns.forEach(pattern => {
+    const patternDiv = document.createElement('div');
+    patternDiv.className = 'pattern-item';
+    patternDiv.innerHTML = `
+      <h3>${pattern.name}</h3>
+      <p>${pattern.description}</p>
+      <button onclick="loadPattern('${pattern.name}', ${JSON.stringify(pattern.cells).replace(/"/g, '&quot;')})">Load Pattern</button>
+    `;
+    patternsList.appendChild(patternDiv);
+  });
+}
+
+// Load a specific pattern onto the grid
+function loadPattern(patternName, cells) {
+  // Clear the grid first
+  clearGrid();
+  
+  // Center the view
+  centerGrid();
+  
+  // Add the pattern cells to the grid
+  cells.forEach(cell => {
+    const [x, y] = cell;
+    const key = posToKey(x, y);
+    aliveCells.add(key);
+  });
+  
+  // Redraw the grid with the new pattern
+  drawGrid();
+  
+  // Close the patterns modal
+  hidePatternsModal();
+  
+  console.log(`Loaded pattern: ${patternName}`);
+}
+
+// Add event listeners for patterns modal
+document.addEventListener('DOMContentLoaded', function() {
+  const patternsModal = document.getElementById('patternsModal');
+  const patternsClose = document.querySelector('.patterns-close');
+  
+  // Close modal when X is clicked
+  if (patternsClose) {
+    patternsClose.addEventListener('click', hidePatternsModal);
+  }
+  
+  // Close modal when clicking outside of it
+  window.addEventListener('click', function(event) {
+    if (event.target === patternsModal) {
+      hidePatternsModal();
+    }
+  });
+  
+  // Close modal when pressing Escape key
+  document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && patternsModal.style.display === 'block') {
+      hidePatternsModal();
+    }
   });
 });

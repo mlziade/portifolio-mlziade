@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views import View
 from django.http import JsonResponse
 import json
+import os
 
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.throttling import AnonRateThrottle
@@ -60,6 +61,28 @@ def stream_game_of_life(request):
     }
     
     return JsonResponse(response_data)
+
+@api_view(['GET'])
+def get_game_of_life_patterns(request):
+    """
+    API endpoint to get predefined Game of Life patterns.
+    """
+    try:
+        # Get the path to the patterns JSON file
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        patterns_path = os.path.join(current_dir, 'game_of_life', 'patterns.json')
+        
+        # Read and return the patterns
+        with open(patterns_path, 'r', encoding='utf-8') as file:
+            patterns_data = json.load(file)
+        
+        return JsonResponse(patterns_data)
+    except FileNotFoundError:
+        return JsonResponse({'error': 'Patterns file not found'}, status=404)
+    except json.JSONDecodeError:
+        return JsonResponse({'error': 'Invalid JSON in patterns file'}, status=500)
+    except Exception as e:
+        return JsonResponse({'error': 'Failed to load patterns'}, status=500)
     
 ### ZLLM Related Views and Functions ###
 

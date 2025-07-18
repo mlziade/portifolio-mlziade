@@ -2,6 +2,7 @@ from django.urls import path
 from .views import (
     TryoutConwaysView,
     stream_game_of_life,
+    get_game_of_life_patterns,
     TryoutZllmView,
     generate_text_streaming_api,
     generate_text_api,
@@ -14,6 +15,7 @@ app_name = 'playground'
 urlpatterns = [
     path('conways/', TryoutConwaysView.as_view(), name='tryout_conways'),
     path("conways/stream/", stream_game_of_life, name="stream"),
+    path("conways/patterns/", get_game_of_life_patterns, name="patterns"),
     path('zllm/', TryoutZllmView.as_view(), name='tryout_zllm'),
     # path('zllm/generate_text/', generate_text_api, name='generate_text'),
     path('zllm/generate_text_streaming/', generate_text_streaming_api, name='generate_text_streaming'),
