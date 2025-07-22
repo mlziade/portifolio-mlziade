@@ -135,30 +135,17 @@ def generate_text_streaming(request):
                 timeout=(30, 300)  # (connect timeout, read timeout)
             ) as response:
                 response.raise_for_status()
-                first_message = True
-                # Forward each chunk from the API to the client
-                for line in response.iter_lines(decode_unicode=False):
+                
+                # Forward each chunk from the API to the client directly
+                for line in response.iter_lines(decode_unicode=True):
                     if line:
-                        # Ensure proper SSE formatting and flush immediately
-                        decoded_line = line.decode('utf-8')
-                        if not decoded_line.startswith('data:'):
-                            decoded_line = f"data: {decoded_line}"
-                        
-                        # Check for memory error in the first message
-                        if first_message:
-                            try:
-                                # Extract JSON content from SSE data
-                                content = decoded_line[5:].strip() if decoded_line.startswith('data:') else decoded_line
-                                parsed_data = json.loads(content)
-                                if 'error' in parsed_data and parsed_data['error'] == 'model requires more system memory':
-                                    yield f"data: {json.dumps({'error': 'The AI model requires more system memory to process your request. Please try again later or contact support.'})}\n\n"
-                                    return
-                            except json.JSONDecodeError:
-                                # If it's not JSON, continue with normal processing
-                                pass
-                            first_message = False
-                        
-                        yield f"{decoded_line}\n\n"
+                        # Check if this is an SSE formatted line
+                        if line.startswith('data:'):
+                            # Forward the properly formatted SSE line
+                            yield f"{line}\n\n"
+                        elif line.strip():
+                            # If it's not SSE formatted, wrap it as data
+                            yield f"data: {line}\n\n"
         except requests.exceptions.Timeout:
             print("ZLLM API timeout during streaming request")
             yield f"data: {json.dumps({'error': 'The service is taking too long to respond. Please try again.'})}\n\n"
