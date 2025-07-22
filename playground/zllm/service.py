@@ -130,25 +130,104 @@ def generate_text_streaming(request):
             with requests.post(
                 url=f"{ZLLM_BASE_URL}/llm/generate/streaming",
                 headers=headers,
-                data=json.dumps(data),
+                data=json.dumps(data, ensure_ascii=False).encode('utf-8'),
                 stream=True,
                 timeout=(30, 300)  # (connect timeout, read timeout)
             ) as response:
                 response.raise_for_status()
                 
-                # Forward each chunk from the API to the client directly
-                for line in response.iter_lines(decode_unicode=True):
-                    if line:
-                        # Check if this is an SSE formatted line
-                        if line.startswith('data:'):
-                            # Forward the properly formatted SSE line
-                            yield f"{line}\n\n"
-                        elif line.strip():
-                            # If it's not SSE formatted, wrap it as data
-                            yield f"data: {line}\n\n"
+                # Process each line from the ZLLM API with explicit UTF-8 decoding
+                for raw_line in response.iter_lines(decode_unicode=False):
+                    if raw_line:
+                        try:
+                            # Explicitly decode as UTF-8
+                            line = raw_line.decode('utf-8', errors='strict').strip()
+                            if not line:
+                                continue
+                                
+                            # Parse the JSON response from ZLLM API
+                            json_data = json.loads(line)
+                            
+                            # Handle done:false responses (streaming tokens)
+                            if json_data.get('done') == False:
+                                token_data = {
+                                    'response': json_data.get('response', ''),
+                                    'done': False,
+                                    'model': json_data.get('model', ''),
+                                    'created_at': json_data.get('created_at', '')
+                                }
+                                json_str = json.dumps(token_data, ensure_ascii=False)
+                                yield f"data: {json_str}\n\n".encode('utf-8').decode('utf-8')
+                            
+                            # Handle done:true responses (completion with metadata)
+                            elif json_data.get('done') == True:
+                                completion_data = {
+                                    'done': True,
+                                    'done_reason': json_data.get('done_reason', 'stop'),
+                                    'model': json_data.get('model', ''),
+                                    'created_at': json_data.get('created_at', ''),
+                                    'context': json_data.get('context', []),
+                                    'total_duration': json_data.get('total_duration', 0),
+                                    'load_duration': json_data.get('load_duration', 0),
+                                    'prompt_eval_count': json_data.get('prompt_eval_count', 0),
+                                    'prompt_eval_duration': json_data.get('prompt_eval_duration', 0),
+                                    'eval_count': json_data.get('eval_count', 0),
+                                    'eval_duration': json_data.get('eval_duration', 0)
+                                }
+                                json_str = json.dumps(completion_data, ensure_ascii=False)
+                                yield f"data: {json_str}\n\n".encode('utf-8').decode('utf-8')
+                            
+                            else:
+                                # Handle other response formats (fallback)
+                                if line.startswith('data:'):
+                                    yield f"{line}\n\n"
+                                else:
+                                    yield f"data: {line}\n\n"
+                                    
+                        except (json.JSONDecodeError, UnicodeDecodeError) as e:
+                            print(f"Error processing streaming response: {e}")
+                            
+                            # Handle UTF-8 decode errors
+                            if isinstance(e, UnicodeDecodeError):
+                                try:
+                                    # Try decoding with error handling
+                                    line = raw_line.decode('utf-8', errors='replace')
+                                    error_data = {
+                                        'error': 'UTF-8 encoding error in API response',
+                                        'debug_info': f'Invalid UTF-8 sequence: {str(e)}'
+                                    }
+                                    json_str = json.dumps(error_data, ensure_ascii=False)
+                                    yield f"data: {json_str}\n\n".encode('utf-8').decode('utf-8')
+                                    continue
+                                except Exception:
+                                    continue
+                            
+                            # Handle JSON decode errors
+                            line_preview = line[:100] if len(line) > 100 else line
+                            print(f"JSON decode error: {e}, line: {line_preview}")
+                            
+                            # Try to handle partial JSON or malformed responses
+                            if line:
+                                # Check if it might be a partial JSON response
+                                if line.startswith('{') or line.startswith('"'):
+                                    # Send as error to client for debugging
+                                    error_data = {
+                                        'error': f'Malformed JSON response from API: {line_preview}',
+                                        'debug_info': 'The API returned invalid JSON format'
+                                    }
+                                    json_str = json.dumps(error_data, ensure_ascii=False)
+                                    yield f"data: {json_str}\n\n".encode('utf-8').decode('utf-8')
+                                else:
+                                    # Treat as plain text if it doesn't look like JSON
+                                    if line.startswith('data:'):
+                                        yield f"{line}\n\n"
+                                    else:
+                                        yield f"data: {line}\n\n"
         except requests.exceptions.Timeout:
             print("ZLLM API timeout during streaming request")
-            yield f"data: {json.dumps({'error': 'The service is taking too long to respond. Please try again.'})}\n\n"
+            error_data = {'error': 'The service is taking too long to respond. Please try again.'}
+            json_str = json.dumps(error_data, ensure_ascii=False)
+            yield f"data: {json_str}\n\n".encode('utf-8').decode('utf-8')
         except requests.exceptions.RequestException as e:
             print(f"Error during ZLLM streaming request: {e}")
             if hasattr(e, 'response') and e.response is not None:
@@ -161,10 +240,13 @@ def generate_text_streaming(request):
                     error_msg = f'Request failed: {str(e)}'
             else:
                 error_msg = 'Unable to connect to the AI service. Please check your connection and try again.'
-            yield f"data: {json.dumps({'error': error_msg})}\n\n"
+            error_data = {'error': error_msg}
+            json_str = json.dumps(error_data, ensure_ascii=False)
+            yield f"data: {json_str}\n\n".encode('utf-8').decode('utf-8')
     
-    response = StreamingHttpResponse(event_stream(), content_type='text/event-stream')
+    response = StreamingHttpResponse(event_stream(), content_type='text/event-stream; charset=utf-8')
     response['Cache-Control'] = 'no-cache'
+    response['Content-Encoding'] = 'identity'
     return response
 
 

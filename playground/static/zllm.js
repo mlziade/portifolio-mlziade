@@ -10,6 +10,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     let eventSource = null;
     let accumulatedMarkdown = ''; // Store the accumulated markdown content
+    let partialBuffer = ''; // Buffer for partial JSON chunks
+    let isStreamComplete = false;
 
     // Configure marked options for security and features
     marked.setOptions({
@@ -109,6 +111,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reset output area and accumulated markdown
         outputText.innerHTML = '';
         accumulatedMarkdown = '';
+        partialBuffer = '';
+        isStreamComplete = false;
         
         // Show loading spinner and set status cube to blue (loading)
         loadingSpinner.style.display = 'inline-block';
@@ -153,62 +157,132 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Process the streaming response
             const reader = response.body.getReader();
-            const decoder = new TextDecoder();
+            const decoder = new TextDecoder('utf-8', { fatal: false });
+            
+            // Helper function to process complete JSON chunks
+            function processJsonChunk(jsonData) {
+                try {
+                    if (jsonData.error) {
+                        // Handle error responses
+                        if (jsonData.error.includes('model requires more system memory') || 
+                            jsonData.error.includes('The AI model requires more system memory')) {
+                            accumulatedMarkdown += `**⚠️ Not enough memory**: Please try again with a shorter message or wait a moment.\n`;
+                        } else {
+                            accumulatedMarkdown += `Error: ${jsonData.error}\n`;
+                        }
+                        updateStatusCube('red');
+                        return;
+                    }
+                    
+                    // Handle done:false responses (streaming content)
+                    if (jsonData.done === false && jsonData.response) {
+                        accumulatedMarkdown += jsonData.response;
+                        renderMarkdown(accumulatedMarkdown);
+                    }
+                    
+                    // Handle done:true responses (completion metadata)
+                    else if (jsonData.done === true) {
+                        isStreamComplete = true;
+                        
+                        // Log completion statistics if available
+                        if (jsonData.eval_count && jsonData.eval_duration) {
+                            const tokensPerSecond = (jsonData.eval_count / (jsonData.eval_duration / 1000000000)).toFixed(1);
+                            console.log(`Generation complete: ${jsonData.eval_count} tokens in ${(jsonData.eval_duration / 1000000000).toFixed(2)}s (${tokensPerSecond} tokens/s)`);
+                        }
+                        
+                        // Final render and update status
+                        renderMarkdown(accumulatedMarkdown);
+                        updateStatusCube('green');
+                        loadingSpinner.style.display = 'none';
+                        generateButton.disabled = false;
+                        return;
+                    }
+                    
+                    // Fallback for other response formats
+                    else if (jsonData.response || jsonData.token) {
+                        accumulatedMarkdown += jsonData.response || jsonData.token || '';
+                        renderMarkdown(accumulatedMarkdown);
+                    }
+                    
+                } catch (e) {
+                    console.error('Error processing JSON chunk:', e, jsonData);
+                }
+            }
+            
+            // Helper function to parse SSE data line
+            function parseSSELine(line) {
+                if (!line.startsWith('data:')) return null;
+                
+                const content = line.slice(5).trim();
+                if (!content) return null;
+                
+                try {
+                    return JSON.parse(content);
+                } catch (e) {
+                    console.error('Invalid JSON in SSE data:', e, content);
+                    return null;
+                }
+            }
             
             // Start reading the stream
             function readStream() {
                 reader.read().then(({ done, value }) => {
                     if (done) {
-                        // Stream is complete
-                        loadingSpinner.style.display = 'none';
-                        generateButton.disabled = false;
-                        updateStatusCube('green');
+                        // Process any remaining buffer content
+                        if (partialBuffer.trim()) {
+                            const lines = partialBuffer.split('\n');
+                            lines.forEach(line => {
+                                if (line.trim()) {
+                                    const jsonData = parseSSELine(line.trim());
+                                    if (jsonData) processJsonChunk(jsonData);
+                                }
+                            });
+                        }
                         
-                        // Final render of complete markdown
-                        renderMarkdown(accumulatedMarkdown);
+                        // Mark stream as complete if not already done
+                        if (!isStreamComplete) {
+                            loadingSpinner.style.display = 'none';
+                            generateButton.disabled = false;
+                            updateStatusCube('green');
+                            renderMarkdown(accumulatedMarkdown);
+                        }
                         return;
                     }
                     
-                    // Decode the received chunk
+                    // Decode the received chunk with proper UTF-8 handling
                     const chunk = decoder.decode(value, { stream: true });
                     
-                    // Process SSE format
-                    const lines = chunk.split('\n\n');
-                    lines.forEach(line => {
-                        if (line.startsWith('data:')) {
-                            try {
-                                const content = line.slice(5).trim();
-                                if (content) {
-                                    const data = JSON.parse(content);
-                                    if (data.error) {
-                                        // Special handling for memory error
-                                        if (data.error.includes('model requires more system memory') || 
-                                            data.error.includes('The AI model requires more system memory')) {
-                                            accumulatedMarkdown += `**⚠️ Not enough memory**: Please try again with a shorter message or wait a moment.\n`;
-                                        } else {
-                                            accumulatedMarkdown += `Error: ${data.error}\n`;
-                                        }
-                                        updateStatusCube('red');
-                                    } else if (data.response) {
-                                        accumulatedMarkdown += data.response;
-                                    } else if (data.token) {
-                                        accumulatedMarkdown += data.token;
+                    // Add chunk to partial buffer
+                    partialBuffer += chunk;
+                    
+                    // Process complete SSE messages (ending with \n\n)
+                    const messages = partialBuffer.split('\n\n');
+                    
+                    // Keep the last incomplete message in the buffer
+                    partialBuffer = messages.pop() || '';
+                    
+                    // Process all complete messages
+                    messages.forEach(message => {
+                        if (message.trim()) {
+                            const lines = message.split('\n');
+                            lines.forEach(line => {
+                                if (line.trim()) {
+                                    const jsonData = parseSSELine(line.trim());
+                                    if (jsonData) {
+                                        processJsonChunk(jsonData);
+                                        
+                                        // Exit early if stream is marked complete
+                                        if (isStreamComplete) return;
                                     }
-                                    
-                                    // Update the display with the latest markdown
-                                    renderMarkdown(accumulatedMarkdown);
                                 }
-                            } catch (e) {
-                                console.error('Error parsing SSE data:', e);
-                                // Try to handle plain text response
-                                accumulatedMarkdown += line.slice(5).trim();
-                                renderMarkdown(accumulatedMarkdown);
-                            }
+                            });
                         }
                     });
                     
-                    // Continue reading
-                    readStream();
+                    // Continue reading if not complete
+                    if (!isStreamComplete) {
+                        readStream();
+                    }
                 }).catch(error => {
                     loadingSpinner.style.display = 'none';
                     generateButton.disabled = false;
@@ -291,22 +365,56 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Function to render markdown content safely
+    // Function to render markdown content safely with performance optimizations
+    let renderTimeout = null;
+    let lastRenderedLength = 0;
+    
     function renderMarkdown(markdown) {
         try {
-            // Convert markdown to HTML and set it to the output element
-            outputText.innerHTML = marked.parse(markdown);
+            // Skip rendering if content hasn't changed significantly (for performance)
+            if (markdown.length === lastRenderedLength) return;
             
-            // Add syntax highlighting to code blocks if needed
-            const codeBlocks = outputText.querySelectorAll('pre code');
-            if (window.hljs && codeBlocks.length > 0) {
-                codeBlocks.forEach(block => {
-                    hljs.highlightElement(block);
-                });
+            // Debounce rapid render calls during streaming
+            if (renderTimeout) {
+                clearTimeout(renderTimeout);
             }
+            
+            // Only render immediately if content has grown significantly or stream is complete
+            const shouldRenderNow = isStreamComplete || 
+                                  (markdown.length - lastRenderedLength) > 50 || 
+                                  markdown.length < 100;
+            
+            if (shouldRenderNow) {
+                doRender();
+            } else {
+                // Debounce frequent updates during active streaming
+                renderTimeout = setTimeout(doRender, 100);
+            }
+            
+            function doRender() {
+                // Convert markdown to HTML with proper UTF-8 handling
+                const html = marked.parse(markdown);
+                outputText.innerHTML = html;
+                lastRenderedLength = markdown.length;
+                
+                // Add syntax highlighting to code blocks if available
+                const codeBlocks = outputText.querySelectorAll('pre code');
+                if (window.hljs && codeBlocks.length > 0) {
+                    codeBlocks.forEach(block => {
+                        if (!block.dataset.highlighted) {
+                            hljs.highlightElement(block);
+                            block.dataset.highlighted = 'true';
+                        }
+                    });
+                }
+                
+                // Clear the timeout
+                renderTimeout = null;
+            }
+            
         } catch (error) {
             console.error('Error rendering markdown:', error);
-            outputText.innerHTML = '<p>Error rendering markdown content.</p>';
+            outputText.innerHTML = '<p style="color: #e74c3c;">Error rendering markdown content. The content may contain invalid characters or syntax.</p>';
         }
     }
 
@@ -314,6 +422,8 @@ document.addEventListener('DOMContentLoaded', function() {
         inputText.value = '';
         outputText.innerHTML = '';
         accumulatedMarkdown = '';
+        partialBuffer = '';
+        isStreamComplete = false;
         
         // Close any existing connection
         if (eventSource) {
