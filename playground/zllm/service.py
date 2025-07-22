@@ -166,10 +166,7 @@ def generate_text_streaming(request):
                                     'created_at': json_data.get('created_at', '')
                                 }
                                 json_str = json.dumps(token_data, ensure_ascii=False)
-                                chunk = f"data: {json_str}\n\n".encode('utf-8').decode('utf-8')
-                                yield chunk
-                                # Force flush for production streaming
-                                yield ""
+                                yield f"data: {json_str}\n\n".encode('utf-8').decode('utf-8')
                             
                             # Handle done:true responses (completion with metadata)
                             elif json_data.get('done') == True:
@@ -187,10 +184,7 @@ def generate_text_streaming(request):
                                     'eval_duration': json_data.get('eval_duration', 0)
                                 }
                                 json_str = json.dumps(completion_data, ensure_ascii=False)
-                                chunk = f"data: {json_str}\n\n".encode('utf-8').decode('utf-8')
-                                yield chunk
-                                # Force flush for production streaming
-                                yield ""
+                                yield f"data: {json_str}\n\n".encode('utf-8').decode('utf-8')
                             
                             else:
                                 # Handle other response formats (fallback)
@@ -265,12 +259,8 @@ def generate_text_streaming(request):
             yield f"data: {json_str}\n\n".encode('utf-8').decode('utf-8')
     
     response = StreamingHttpResponse(event_stream(), content_type='text/event-stream; charset=utf-8')
-    response['Cache-Control'] = 'no-cache, no-store, must-revalidate'
-    response['Pragma'] = 'no-cache'
-    response['Expires'] = '0'
+    response['Cache-Control'] = 'no-cache'
     response['Content-Encoding'] = 'identity'
-    response['X-Accel-Buffering'] = 'no'  # Disable nginx buffering
-    response['Connection'] = 'keep-alive'
     return response
 
 
