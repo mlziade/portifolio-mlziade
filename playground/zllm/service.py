@@ -144,9 +144,18 @@ def generate_text_streaming(request):
                             line = raw_line.decode('utf-8', errors='strict').strip()
                             if not line:
                                 continue
+                            
+                            # Handle SSE-formatted responses from ZLLM API
+                            if line.startswith('data: '):
+                                json_content = line[6:]  # Remove 'data: ' prefix
+                            else:
+                                json_content = line
+                                
+                            if not json_content:
+                                continue
                                 
                             # Parse the JSON response from ZLLM API
-                            json_data = json.loads(line)
+                            json_data = json.loads(json_content)
                             
                             # Handle done:false responses (streaming tokens)
                             if json_data.get('done') == False:
@@ -204,25 +213,30 @@ def generate_text_streaming(request):
                             
                             # Handle JSON decode errors
                             line_preview = line[:100] if len(line) > 100 else line
+                            json_preview = json_content[:100] if len(json_content) > 100 else json_content
                             print(f"JSON decode error: {e}, line: {line_preview}")
+                            print(f"Attempted to parse JSON: {json_preview}")
                             
                             # Try to handle partial JSON or malformed responses
-                            if line:
+                            if json_content:
                                 # Check if it might be a partial JSON response
-                                if line.startswith('{') or line.startswith('"'):
+                                if json_content.startswith('{') or json_content.startswith('"'):
                                     # Send as error to client for debugging
                                     error_data = {
-                                        'error': f'Malformed JSON response from API: {line_preview}',
+                                        'error': f'Malformed JSON response from API: {json_preview}',
                                         'debug_info': 'The API returned invalid JSON format'
                                     }
                                     json_str = json.dumps(error_data, ensure_ascii=False)
                                     yield f"data: {json_str}\n\n".encode('utf-8').decode('utf-8')
                                 else:
                                     # Treat as plain text if it doesn't look like JSON
-                                    if line.startswith('data:'):
-                                        yield f"{line}\n\n"
-                                    else:
-                                        yield f"data: {line}\n\n"
+                                    yield f"data: {json_content}\n\n"
+                            elif line:
+                                # Handle cases where the line doesn't have proper SSE format
+                                if line.startswith('data:'):
+                                    yield f"{line}\n\n"
+                                else:
+                                    yield f"data: {line}\n\n"
         except requests.exceptions.Timeout:
             print("ZLLM API timeout during streaming request")
             error_data = {'error': 'The service is taking too long to respond. Please try again.'}
