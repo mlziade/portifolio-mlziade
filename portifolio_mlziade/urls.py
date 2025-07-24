@@ -23,12 +23,11 @@ from django.contrib.sitemaps.views import sitemap
 from django.http import HttpResponse
 from django.views.decorators.cache import cache_control
 import os
-from portifolio.sitemaps import StaticViewSitemap, LanguageSpecificSitemap
+from portifolio.sitemaps import StaticViewSitemap
 
 # Sitemap configuration
 sitemaps = {
     'static': StaticViewSitemap,
-    'languages': LanguageSpecificSitemap,
 }
 
 def robots_txt(request):
