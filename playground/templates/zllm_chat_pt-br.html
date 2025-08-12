@@ -5,6 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>mlziade | Chat ZLLM</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+    <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}">
+    
     <link rel="stylesheet" href="{% static 'zllm_chat.css' %}">
     <!-- Add the Marked library for Markdown parsing -->
     <script src="https://cdn.jsdelivr.net/npm/marked@4.3.0/marked.min.js"></script>
@@ -13,67 +21,173 @@
 </head>
 <body>
     <div class="app-container">
-        <div class="sidebar">
+        <!-- Collapsible Sidebar -->
+        <div class="sidebar" id="sidebar">
             <div class="sidebar-header">
-                <h2>ZLLM</h2>
+                <div class="sidebar-brand">
+                    <h1>ZLLM</h1>
+                    <span class="brand-subtitle">Assistente IA</span>
+                </div>
+                <button class="sidebar-toggle" id="sidebar-toggle">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12h18m-9-9l9 9-9 9"/>
+                    </svg>
+                </button>
             </div>
-            <div class="sidebar-buttons">
-                <button id="new-chat-button" class="sidebar-button">
-                    <span class="button-icon">+</span> Novo Chat
+            
+            <nav class="sidebar-nav">
+                <button class="nav-button primary" id="reset-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/>
+                        <path d="M21 3v5h-5"/>
+                        <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/>
+                        <path d="M3 21v-5h5"/>
+                    </svg>
+                    <span>Resetar Conversa</span>
                 </button>
-                <button class="sidebar-button tab-button" data-tab="chat">
-                    <span class="button-icon">💬</span> Chat
+                
+                <button class="nav-button" id="instructions-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M12 16v-4"/>
+                        <path d="M12 8h.01"/>
+                    </svg>
+                    <span>Instruções</span>
                 </button>
-                <button class="sidebar-button tab-button active" data-tab="instructions">
-                    <span class="button-icon">ℹ️</span> Instruções
-                </button>
-                <a href="{% url 'portifolio:home' %}" class="sidebar-button home-button">
-                    <span class="button-icon">🏠</span> Home
+                
+                <a href="{% url 'portifolio:home' %}" class="nav-button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        <polyline points="9,22 9,12 15,12 15,22"/>
+                    </svg>
+                    <span>Home</span>
                 </a>
-            </div>
+            </nav>
         </div>
 
-        <div class="main-content">
-            <div id="chat-tab" class="tab-content">
-                <div class="chat-window">
-                    <div id="message-list" class="message-list">
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+        <!-- Uncollapse Button (for collapsed sidebar) -->
+        <button class="uncollapse-button" id="uncollapse-button">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M3 12h18m-9-9l9 9-9 9"/>
+            </svg>
+        </button>
+
+        <!-- Main Content -->
+        <div class="main-content" id="main-content">
+            <!-- Chat Interface -->
+            <div class="chat-container" id="chat-container">
+                <div class="chat-header">
+                    <button class="mobile-sidebar-toggle" id="mobile-sidebar-toggle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="6" x2="21" y2="6"/>
+                            <line x1="3" y1="12" x2="21" y2="12"/>
+                            <line x1="3" y1="18" x2="21" y2="18"/>
+                        </svg>
+                    </button>
+                    <h2>Chat com ZLLM</h2>
+                </div>
+                
+                <div class="messages-container" id="messages-container">
+                    <div class="messages-list" id="messages-list">
                         <!-- Messages will be appended here -->
                     </div>
                 </div>
-                <div class="chat-input-area">
-                    <textarea id="message-input" placeholder="Digite sua mensagem..." rows="1"></textarea>
-                    <button id="send-button">Enviar</button>
+                
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <textarea 
+                            id="message-input" 
+                            placeholder="Envie uma mensagem..." 
+                            rows="1"
+                            maxlength="2000"
+                        ></textarea>
+                        <button class="send-button" id="send-button" disabled>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="22" y1="2" x2="11" y2="13"/>
+                                <polygon points="22,2 15,22 11,13 2,9"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
 
-            <div id="instructions-tab" class="tab-content instructions-content active">
-                <h2>Instruções sobre ZLLM Chat</h2>
-                <p>Bem-vindo ao ZLLM Chat! Estou aqui para responder a qualquer pergunta ou simplesmente conversar com você.</p>
-                
-                <h3>Dicas Rápidas</h3>
-                <ul>
-                    <li><strong>Comece do Zero:</strong> Use o botão "Novo Chat" sempre que quiser iniciar uma nova conversa.</li>
-                    <li><strong>Mensagens de Múltiplas Linhas:</strong> Pressione Shift+Enter para criar uma nova linha em sua mensagem.</li>
-                </ul>
-                
-                <h3>O Que Você Pode Perguntar?</h3>
-                <ul>
-                    <li><strong>Perguntas Gerais:</strong> Sinta-se à vontade para perguntar sobre conceitos de programação, tendências tecnológicas, ferramentas de desenvolvimento, serviços em nuvem, bancos de dados ou outras perguntas cotidianas que você possa ter.</li>
-                    <li><strong>ZLLM:</strong> Esta é minha principal área de especialização! Pergunte sobre minhas capacidades, recursos da API, stack de tecnologia, endpoints, sistemas de autenticação, gerenciamento de modelos ou qualquer aspecto técnico de como funciono. Posso explicar minha geração de texto, capacidades de chat, respostas em streaming, recursos de processamento de imagem e muito mais.</li>
-                </ul>
-                
-                <h3>Experimente Estas Perguntas de Exemplo</h3>
-                <ul>
-                    <li>"Quais recursos o ZLLM oferece?"</li>
-                    <li>"Como o ZLLM lida com autenticação?"</li>
-                    <li>"Conte-me sobre a stack de tecnologia por trás do ZLLM."</li>
-                    <li>"Quais são as diferenças entre os endpoints de streaming e não-streaming?"</li>
-                </ul>
-                
-                <h3>Sua Privacidade</h3>
-                <p>Esta é uma interface de demonstração. Suas conversas não são armazenadas no servidor após o término da sua sessão, mas são enviadas para a API ZLLM para processamento durante sua sessão.</p>
-                
-                <p>Pronto para conversar? Mude para a aba Chat e comece a fazer perguntas!</p>
+            <!-- Instructions Panel -->
+            <div class="instructions-panel" id="instructions-panel">
+                <div class="instructions-content">
+                    <div class="instructions-header">
+                        <h2>Instruções sobre ZLLM Chat</h2>
+                        <button class="close-instructions" id="close-instructions">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <div class="instructions-body">
+                        <div class="instruction-section">
+                            <h3>Bem-vindo</h3>
+                            <p>Eu sou o ZLLM, seu assistente de IA. Estou aqui para ajudar a responder perguntas, fornecer explicações e auxiliar com várias tarefas.</p>
+                        </div>
+                        
+                        <div class="instruction-section">
+                            <h3>Dicas Rápidas</h3>
+                            <div class="tips-grid">
+                                <div class="tip-card">
+                                    <div class="tip-icon">⌨️</div>
+                                    <div class="tip-content">
+                                        <strong>Múltiplas linhas</strong>
+                                        <p>Pressione Shift+Enter para novas linhas</p>
+                                    </div>
+                                </div>
+                                <div class="tip-card">
+                                    <div class="tip-icon">🔄</div>
+                                    <div class="tip-content">
+                                        <strong>Resetar</strong>
+                                        <p>Comece do zero com o botão resetar</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="instruction-section">
+                            <h3>O Que Você Pode Perguntar?</h3>
+                            <div class="capabilities">
+                                <div class="capability">
+                                    <strong>Perguntas Gerais</strong>
+                                    <p>Programação, tecnologia, ferramentas de desenvolvimento, bancos de dados, serviços em nuvem</p>
+                                </div>
+                                <div class="capability">
+                                    <strong>Especialização ZLLM</strong>
+                                    <p>Minhas capacidades, recursos da API, stack de tecnologia, autenticação, respostas em streaming</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="instruction-section">
+                            <h3>Perguntas de Exemplo</h3>
+                            <div class="sample-questions">
+                                <button class="sample-question" data-question="Quais recursos o ZLLM oferece?">
+                                    "Quais recursos o ZLLM oferece?"
+                                </button>
+                                <button class="sample-question" data-question="Como o ZLLM lida com autenticação?">
+                                    "Como o ZLLM lida com autenticação?"
+                                </button>
+                                <button class="sample-question" data-question="Conte-me sobre a stack de tecnologia por trás do ZLLM.">
+                                    "Conte-me sobre a stack de tecnologia por trás do ZLLM."
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="instruction-section privacy-section">
+                            <h3>Privacidade</h3>
+                            <p>Esta é uma interface de demonstração. As conversas não são armazenadas no servidor após o término da sua sessão, mas são enviadas para a API ZLLM para processamento durante sua sessão.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

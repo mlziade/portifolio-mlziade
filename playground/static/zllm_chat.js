@@ -1,148 +1,241 @@
+/**
+ * Modern ZLLM Chat Interface - JavaScript
+ * Inspired by OpenAI/Anthropic chat interfaces
+ */
+
+// Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
-    const messageList = document.getElementById('message-list');
-    const messageInput = document.getElementById('message-input');
-    const sendButton = document.getElementById('send-button');
-    const loadingSpinner = document.getElementById('loading-spinner');
-    const newChatButton = document.getElementById('new-chat-button');
-    
-    const tabButtons = document.querySelectorAll('.tab-button');
-    const tabContents = document.querySelectorAll('.tab-content');
+    // DOM Elements
+    const elements = {
+        // Sidebar
+        sidebar: document.getElementById('sidebar'),
+        sidebarToggle: document.getElementById('sidebar-toggle'),
+        sidebarOverlay: document.getElementById('sidebar-overlay'),
+        mobileSidebarToggle: document.getElementById('mobile-sidebar-toggle'),
+        uncollapseButton: document.getElementById('uncollapse-button'),
+        
+        // Navigation
+        resetButton: document.getElementById('reset-button'),
+        instructionsButton: document.getElementById('instructions-button'),
+        closeInstructions: document.getElementById('close-instructions'),
+        
+        // Chat
+        chatContainer: document.getElementById('chat-container'),
+        messagesList: document.getElementById('messages-list'),
+        messageInput: document.getElementById('message-input'),
+        sendButton: document.getElementById('send-button'),
+        
+        // Instructions
+        instructionsPanel: document.getElementById('instructions-panel'),
+        sampleQuestions: document.querySelectorAll('.sample-question')
+    };
 
-    let chatHistoryForAPI = []; // Stores {role: 'user'/'assistant', content: '...'}
-    
-    // Determine language from HTML lang attribute
-    const htmlLang = document.documentElement.lang || 'en';
-    
-    const welcomeMessage_en = "## Welcome to ZLLM Chat! 👋\n\nHello! I'm **ZLLM**. How can I assist you today? Feel free to ask anything about me or general questions.\n\n*You can try asking about my features, capabilities, or any programming questions you might have.*";
-    const welcomeMessage_pt_br = "## Bem-vindo ao ZLLM Chat! 👋\n\nOlá! Eu sou o **ZLLM**. Como posso ajudar você hoje? Sinta-se à vontade para perguntar qualquer coisa sobre mim ou questões gerais.\n\n*Você pode tentar perguntar sobre minhas funcionalidades, capacidades ou qualquer dúvida de programação que possa ter.*";
+    // Application State
+    const state = {
+        chatHistory: [], // For API - stores {role: 'user'/'assistant', content: '...'}
+        isLoading: false,
+        sidebarCollapsed: false,
+        isMobile: window.innerWidth <= 768
+    };
 
-    let welcomeMessage;
-    if (htmlLang.startsWith('pt')) {
-        welcomeMessage = welcomeMessage_pt_br;
-    } else {
-        welcomeMessage = welcomeMessage_en;
-    }
+    // Language Detection
+    const language = document.documentElement.lang || 'en';
+    const isPortuguese = language.startsWith('pt');
+
+    // Welcome Messages
+    const welcomeMessages = {
+        en: "## Welcome to ZLLM Chat! 👋\n\nHello! I'm **ZLLM**, your AI assistant. I'm here to help answer questions, provide explanations, and assist with various tasks. How can I help you today?\n\n*Feel free to ask about my capabilities, programming concepts, or any questions you might have.*",
+        pt: "## Bem-vindo ao ZLLM Chat! 👋\n\nOlá! Eu sou o **ZLLM**, seu assistente de IA. Estou aqui para ajudar a responder perguntas, fornecer explicações e auxiliar com várias tarefas. Como posso ajudar você hoje?\n\n*Sinta-se à vontade para perguntar sobre minhas capacidades, conceitos de programação ou qualquer dúvida que possa ter.*"
+    };
+
+    const welcomeMessage = isPortuguese ? welcomeMessages.pt : welcomeMessages.en;
 
     // CSRF Token
-    function getCookie(name) {
-        let cookieValue = null;
-        if (document.cookie && document.cookie !== '') {
-            const cookies = document.cookie.split(';');
-            for (let i = 0; i < cookies.length; i++) {
-                const cookie = cookies[i].trim();
-                if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                    break;
-                }
-            }
-        }
-        return cookieValue;
+    function getCsrfToken() {
+        const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('csrftoken='))
+            ?.split('=')[1];
+        return cookieValue || '';
     }
-    const csrftoken = getCookie('csrftoken');
 
-    // Tab switching
-    tabButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            tabButtons.forEach(btn => btn.classList.remove('active'));
-            button.classList.add('active');
+    // Initialize marked configuration
+    if (typeof marked !== 'undefined') {
+        marked.setOptions({
+            breaks: true,
+            gfm: true,
+            headerIds: false,
+            mangle: false
+        });
+    }
 
-            const targetTab = button.getAttribute('data-tab');
-            tabContents.forEach(content => {
-                content.classList.remove('active');
-                if (content.id === `${targetTab}-tab`) {
-                    content.classList.add('active');
-                }
+    // Utility Functions
+    function debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    function scrollToBottom(smooth = true) {
+        const container = elements.messagesList.parentElement; // messages-container
+        if (smooth) {
+            container.scrollTo({
+                top: container.scrollHeight,
+                behavior: 'smooth'
             });
-        });
-    });
-
-    // New chat functionality
-    function startNewChat() {
-        messageList.innerHTML = ''; // Clear all messages
-        chatHistoryForAPI = []; // Reset chat history
-        addMessageToDisplay('assistant', welcomeMessage);
-        
-        // Switch to chat tab if not already active
-        tabButtons.forEach(btn => {
-            if (btn.getAttribute('data-tab') === 'chat') {
-                btn.click();
-            }
-        });
-        
-        messageInput.value = '';
-        adjustTextareaHeight();
-        messageInput.focus();
+        } else {
+            container.scrollTop = container.scrollHeight;
+        }
     }
 
-    newChatButton.addEventListener('click', startNewChat);
+    function updateSendButtonState() {
+        const hasText = elements.messageInput.value.trim().length > 0;
+        elements.sendButton.disabled = !hasText || state.isLoading;
+    }
 
-    // Configure marked options for markdown parsing
-    marked.setOptions({
-        breaks: true, // Add line breaks on single line breaks
-        gfm: true,    // Use GitHub Flavored Markdown
-        headerIds: false, // Don't add IDs to headers
-        mangle: false // Don't mangle email addresses
-    });
+    function adjustTextareaHeight() {
+        elements.messageInput.style.height = 'auto';
+        elements.messageInput.style.height = Math.min(elements.messageInput.scrollHeight, 128) + 'px';
+    }
 
-    function addMessageToDisplay(role, content) {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('message', role);
-        
-        // Only render markdown for assistant messages
-        if (role === 'assistant') {
-            // Parse markdown and sanitize the resulting HTML
+    // Message Creation Functions
+    function createMessageElement(role, content) {
+        const messageElement = document.createElement('div');
+        messageElement.classList.add('message', role);
+
+        // Create avatar
+        const avatar = document.createElement('div');
+        avatar.classList.add('message-avatar');
+        avatar.textContent = role === 'user' ? 'U' : 'AI';
+
+        // Create content container
+        const messageContent = document.createElement('div');
+        messageContent.classList.add('message-content');
+
+        // Create message bubble
+        const bubble = document.createElement('div');
+        bubble.classList.add('message-bubble');
+
+        if (role === 'assistant' && typeof marked !== 'undefined' && typeof DOMPurify !== 'undefined') {
+            // Parse markdown and sanitize for assistant messages
             const parsedContent = marked.parse(content);
             const sanitizedContent = DOMPurify.sanitize(parsedContent);
             
-            // Create a container for the markdown content
-            const contentContainer = document.createElement('div');
-            contentContainer.classList.add('markdown-content');
-            contentContainer.innerHTML = sanitizedContent;
-            messageDiv.appendChild(contentContainer);
+            const markdownContainer = document.createElement('div');
+            markdownContainer.classList.add('markdown-content');
+            markdownContainer.innerHTML = sanitizedContent;
+            bubble.appendChild(markdownContainer);
         } else {
-            // For user messages, keep as plain text
-            const contentParagraph = document.createElement('p');
-            contentParagraph.textContent = content;
-            messageDiv.appendChild(contentParagraph);
+            // Plain text for user messages
+            const textElement = document.createElement('p');
+            textElement.textContent = content;
+            textElement.style.margin = '0';
+            bubble.appendChild(textElement);
+        }
+
+        messageContent.appendChild(bubble);
+        messageElement.appendChild(avatar);
+        messageElement.appendChild(messageContent);
+
+        return messageElement;
+    }
+
+    function addMessage(role, content) {
+        const messageElement = createMessageElement(role, content);
+        elements.messagesList.appendChild(messageElement);
+        
+        // Smooth scroll to the new message after a brief delay to allow for DOM updates
+        requestAnimationFrame(() => {
+            setTimeout(() => {
+                scrollToBottom(true);
+            }, 50);
+        });
+    }
+
+    // Chat Functions
+    function resetChat() {
+        // Clear messages
+        elements.messagesList.innerHTML = '';
+        
+        // Reset chat history
+        state.chatHistory = [];
+        
+        // Add welcome message
+        addMessage('assistant', welcomeMessage);
+        
+        // Focus input
+        elements.messageInput.focus();
+        
+        // Close instructions if open
+        hideInstructions();
+    }
+
+    function setLoadingState(loading) {
+        state.isLoading = loading;
+        
+        if (loading) {
+            elements.sendButton.classList.add('loading');
+            elements.sendButton.innerHTML = '<div class="spinner"></div>';
+            elements.messageInput.disabled = true;
+        } else {
+            elements.sendButton.classList.remove('loading');
+            elements.sendButton.innerHTML = `
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="22" y1="2" x2="11" y2="13"/>
+                    <polygon points="22,2 15,22 11,13 2,9"/>
+                </svg>
+            `;
+            elements.messageInput.disabled = false;
+            elements.messageInput.focus();
         }
         
-        messageList.appendChild(messageDiv);
-        // Ensure scroll to bottom of message list
-        messageList.scrollTop = messageList.scrollHeight;
+        updateSendButtonState();
     }
 
     async function sendMessage() {
-        const userMessageContent = messageInput.value.trim();
-        if (!userMessageContent) return;
+        const userMessage = elements.messageInput.value.trim();
+        if (!userMessage || state.isLoading) return;
 
-        addMessageToDisplay('user', userMessageContent);
-        messageInput.value = '';
-        adjustTextareaHeight(); // Reset textarea height
-
-        // Save the original button text and replace with spinner
-        const originalButtonText = sendButton.innerHTML;
-        sendButton.innerHTML = '<div class="spinner"></div>';
-        sendButton.disabled = true;
+        // Add user message to UI
+        addMessage('user', userMessage);
+        
+        // Clear input and reset height
+        elements.messageInput.value = '';
+        adjustTextareaHeight();
+        
+        // Set loading state
+        setLoadingState(true);
 
         try {
             const response = await fetch('/playground/zllm/chat/chat_with_zllm/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-CSRFToken': csrftoken,
+                    'X-CSRFToken': getCsrfToken(),
                 },
                 body: JSON.stringify({
-                    prompt: userMessageContent,
-                    messages: chatHistoryForAPI, // Send history before current user message
+                    prompt: userMessage,
+                    messages: state.chatHistory,
                 }),
             });
 
             if (!response.ok) {
-                const errorData = await response.json().catch(() => ({ error: 'Failed to parse error response' }));
+                let errorMessage = 'An error occurred while sending your message.';
                 
-                // Handle specific error types
-                let errorMessage = errorData.error || `HTTP error! status: ${response.status}`;
+                try {
+                    const errorData = await response.json();
+                    errorMessage = errorData.error || errorMessage;
+                } catch (e) {
+                    // Use default error message
+                }
                 
+                // Handle specific HTTP status codes
                 if (response.status === 502) {
                     errorMessage = 'The AI service is temporarily unavailable. Please try again in a moment.';
                 } else if (response.status === 408) {
@@ -157,62 +250,202 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const data = await response.json();
-            const assistantResponseContent = data.response;
+            const assistantResponse = data.response;
 
-            if (assistantResponseContent) {
-                addMessageToDisplay('assistant', assistantResponseContent);
-                // Update API history
-                chatHistoryForAPI.push({ role: 'user', content: userMessageContent });
-                chatHistoryForAPI.push({ role: 'assistant', content: assistantResponseContent });
+            if (assistantResponse) {
+                // Add assistant message to UI
+                addMessage('assistant', assistantResponse);
+                
+                // Update chat history
+                state.chatHistory.push({ role: 'user', content: userMessage });
+                state.chatHistory.push({ role: 'assistant', content: assistantResponse });
             } else {
-                addMessageToDisplay('assistant', 'Sorry, I received an empty response.');
+                throw new Error('Received empty response from the server.');
             }
 
         } catch (error) {
             console.error('Error sending message:', error);
             
-            // Check if it's a network error
+            let errorDisplay = error.message;
             if (error.name === 'TypeError' && error.message.includes('fetch')) {
-                addMessageToDisplay('assistant', 'Network error: Please check your internet connection and try again.');
-            } else {
-                addMessageToDisplay('assistant', `**Error:** ${error.message}\n\n*You can try sending your message again.*`);
+                errorDisplay = 'Network error: Please check your internet connection and try again.';
             }
+            
+            addMessage('assistant', `**Error:** ${errorDisplay}\n\n*You can try sending your message again.*`);
         } finally {
-            // Restore the original button text
-            sendButton.innerHTML = originalButtonText;
-            sendButton.disabled = false;
-            messageInput.focus();
+            setLoadingState(false);
         }
     }
 
-    sendButton.addEventListener('click', sendMessage);
-    messageInput.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter' && !event.shiftKey) {
+    // Sidebar Functions
+    function toggleSidebar() {
+        if (state.isMobile) {
+            elements.sidebar.classList.toggle('open');
+            elements.sidebarOverlay.classList.toggle('visible');
+        } else {
+            state.sidebarCollapsed = !state.sidebarCollapsed;
+            elements.sidebar.classList.toggle('collapsed', state.sidebarCollapsed);
+            updateUncollapseButton();
+        }
+    }
+
+    function updateUncollapseButton() {
+        if (!state.isMobile && elements.uncollapseButton) {
+            elements.uncollapseButton.classList.toggle('visible', state.sidebarCollapsed);
+        }
+    }
+
+    function closeSidebar() {
+        if (state.isMobile) {
+            elements.sidebar.classList.remove('open');
+            elements.sidebarOverlay.classList.remove('visible');
+        }
+    }
+
+    // Instructions Functions
+    function showInstructions() {
+        elements.instructionsPanel.classList.add('visible');
+    }
+
+    function hideInstructions() {
+        elements.instructionsPanel.classList.remove('visible');
+    }
+
+    function insertSampleQuestion(question) {
+        elements.messageInput.value = question;
+        adjustTextareaHeight();
+        updateSendButtonState();
+        elements.messageInput.focus();
+        hideInstructions();
+    }
+
+    // Event Listeners
+    
+    // Sidebar toggle
+    if (elements.sidebarToggle) {
+        elements.sidebarToggle.addEventListener('click', toggleSidebar);
+    }
+
+    if (elements.mobileSidebarToggle) {
+        elements.mobileSidebarToggle.addEventListener('click', toggleSidebar);
+    }
+
+    if (elements.sidebarOverlay) {
+        elements.sidebarOverlay.addEventListener('click', closeSidebar);
+    }
+
+    if (elements.uncollapseButton) {
+        elements.uncollapseButton.addEventListener('click', toggleSidebar);
+    }
+
+    // Navigation buttons
+    if (elements.resetButton) {
+        elements.resetButton.addEventListener('click', resetChat);
+    }
+
+    if (elements.instructionsButton) {
+        elements.instructionsButton.addEventListener('click', showInstructions);
+    }
+
+    if (elements.closeInstructions) {
+        elements.closeInstructions.addEventListener('click', hideInstructions);
+    }
+
+    // Message input handling
+    if (elements.messageInput) {
+        elements.messageInput.addEventListener('input', () => {
+            adjustTextareaHeight();
+            updateSendButtonState();
+        });
+
+        elements.messageInput.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Auto-focus on page load
+        elements.messageInput.focus();
+    }
+
+    // Send button
+    if (elements.sendButton) {
+        elements.sendButton.addEventListener('click', sendMessage);
+    }
+
+    // Sample questions
+    elements.sampleQuestions.forEach(button => {
+        button.addEventListener('click', () => {
+            const question = button.getAttribute('data-question');
+            if (question) {
+                insertSampleQuestion(question);
+            }
+        });
+    });
+
+    // Window resize handling
+    const handleResize = debounce(() => {
+        const wasMobile = state.isMobile;
+        state.isMobile = window.innerWidth <= 768;
+        
+        // If switching from mobile to desktop, close mobile sidebar
+        if (wasMobile && !state.isMobile) {
+            closeSidebar();
+        }
+        
+        // If switching from desktop to mobile, reset sidebar collapsed state
+        if (!wasMobile && state.isMobile) {
+            elements.sidebar.classList.remove('collapsed');
+            state.sidebarCollapsed = false;
+            updateUncollapseButton();
+        }
+        
+        // Update uncollapse button visibility
+        updateUncollapseButton();
+    }, 250);
+
+    window.addEventListener('resize', handleResize);
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (event) => {
+        // Escape key to close instructions
+        if (event.key === 'Escape') {
+            hideInstructions();
+            if (state.isMobile) {
+                closeSidebar();
+            }
+        }
+        
+        // Ctrl/Cmd + K to focus input
+        if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
             event.preventDefault();
-            sendMessage();
+            elements.messageInput.focus();
+        }
+        
+        // Ctrl/Cmd + R to reset chat
+        if ((event.ctrlKey || event.metaKey) && event.key === 'r') {
+            event.preventDefault();
+            resetChat();
         }
     });
 
-    // Auto-adjust textarea height
-    function adjustTextareaHeight() {
-        messageInput.style.height = 'auto'; // Reset height
-        messageInput.style.height = (messageInput.scrollHeight) + 'px'; // Set to scroll height
-    }
-    messageInput.addEventListener('input', adjustTextareaHeight);
-    
-    // Initialize UI
-    adjustTextareaHeight();
-    
-    // We don't automatically start a new chat on page load
-    // This keeps the instructions tab as default
-    // When user clicks on Chat tab or New Chat button, then we'll start a chat
-    
-    // Pre-load the welcome message for when user switches to chat
-    const chatTab = document.querySelector('[data-tab="chat"]');
-    chatTab.addEventListener('click', () => {
-        // Only add welcome message if chat is empty
-        if (messageList.children.length === 0) {
-            addMessageToDisplay('assistant', welcomeMessage);
+    // Initialize
+    function init() {
+        // Set initial state
+        updateSendButtonState();
+        adjustTextareaHeight();
+        updateUncollapseButton();
+        
+        // Check if we should show welcome message
+        if (elements.messagesList.children.length === 0) {
+            addMessage('assistant', welcomeMessage);
         }
-    });
+        
+        // Focus input
+        elements.messageInput.focus();
+    }
+
+    // Start the application
+    init();
 });
