@@ -56,3 +56,25 @@ jobs:
           
           echo "Deployment completed successfully"
         EOF
+
+    - name: Purge Cloudflare cache
+      env:
+        CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+      run: |
+        echo "Validating Cloudflare API token..."
+        if ! curl -s "https://api.cloudflare.com/client/v4/user/tokens/verify" \
+          -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+          --fail > /dev/null; then
+          echo "❌ Cloudflare API token validation failed. Please check your CLOUDFLARE_API_TOKEN secret."
+          exit 1
+        fi
+        echo "✅ Cloudflare API token validated successfully"
+        
+        echo "Purging Cloudflare cache..."
+        curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
+          -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+          -H "Content-Type: application/json" \
+          --data '{"purge_everything":true}' \
+          --fail || { echo "Failed to purge Cloudflare cache"; exit 1; }
+        echo "✅ Cloudflare cache purged successfully"
