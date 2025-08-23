@@ -23,11 +23,11 @@
 
 .user-summary h1 {
     margin: 0 0 0.7rem 0;
-    color: aliceblue;
+    color: var(--text-primary);
 }
 
 .user-summary p {
-    color: rgb(182, 182, 182);
+    color: var(--text-secondary);
     font-size: 1rem;
     margin: 0 0 0 0;
 }
@@ -42,7 +42,7 @@
     display: block;
     /* Prevent layout shift during image load */
     aspect-ratio: 1 / 1;
-    background-color: rgba(182, 182, 182, 0.1);
+    background-color: var(--hover-bg);
     align-self: center;
 }
 
@@ -86,14 +86,14 @@
 
 .social-icon {
     font-size: 2rem;
-    color: aliceblue;
+    color: var(--text-primary);
     text-decoration: none;
-    transition: all 0.3s ease;
+    transition: all var(--transition-medium);
 }
 
 .social-icon:hover {
     transform: scale(1.2);
-    color: #4da6ff;
+    color: var(--accent-primary);
 }
 
 /* Media queries for responsiveness */

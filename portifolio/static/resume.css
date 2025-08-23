@@ -12,13 +12,13 @@
 .container h1 {
     font-size: 10rem;
     margin-bottom: 1rem;
-    color: aliceblue;
+    color: var(--text-primary);
 }
 
 .container h2 {
     font-size: 2rem;
     margin-bottom: 1rem;
-    color: aliceblue;
+    color: var(--text-primary);
 }
 
 .work-experiences {
@@ -37,7 +37,7 @@
     width: 100%;
     align-items: flex-start;
     padding: 1rem 0;
-    border-bottom: 1px solid rgba(182, 182, 182, 0.2);
+    border-bottom: 1px solid var(--border-secondary);
 }
 
 .work-dateframe {
@@ -48,7 +48,7 @@
 .work-dateframe p {
     font-size: 0.8rem;
     margin: 0.5rem 0 0 0;
-    color: aliceblue;
+    color: var(--text-primary);
     white-space: nowrap;
 }
 
@@ -59,7 +59,7 @@
 
 .work-info h3 {
     margin-top: 0;
-    color: aliceblue;
+    color: var(--text-primary);
 }
 
 .work-description {
@@ -76,20 +76,21 @@
 }
 
 .tag {
-    color: rgb(90, 90, 90);
-    background-color: rgba(70, 70, 70, 0.3);
-    border: 1px solid rgba(120, 120, 120, 0.5);
+    color: var(--text-muted);
+    background-color: var(--hover-bg);
+    border: 1px solid var(--border-primary);
     padding: 0.3rem 0.6rem;
     border-radius: 12px;
-    transition: all 0.2s ease-in-out;
+    transition: all var(--transition-fast);
     font-size: 0.85rem;
 }
 
 .tag:hover {
-    color: white;
-    background-color: rgba(100, 100, 100, 0.8);
-    border-color: rgba(150, 150, 150, 0.8);
+    color: var(--text-white);
+    background-color: var(--hover-grey-bg);
+    border-color: var(--hover-grey-border);
     cursor: pointer;
+    transform: translateY(-1px);
 }
 
 .certificates-and-courses {
@@ -108,7 +109,7 @@
     width: 100%;
     align-items: flex-start;
     padding: 1rem 0;
-    border-bottom: 1px solid rgba(182, 182, 182, 0.2);
+    border-bottom: 1px solid var(--border-secondary);
 }
 
 .certificate-or-course-dateframe {
@@ -120,7 +121,7 @@
 .certificate-or-course-dateframe p {
     font-size: 0.8rem;
     margin: 0.5rem 0 0 0;
-    color: aliceblue;
+    color: var(--text-primary);
     white-space: nowrap;
 }
 
@@ -131,12 +132,12 @@
 
 .certificate-or-course-info h3 {
     margin-top: 0;
-    color: aliceblue;
+    color: var(--text-primary);
 }
 
 .container p {
     text-align: justify;
-    color: rgb(182, 182, 182);
+    color: var(--text-secondary);
 }
 
 /* Media queries for responsiveness */

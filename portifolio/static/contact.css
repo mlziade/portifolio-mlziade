@@ -12,7 +12,7 @@
 .container h1 {
     font-size: 10rem;
     margin-bottom: 3rem;
-    color: aliceblue;
+    color: var(--text-primary);
 }
 
 .container p {
@@ -21,7 +21,7 @@
     overflow-wrap: break-word;
     margin-left: auto;
     margin-right: auto;
-    color: rgb(182, 182, 182);
+    color: var(--text-secondary);
 }
 
 .contact-links {
@@ -43,18 +43,18 @@
 
 .contact-item i {
     font-size: 2rem;
-    color: aliceblue;
+    color: var(--text-primary);
 }
 
 .contact-item a {
-    color: rgb(182, 182, 182);
+    color: var(--text-secondary);
     text-decoration: none;
-    transition: color 0.3s;
+    transition: color var(--transition-medium);
     word-break: break-word;
 }
 
 .contact-item a:hover {
-    color: aliceblue;
+    color: var(--text-primary);
 }
 
 /* Media queries for responsiveness */

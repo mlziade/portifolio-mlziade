@@ -1,0 +1,74 @@
+/**
+ * Global Color System
+ * 
+ * This file defines all colors used across the portfolio website.
+ * Using CSS custom properties ensures consistent colors throughout all pages.
+ */
+
+:root {
+  /* Primary Background Colors */
+  --bg-primary: rgb(18, 18, 18);
+  --bg-secondary: rgba(18, 18, 18, 0.95);
+  --bg-tertiary: rgba(25, 25, 25, 1);
+  
+  /* Text Colors */
+  --text-primary: aliceblue;
+  --text-secondary: rgb(182, 182, 182);
+  --text-muted: rgb(150, 150, 150);
+  --text-white: white;
+  --text-light: #f1f1f1;
+  
+  /* Accent Colors */
+  --accent-primary: #4da6ff;
+  --accent-hover: #66b3ff;
+  --accent-active: #3399ff;
+  
+  /* Interactive States */
+  --hover-bg: rgba(255, 255, 255, 0.05);
+  --hover-grey-bg: rgba(100, 100, 100, 0.8);
+  --hover-grey-border: rgba(150, 150, 150, 0.8);
+  --focus-outline: #4da6ff;
+  --selection-bg: rgba(77, 166, 255, 0.3);
+  
+  /* Border Colors */
+  --border-primary: rgba(255, 255, 255, 0.1);
+  --border-secondary: rgba(255, 255, 255, 0.05);
+  --border-accent: var(--accent-primary);
+  
+  /* Debug Colors (temporary) */
+  --debug-red: rgba(255, 0, 0, 0.2);
+  --debug-green: rgba(0, 255, 0, 0.3);
+  --debug-blue: rgba(0, 0, 255, 0.2);
+  --debug-yellow: rgba(255, 255, 0, 0.3);
+  --debug-red-border: red;
+  --debug-green-border: green;
+  --debug-blue-border: blue;
+  --debug-orange-border: orange;
+  
+  /* Shadows */
+  --shadow-small: 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-medium: 0 4px 8px rgba(0, 0, 0, 0.4);
+  --shadow-large: 0 8px 16px rgba(0, 0, 0, 0.5);
+  
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+}
+
+/* Global text selection styling */
+::selection {
+  background-color: var(--selection-bg);
+  color: var(--text-primary);
+}
+
+::-moz-selection {
+  background-color: var(--selection-bg);
+  color: var(--text-primary);
+}
+
+/* Global focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--focus-outline);
+  outline-offset: 2px;
+}
