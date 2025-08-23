@@ -1,3 +1,5 @@
+
+
 .container {
     display: flex;
     flex-direction: column;
@@ -35,12 +37,13 @@
     width: 110px;
     height: 110px;
     border-radius: 50%;
-    margin: 0 2rem 1rem 0;
+    margin: 0 2rem 0 0;
     object-fit: cover;
     display: block;
     /* Prevent layout shift during image load */
     aspect-ratio: 1 / 1;
     background-color: rgba(182, 182, 182, 0.1);
+    align-self: center;
 }
 
 .user-summary picture img {
@@ -103,9 +106,9 @@
     
     .user-summary img,
     .user-summary picture {
-        margin: 0 0 1rem 0;
-        width: 88px;
-        height: 88px;
+        margin: 0 auto 1rem auto;
+        width: 140px;
+        height: 140px;
     }
     
     .user-info {
@@ -130,7 +133,8 @@
     
     .user-summary img,
     .user-summary picture {
-        width: 66px;
-        height: 66px;
+        width: 120px;
+        height: 120px;
+        margin: 0 auto 1rem auto;
     }
 }

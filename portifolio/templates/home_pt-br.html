@@ -15,7 +15,6 @@
 {% block preload_resources %}
   {% load static %}
   <link rel="preload" as="image" href="{% static 'profile_picture.webp' %}" type="image/webp" fetchpriority="high">
-  <link rel="preload" as="image" href="{% static 'profile_picture.jpg' %}" fetchpriority="high">
 {% endblock %}
 
 {% block structured_data %}
@@ -28,7 +27,7 @@
     "jobTitle": "Desenvolvedor Backend / Arquiteto de Soluções",
     "description": "Desenvolvedor Backend experiente e Arquiteto de Soluções especializado em Python, JavaScript, TypeScript e Go",
     "url": "{{ request.scheme }}://{{ request.get_host }}",
-    "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.jpg' %}",
+    "image": "{{ request.scheme }}://{{ request.get_host }}{% static 'profile_picture.webp' %}",
     "sameAs": [
       "https://www.linkedin.com/in/mlziade/",
       "https://github.com/mlziade",
@@ -60,16 +59,11 @@
     <picture>
       <!-- WebP format for modern browsers -->
       <source media="(min-width: 768px)" srcset="{% static 'profile_picture.webp' %}" type="image/webp">
-      <source media="(min-width: 576px)" srcset="{% static 'profile_picture_88.webp' %}" type="image/webp">
-      <source srcset="{% static 'profile_picture_66.webp' %}" type="image/webp">
+      <source media="(min-width: 576px)" srcset="{% static 'profile_picture_140.webp' %}" type="image/webp">
+      <source srcset="{% static 'profile_picture_120.webp' %}" type="image/webp">
       
-      <!-- Fallback JPEG for older browsers -->
-      <source media="(min-width: 768px)" srcset="{% static 'profile_picture.jpg' %}" type="image/jpeg">
-      <source media="(min-width: 576px)" srcset="{% static 'profile_picture_88.jpg' %}" type="image/jpeg">
-      <source srcset="{% static 'profile_picture_66.jpg' %}" type="image/jpeg">
-      
-      <!-- Final fallback -->
-      <img src="{% static 'profile_picture.jpg' %}" 
+      <!-- Fallback to high-res PNG -->
+      <img src="{% static 'profile_picture_high_res.png' %}" 
            alt="Michel Ziade - Desenvolvedor Backend e Arquiteto de Soluções" 
            width="110" 
            height="110" 
