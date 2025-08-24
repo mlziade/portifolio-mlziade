@@ -1,5 +1,6 @@
 {% load static %}
 {% load compress %}
+{% load language_tags %}
 <!DOCTYPE html>
 <html lang="{% if current_lang == 'pt-br' %}pt-BR{% else %}en{% endif %}">
 
@@ -44,9 +45,7 @@
   <link rel="canonical" href="{% block canonical_url %}{{ request.build_absolute_uri }}{% endblock %}">
   
   <!-- Language Alternates -->
-  <link rel="alternate" hreflang="en" href="{{ request.path }}">
-  <link rel="alternate" hreflang="pt-BR" href="{{ request.path }}">
-  <link rel="alternate" hreflang="x-default" href="{{ request.path }}">
+  {% generate_hreflang_tags %}
     <!-- Page Title -->
   <title>{% block title %}{% endblock %}</title>
   
