@@ -97,7 +97,9 @@
 		const fig = targetImg.closest('figure');
 		const figcap = fig ? fig.querySelector('figcaption') : null;
 		const captionText = figcap ? figcap.innerText.trim() : '';
-		openLightbox(targetImg.currentSrc || targetImg.src, targetImg.alt || '', captionText);
+		// Use high-res PNG for lightbox if available, otherwise fall back to current image
+		const lightboxSrc = targetImg.getAttribute('data-lightbox-src') || targetImg.currentSrc || targetImg.src;
+		openLightbox(lightboxSrc, targetImg.alt || '', captionText);
 	});
 
 	// Close interactions
