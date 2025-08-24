@@ -14,6 +14,15 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - Always use `uv` commands instead of `pip` or `python` directly
 - All dependencies are managed through `pyproject.toml`
 
+## Coding Guidelines
+
+### Python Guidelines
+
+* If there are uv files (like `uv.lock`) in the project, use uv commands.
+* NEVER import or use the `typing` library in def functions signature — always use python type hints like the example below.
+* Always use the logging library to create logs.
+* Use Docstrings format for commenting on the code.
+
 ## Code Architecture
 
 ### Two-App Structure
@@ -52,6 +61,49 @@ The codebase uses a **custom language system** instead of Django's built-in i18n
 - **Streaming responses** via Server-Sent Events
 - **Rate limiting**: 5 requests/minute via Django REST Framework
 - **Error handling**: Comprehensive user-friendly error messages
+
+#### ZLLM API Integration Details
+
+When asked to integrate with the ZLLM API or create a connector file, use the following examples for the basic endpoints:
+
+**Environment Variables:**
+* `ZLLM_API_KEY`: The API key
+* `ZLLM_BASE_URL`: `https://zllm.mlziade.com.br`
+* `ZLLM_MODEL`: `gemma3:1b`
+
+**Example cURL Requests:**
+
+Auth:
+```bash
+curl --location '{{ZLLM_BASE_URL}}/auth' \
+  --header 'Content-Type: application/json' \
+  --data '{"api_key": "{{ZLLM_API_KEY}}"}'
+```
+
+Example Response:
+```json
+{
+  "expires_at": "2025-05-11T22:17:49.1992874-03:00",
+  "role": "admin",
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+Generate:
+```bash
+curl --location '{{ZLLM_BASE_URL}}/llm/generate' \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: Bearer <your_token>' \
+  --data '{"prompt": "What is an LLM in 200 words?", "model": "{{ZLLM_MODEL}}"}'
+```
+
+Generate (Streaming):
+```bash
+curl --location '{{ZLLM_BASE_URL}}/llm/generate/streaming' \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: Bearer <your_token>' \
+  --data '{"prompt": "O que são LLM em 200 palavras", "model": "{{ZLLM_MODEL}}"}'
+```
 
 ### API Design Patterns
 - **Thin controllers**: Views delegate to service layer
