@@ -1,17 +1,7 @@
-// Projects page: collapsible details toggles
+// Projects page: collapsible details toggles (multiple open allowed)
 (function(){
 	const list = document.querySelector('.projects-list');
 	if (!list) return;
-
-	const closeAll = (exceptId) => {
-		document.querySelectorAll('.project-details.open').forEach(d => {
-			if (exceptId && d.id === exceptId) return;
-			d.classList.remove('open');
-			d.setAttribute('aria-hidden', 'true');
-			const btn = document.querySelector(`button.summary-toggle[aria-controls="${d.id}"]`);
-			if (btn) btn.setAttribute('aria-expanded', 'false');
-		});
-	};
 
 	list.addEventListener('click', (e) => {
 		const btn = e.target.closest('button.summary-toggle');
@@ -27,7 +17,6 @@
 			panel.setAttribute('aria-hidden', 'true');
 			btn.setAttribute('aria-expanded', 'false');
 		} else {
-			closeAll(id);
 			panel.classList.add('open');
 			panel.setAttribute('aria-hidden', 'false');
 			btn.setAttribute('aria-expanded', 'true');
