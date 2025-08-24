@@ -242,15 +242,13 @@
 }
 
 .tag {
-    color: var(--text-light);
+    color: var(--text-muted);
     background-color: var(--hover-bg);
     border: 1px solid var(--border-primary);
-    padding: 0.32rem 0.72rem;
-    border-radius: 10px; /* rounded rectangle */
-    font-size: 0.78rem;
-    line-height: 1;
-    transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
-    box-shadow: 0 1px 0 rgba(0,0,0,0.06) inset;
+    padding: 0.3rem 0.6rem;
+    border-radius: 12px; /* match resume */
+    font-size: 0.85rem;
+    transition: all var(--transition-fast);
     direction: ltr; /* keep label text normal */
 }
 
@@ -260,7 +258,6 @@
     border-color: var(--hover-grey-border);
     cursor: pointer;
     transform: translateY(-1px);
-    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
 }
 
 /* Reduced motion: avoid movement on hover */
@@ -288,6 +285,14 @@
     .project-summary { grid-template-columns: 56px 1fr auto; }
     .details-previews .preview { min-height: 240px; }
     .summary-title { max-width: calc(100% - 160px); }
+}
+
+/* Match resume small-tag sizing */
+@media (max-width: 576px) {
+    .tag {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.5rem;
+    }
 }
 
 /* Respect reduced motion preferences */
