@@ -128,3 +128,85 @@
 		}
 	});
 })();
+
+// Progressive preloading of project preview images
+(function(){
+	const list = document.querySelector('.projects-list');
+	if (!list) return;
+
+	// Hint the browser to decode asynchronously for all preview images
+	document.querySelectorAll('.details-previews img').forEach(img => {
+		try { img.decoding = 'async'; } catch(_) {}
+	});
+
+	const preloaded = new Set();
+
+	function preload(src) {
+		if (!src || preloaded.has(src)) return Promise.resolve();
+		return new Promise(resolve => {
+			const im = new Image();
+			try { im.decoding = 'async'; } catch(_) {}
+			im.onload = () => { preloaded.add(src); resolve(); };
+			im.onerror = () => { /* ignore errors, continue */ resolve(); };
+			im.src = src;
+		});
+	}
+
+	function getProjectImages(projectEl) {
+		return Array.from(projectEl.querySelectorAll('.details-previews img'));
+	}
+
+	function preloadFirst(projectEl) {
+		const imgs = getProjectImages(projectEl);
+		if (!imgs.length) return Promise.resolve();
+		const el = imgs[0];
+		const src = el.currentSrc || el.src;
+		return preload(src);
+	}
+
+	function preloadAll(projectEl) {
+		const imgs = getProjectImages(projectEl);
+		if (!imgs.length) return Promise.resolve();
+		return Promise.all(imgs.map(el => preload(el.currentSrc || el.src)));
+	}
+
+	const items = Array.from(list.querySelectorAll('.project-item'));
+
+	// Idle: warm the first preview of each project
+	const idle = window.requestIdleCallback || function(fn){ return setTimeout(fn, 200); };
+	idle(() => { items.forEach(preloadFirst); });
+
+	// Near viewport: ensure first image ready before opening
+	if ('IntersectionObserver' in window) {
+		const io = new IntersectionObserver((entries, observer) => {
+			entries.forEach(entry => {
+				if (entry.isIntersecting) {
+					preloadFirst(entry.target);
+					observer.unobserve(entry.target);
+				}
+			});
+		}, { rootMargin: '200px 0px' });
+		items.forEach(item => io.observe(item));
+	}
+
+	// User intent: hover/focus/touch on a project preloads all its images
+	const intentHandler = (e) => {
+		const item = e.target && e.target.closest('.project-item');
+		if (item) preloadAll(item);
+	};
+	list.addEventListener('pointerenter', intentHandler, true);
+	list.addEventListener('focusin', intentHandler);
+	list.addEventListener('touchstart', intentHandler, { passive: true });
+
+	// When user toggles open a panel, also preload all its images
+	list.addEventListener('click', (e) => {
+		const btn = e.target.closest('button.summary-toggle');
+		if (!btn) return;
+		const id = btn.getAttribute('aria-controls');
+		if (!id) return;
+		const panel = document.getElementById(id);
+		if (!panel) return;
+		const item = panel.closest('.project-item');
+		if (item) preloadAll(item);
+	});
+})();
