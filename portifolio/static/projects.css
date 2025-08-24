@@ -161,6 +161,7 @@
     object-fit: contain;
     opacity: 0; /* fade-in to mask loading jank */
     transition: opacity 160ms ease-out;
+    cursor: zoom-in;
 }
 
 .details-previews figcaption {
@@ -299,4 +300,72 @@
 @media (prefers-reduced-motion: reduce) {
     .summary-toggle .fa-chevron-down { transition: none; }
     .project-details { transition: none; }
+}
+
+/* Lightbox overlay */
+.lightbox-open {
+    overflow: hidden !important; /* prevent background scroll */
+}
+
+.lightbox-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 150ms ease-out;
+}
+
+.lightbox-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: min(92vw, 1280px);
+    max-height: 92vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 0.5rem;
+}
+
+.lightbox-image {
+    max-width: 100%;
+    max-height: 80vh;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+}
+
+.lightbox-caption {
+    color: var(--text-white);
+    text-align: center;
+    font-size: 0.95rem;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    background: var(--text-white);
+    color: #000;
+    border: 1px solid var(--border-primary);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    font-size: 1.4rem;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .lightbox-overlay { transition: none; }
 }
