@@ -35,6 +35,7 @@
     align-items: center;
     gap: 1rem;
     padding: 1rem 1.25rem;
+    position: relative; /* allow absolute centering of title */
 }
 
 .summary-logo picture, .summary-logo img {
@@ -50,8 +51,28 @@
     color: var(--text-primary);
 }
 
+/* Center the title across the whole row regardless of logo/button widths */
+.summary-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    max-width: calc(100% - 260px); /* keep clear of logo + button area on wide screens */
+}
+
+.summary-title h2 {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .summary-action {
     display: flex;
+    position: absolute;
+    right: 1.25rem; /* match container horizontal padding */
+    top: 50%;
+    transform: translateY(-50%); /* vertically center within row */
+    z-index: 2; /* ensure above centered title if overlapping */
 }
 
 .summary-toggle {
@@ -259,12 +280,14 @@
     .project-summary { grid-template-columns: 72px 1fr auto; }
     .details-main { grid-template-columns: 1fr; }
     .details-previews .preview { min-height: 300px; }
+    .summary-title { max-width: calc(100% - 200px); }
 }
 
 @media (max-width: 480px) {
     .container h1 { font-size: 4rem; }
     .project-summary { grid-template-columns: 56px 1fr auto; }
     .details-previews .preview { min-height: 240px; }
+    .summary-title { max-width: calc(100% - 160px); }
 }
 
 /* Respect reduced motion preferences */
