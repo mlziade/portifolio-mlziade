@@ -20,8 +20,7 @@
 			panel.classList.add('open');
 			panel.setAttribute('aria-hidden', 'false');
 			btn.setAttribute('aria-expanded', 'true');
-			// Optional: scroll the opened item into view if collapsed area is below fold
-			panel.scrollIntoView({ block: 'nearest' });
+			// Avoid auto-scrolling to reduce layout shifts while images load
 		}
 	});
 })();

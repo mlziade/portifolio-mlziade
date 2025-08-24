@@ -72,23 +72,24 @@
 
 /* Smooth rotate for chevron */
 .summary-toggle .fa-chevron-down {
-    transition: transform 180ms ease;
+    transition: transform 120ms ease-out;
 }
 
 .project-details {
-    /* animated collapse/expand */
-    border-top: 0;
-    max-height: 0;
+    /* subtle collapse/expand to reduce layout jank with image loading */
+    border-top: 1px solid transparent; /* keep layout stable, only fade border color */
+    max-height: 0; /* collapse without animating height */
     opacity: 0;
     overflow: hidden;
     padding: 0 1.25rem 0; /* keep horizontal rhythm, collapse vertical padding */
-    transform: translateY(-2px);
-    transition: max-height 220ms ease, opacity 180ms ease, transform 200ms ease, padding 200ms ease;
+    transform: translateY(-1px);
+    will-change: opacity, transform;
+    transition: opacity 140ms ease-out, transform 140ms ease-out, padding 140ms ease-out, border-color 140ms ease-out;
 }
 
 .project-details.open {
-    border-top: 1px solid var(--border-primary);
-    max-height: 2000px; /* large enough to cover content */
+    border-color: var(--border-primary);
+    max-height: 2000px; /* snap open height (no transition), only fade content */
     opacity: 1;
     transform: translateY(0);
     padding: 1rem 1.25rem 1.25rem;
@@ -137,6 +138,8 @@
     display: block;
     border-radius: 6px;
     object-fit: contain;
+    opacity: 0; /* fade-in to mask loading jank */
+    transition: opacity 160ms ease-out;
 }
 
 .details-previews figcaption {
@@ -145,6 +148,9 @@
     color: var(--text-light);
     text-align: center;
 }
+
+/* Make images fade in once the panel is open */
+.project-details.open .details-previews img { opacity: 1; }
 
 .details-tags .tags {
     margin: 0;
