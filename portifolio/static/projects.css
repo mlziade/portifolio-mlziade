@@ -216,16 +216,21 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 0.5rem;
+    direction: rtl; /* start from right and flow to the left */
+    justify-content: flex-start; /* with RTL, flex-start is the right edge */
 }
 
 .tag {
     color: var(--text-light);
     background-color: var(--hover-bg);
     border: 1px solid var(--border-primary);
-    padding: 0.255rem 0.51rem;
-    border-radius: 12px;
-    transition: all var(--transition-fast);
-    font-size: 0.7225rem;
+    padding: 0.32rem 0.72rem;
+    border-radius: 10px; /* rounded rectangle */
+    font-size: 0.78rem;
+    line-height: 1;
+    transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+    box-shadow: 0 1px 0 rgba(0,0,0,0.06) inset;
+    direction: ltr; /* keep label text normal */
 }
 
 .tag:hover {
@@ -234,6 +239,13 @@
     border-color: var(--hover-grey-border);
     cursor: pointer;
     transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.12);
+}
+
+/* Reduced motion: avoid movement on hover */
+@media (prefers-reduced-motion: reduce) {
+    .tag { transition: background-color 0.01ms, color 0.01ms, border-color 0.01ms, box-shadow 0.01ms; }
+    .tag:hover { transform: none; }
 }
 
 /* Media queries for responsiveness */
