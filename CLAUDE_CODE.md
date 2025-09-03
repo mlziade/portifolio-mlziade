@@ -12,7 +12,6 @@ This is a Django-based personal portfolio website deployed at [mlziade.com.br](h
 - **SQLite**: Database
 - **Django REST Framework**: API endpoints
 - **uv**: Modern Python package manager
-- **ruff**: Fast Python linter
 
 ### Frontend
 - **HTML5/CSS3/JavaScript**: Core web technologies

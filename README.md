@@ -12,7 +12,6 @@ This is my professional portfolio website showcasing my skills, projects, and ex
 - **Python**: Programming language;
 - **Django**: Python web framework;
 - **uv**: Modern Python package installer and resolver written in Rust from Astral, used for dependency management.
-- **ruff**: An extremely fast Python linter, written in Rust.
 
 ### Deployment Infrastructure
 - **Ubuntu**: Linux server for hosting the application;
