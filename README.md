@@ -21,7 +21,7 @@ This is my professional portfolio website showcasing my skills, projects, and ex
 - **Cloudflare**: Content Delivery Network (CDN), used for caching and distributing assets.
 
 ### CI/CD
-- **GitHub Actions**: Automated workflows for continuous integration and deployment;
+- **GitHub Actions**: Automated workflows for continuous integration and deployment, including Cloudflare cache invalidation;
 
 ## Licensing
 See the [LICENSE](LICENSE) file for detailed information about the terms of use for this project.

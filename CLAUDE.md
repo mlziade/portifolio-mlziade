@@ -27,7 +27,7 @@ This is a Django-based personal portfolio website deployed at [mlziade.com.br](h
 - **Gunicorn**: WSGI server
 - **Systemd**: Process management
 - **Cloudflare CDN**: Content delivery and caching
-- **GitHub Actions**: CI/CD pipeline
+- **GitHub Actions**: CI/CD pipeline with Cloudflare cache invalidation
 
 ## Development Commands
 
@@ -231,8 +231,8 @@ curl --location '{{ZLLM_BASE_URL}}/llm/generate/streaming' \
 - **Reverse proxy**: Nginx configuration
 - **WSGI server**: Gunicorn
 - **Process management**: Systemd
-- **CI/CD**: GitHub Actions (automated on push)
-- **Process**: Simply commit and push code - GitHub Actions handles the rest
+- **CI/CD**: GitHub Actions (automated on push with Cloudflare cache invalidation)
+- **Process**: Simply commit and push code - GitHub Actions handles deployment and cache invalidation
 - Production migrations handled by deployment pipeline
 
 ## Environment Configuration
