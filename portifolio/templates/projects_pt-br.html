@@ -1,113 +1,64 @@
 {% extends "base.html" %}
 
-{% block title %}Projetos mlziade | Portfólio{% endblock %}
+{% block title %}mlziade Projetos | Portfólio{% endblock %}
 
-{% block meta_description %}Explore os projetos de mlziade incluindo MovieStars, Dontpad List, ZLLM, Conways Game of Life, KeyCrypt e Librarian. Portfólio de desenvolvedor backend com expertise em Python, TypeScript, Go e desenvolvimento web.{% endblock %}
+{% block meta_description %}Explore os projetos do mlziade incluindo MovieStars, Dontpad List, ZLLM, Jogo da Vida de Conway, KeyCrypt e Librarian. Portfólio de desenvolvedor backend apresentando Python, TypeScript, Go e expertise em desenvolvimento web.{% endblock %}
 
-{% block meta_keywords %}Projetos mlziade, Projetos Desenvolvedor Backend, Projetos Python, Projetos TypeScript, Projetos Go, Portfólio Desenvolvimento Web, ZLLM, MovieStars, Dontpad List, KeyCrypt, Conway Game of Life, Librarian, Servidor MCP{% endblock %}
+{% block meta_keywords %}mlziade Projetos, Projetos Desenvolvedor Backend, Projetos Python, Projetos TypeScript, Projetos Go, Portfólio Desenvolvimento Web, ZLLM, MovieStars, Dontpad List, KeyCrypt, Conway Game of Life, Librarian, MCP Server{% endblock %}
 
-{% block og_title %}Projetos mlziade | Portfólio{% endblock %}
+{% block og_title %}mlziade Projetos | Portfólio{% endblock %}
 
-{% block twitter_title %}Projetos mlziade | Portfólio{% endblock %}
+{% block twitter_title %}mlziade Projetos | Portfólio{% endblock %}
 
-{% block og_description %}Explore os projetos de mlziade incluindo MovieStars, Dontpad List, ZLLM, Librarian e mais. Portfólio de desenvolvedor backend com expertise em Python, TypeScript, Go e desenvolvimento web.{% endblock %}
+{% block og_description %}Explore os projetos do mlziade incluindo MovieStars, Dontpad List, ZLLM, Librarian e mais. Portfólio de desenvolvedor backend apresentando Python, TypeScript, Go e expertise em desenvolvimento web.{% endblock %}
 
 {% block preload_resources %}
-  {% load static %}
-  <!-- Preload first project images that are above the fold -->
-  <link rel="preload" as="image" href="{% static 'logo-moviestars.webp' %}" type="image/webp">
+    {% load static %}
+    <!-- Preload first project images that are above the fold -->
+    <link rel="preload" as="image" href="{% static 'logo-moviestars.webp' %}" type="image/webp">
     <link rel="preload" as="image" href="{% static 'dontpad/dontpad-list-logo.webp' %}" type="image/webp">
 {% endblock %}
 
 {% block structured_data %}
 <script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",  
-  "name": "Projetos mlziade",
-  "description": "Portfólio apresentando projetos de mlziade - Desenvolvedor Backend e Arquiteto de Soluções",
-  "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'portifolio:projects' %}",
-  "author": {
-    "@type": "Person",
-    "name": "Michel Ziade",
-    "jobTitle": "Desenvolvedor Backend / Arquiteto de Soluções"
-  },
-  "mainEntity": {
-    "@type": "ItemList",
-    "itemListElement": [
-      {
-        "@type": "SoftwareApplication",
-        "name": "MovieStars",
-        "description": "Extensão Chromium para explorar avaliações de filmes, séries e animes",
-        "url": "https://github.com/mlziade/MovieStars",
-        "applicationCategory": "Extensão de Navegador",
-        "operatingSystem": "Chrome, Chromium"
-      },
-      {
-        "@type": "SoftwareApplication", 
-        "name": "Dontpad List",
-        "description": "Extensão Chrome para criar listas de referência a partir de destaques da web",
-        "url": "https://github.com/mlziade/DontpadList",
-        "applicationCategory": "Extensão de Navegador",
-        "operatingSystem": "Chrome"
-      },
-      {
-        "@type": "SoftwareApplication",
-        "name": "ZLLM",
-        "description": "Implementação em Golang de uma API GenAI executando modelos LLM locais através do Ollama",
-        "url": "https://github.com/mlziade/zllm",
-        "applicationCategory": "API",
-        "programmingLanguage": "Go"
-      },
-      {
-        "@type": "SoftwareApplication",
-        "name": "ZLLM Chat",
-        "description": "Interface de chat simples para interagir com a API ZLLM",
-        "url": "https://github.com/mlziade/zllm",
-        "applicationCategory": "Aplicação Web",
-        "programmingLanguage": "JavaScript"
-      },
-      {
-        "@type": "SoftwareApplication",
-        "name": "Conway's Game of Life",
-        "description": "Implementação em Python do Game of Life de Conway, simulação de autômato celular",
-        "url": "https://github.com/mlziade/GameOfLifeConway",
-        "applicationCategory": "Jogo",
-        "programmingLanguage": "Python"
-      },
-      {
-        "@type": "SoftwareApplication",
-        "name": "KeyCrypt",
-        "description": "Site divertido e desafiador de quebra-cabeças e mensagens com criptografia",
-        "url": "https://github.com/mlziade/keycrypt",
-        "applicationCategory": "Aplicação Web",
-        "programmingLanguage": "Python"
-      },
-      {
-        "@type": "SoftwareApplication",
-        "name": "Librarian",
-        "description": "Servidor MCP que permite que qualquer LLM com um cliente MCP compatível consulte informações na Wikipedia",
-        "url": "https://github.com/mlziade/librarian",
-        "applicationCategory": "API",
-        "programmingLanguage": "Python"
-      },
-      {
-        "@type": "SoftwareApplication",
-        "name": "Desk Wisdom",
-        "description": "Nunca esqueça a sabedoria do colega da mesa ao lado",
-        "url": "https://wisdom.mlziade.com.br",
-        "applicationCategory": "Aplicação Web"
-      }
-    ]
-  }
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",  
+    "name": "mlziade Projetos",
+    "description": "Portfólio apresentando projetos do mlziade - Desenvolvedor Backend e Arquiteto de Soluções",
+    "url": "{{ request.scheme }}://{{ request.get_host }}{% url 'portifolio:projects' %}",
+    "author": {
+        "@type": "Person",
+        "name": "Michel Ziade",
+        "jobTitle": "Desenvolvedor Backend / Arquiteto de Soluções"
+    },
+    "mainEntity": {
+        "@type": "ItemList",
+        "itemListElement": [
+            {% for project in projects %}
+            {
+                "@type": "SoftwareApplication",
+                "name": "{{ project.name }}",
+                "description": "{{ project.description.pt-br }}",
+                {% for action in project.actions %}
+                {% if action.type == "github" or action.type == "external" %}
+                "url": "{{ action.url }}",
+                {% endif %}
+                {% endfor %}
+                "applicationCategory": "Software Application"
+            }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]
+    }
 }
 </script>
 {% endblock %}
 
-{% block extra_css %}    {% load static %}
+{% block extra_css %}    
+    {% load static %}
     {% load compress %}
     {% compress css %}
-    <link rel="stylesheet" href="{% static 'projects.css' %}">
+        <link rel="stylesheet" href="{% static 'projects.css' %}">
     {% endcompress %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 {% endblock %}
@@ -116,425 +67,80 @@
     <div class="container">
         <h1>Projetos</h1>
         <p class="page-intro" style="max-width: 960px; text-wrap: balance; color: var(--text-light); margin: 0 0 0.5rem 0;">
-            Uma lista com meus projetos que considero interessantes, divertidos ou que coloquei online.<br>
-            Na maioria deles você pode ver o código ou experimentar por conta própria.
+            Uma lista selecionada dos meus projetos que achei interessantes, divertidos ou que tirei tempo para colocar online.<br>
+            Para a maioria deles você pode navegar pelo código ou experimentar por si mesmo.
         </p>
 
         <div class="projects-list" role="list">
-            <!-- MovieStars -->
-            <div class="project-item" role="listitem" id="project-1">
+            {% for project in projects %}
+            <div class="project-item" role="listitem" id="{{ project.id }}">
                 <div class="project-summary">
                     <div class="summary-logo">
                         <picture>
-                            <source srcset="{% static 'logo-moviestars.webp' %} 1x, {% static 'logo-moviestars@2x.webp' %} 2x" type="image/webp">
-                            <img src="{% static 'logo-moviestars.webp' %}" alt="Logo MovieStars" width="96" height="32" loading="eager">
+                            {% if project.logo.webp %}
+                                <source srcset="{% static project.logo.webp %} 1x{% if project.logo.webp_2x %}, {% static project.logo.webp_2x %} 2x{% endif %}" type="image/webp">
+                                <img src="{% static project.logo.webp %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                            {% elif project.logo.png %}
+                                <source srcset="{% static project.logo.png %}" type="image/png">
+                                <img src="{% static project.logo.png %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                            {% elif project.logo.gif %}
+                                <source srcset="{% static project.logo.gif %}" type="image/gif">
+                                <img src="{% static project.logo.gif %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                            {% endif %}
                         </picture>
                     </div>
                     <div class="summary-title">
-                        <h2>MovieStars</h2>
+                        <h2>{{ project.name }}</h2>
                     </div>
                     <div class="summary-action">
-                        <button class="summary-toggle" aria-expanded="false" aria-controls="details-1" aria-label="Alternar detalhes">
+                        <button class="summary-toggle" aria-expanded="false" aria-controls="details-{{ forloop.counter }}" aria-label="Alternar detalhes">
                             <i class="fas fa-chevron-down" aria-hidden="true"></i>
                         </button>
                     </div>
                 </div>
-                <div class="project-details" id="details-1" aria-hidden="true">
+                <div class="project-details" id="details-{{ forloop.counter }}" aria-hidden="true">
                     <div class="details-main">
                         <div class="details-text">
-                            <p>MovieStars é uma extensão para navegadores Chromium que ajuda os usuários a explorar avaliações de usuários e críticos, agregando detalhes de sites de avaliação. Ele fornece uma visão abrangente sobre filmes, séries e animes.</p>
+                            <p>{{ project.description.pt-br }}</p>
                         </div>
                         <div class="details-tags">
                             <div class='tags'>
-                                <span class='tag'>JS</span>
-                                <span class='tag'>Extensão Chrome</span>
-                                <span class='tag'>Web Scraping</span>
+                                {% for tag in project.tags %}
+                                <span class='tag'>{{ tag }}</span>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>
+                    {% if project.previews %}
+                    <div class="details-previews"{% if project.previews.0.style %} style="{{ project.previews.0.style }}"{% endif %}>
+                        {% for preview in project.previews %}
+                        <figure class="preview"{% if preview.style %} style="{{ preview.style }}"{% endif %}>
+                            <img src="{% static preview.image %}" data-lightbox-src="{% static preview.lightbox %}" alt="{{ preview.alt }}" loading="lazy">
+                            <figcaption><em>{{ preview.caption.pt-br }}</em></figcaption>
+                        </figure>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
                     <div class="details-actions">
-                        <a href="https://github.com/mlziade/MovieStars" class="button" target="_blank" rel="noopener">
-                            <i class="fab fa-github button-icon"></i>Repositório
-                        </a>
-                        <span class="button disabled">
-                            <i class="fas fa-external-link-alt button-icon"></i>Experimente aqui!
-                        </span>
+                        {% for action in project.actions %}
+                            {% if action.type == "github" or action.type == "external" %}
+                                <a href="{{ action.url }}" class="button" target="_blank" rel="noopener">
+                                    <i class="{{ action.icon }} button-icon"></i>{{ action.label.pt-br }}
+                                </a>
+                            {% elif action.type == "internal" %}
+                                <a href="{% url action.url_name %}" class="button">
+                                    <i class="{{ action.icon }} button-icon"></i>{{ action.label.pt-br }}
+                                </a>
+                            {% elif action.type == "disabled" %}
+                                <span class="button disabled">
+                                    <i class="{{ action.icon }} button-icon"></i>{{ action.label.pt-br }}
+                                </span>
+                            {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
             </div>
-
-            <!-- Dontpad List -->
-            <div class="project-item" role="listitem" id="project-2">
-                <div class="project-summary">
-                    <div class="summary-logo">
-                        <picture>
-                            <source srcset="{% static 'dontpad/dontpad-list-logo.webp' %} 1x, {% static 'dontpad/dontpad-list-logo@2x.webp' %} 2x" type="image/webp">
-                            <img src="{% static 'dontpad/dontpad-list-logo.webp' %}" alt="Logo Dontpad List" width="72" height="72" loading="eager">
-                        </picture>
-                    </div>
-                    <div class="summary-title">
-                        <h2>Dontpad List!</h2>
-                    </div>
-                    <div class="summary-action">
-                        <button class="summary-toggle" aria-expanded="false" aria-controls="details-2" aria-label="Alternar detalhes">
-                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="project-details" id="details-2" aria-hidden="true">
-                    <div class="details-main">
-                        <div class="details-text">
-                            <p>Dontpad List! é uma extensão para navegadores Chromium que permite aos usuários anexar textos em highlight de páginas web como um item de lista em uma página Dontpad. Se baseia no estilo de formatação de referência ABNT brasileiro para websites.</p>
-                        </div>
-                        <div class="details-tags">
-                            <div class='tags'>
-                                <span class='tag'>JS</span>
-                                <span class='tag'>Extensão Chrome</span>
-                                <span class='tag'>Dontpad</span>
-                                <span class='tag'>ABNT</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-previews">
-                        <figure class="preview">
-                            <img src="{% static 'dontpad/prints/print_1.webp' %}" data-lightbox-src="{% static 'dontpad/prints/print_1.png' %}" alt="Dontpad List - Print 1" loading="lazy">
-                            <figcaption><em>Exemplo do widget Dontpad List!</em></figcaption>
-                        </figure>
-                        <figure class="preview">
-                            <img src="{% static 'dontpad/prints/print_2.webp' %}" data-lightbox-src="{% static 'dontpad/prints/print_2.png' %}" alt="Dontpad List - Print 2" loading="lazy">
-                            <figcaption><em>Exemplo de entrada salva no Dontpad List!</em></figcaption>
-                        </figure>
-                    </div>
-                    <div class="details-actions">
-                        <a href="https://github.com/mlziade/DontpadList" class="button" target="_blank" rel="noopener">
-                            <i class="fab fa-github button-icon"></i>Repositório
-                        </a>
-                        <span class="button disabled">
-                            <i class="fas fa-external-link-alt button-icon"></i>Experimente aqui!
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ZLLM -->
-            <div class="project-item" role="listitem" id="project-3">
-                <div class="project-summary">
-                    <div class="summary-logo">
-                        <picture>
-                            <source srcset="{% static 'zllm/github-logo.webp' %} 1x, {% static 'zllm/github-logo@2x.webp' %} 2x" type="image/webp">
-                            <img src="{% static 'zllm/github-logo.webp' %}" alt="Logo ZLLM" width="72" height="72" loading="lazy">
-                        </picture>
-                    </div>
-                    <div class="summary-title">
-                        <h2>zllm</h2>
-                    </div>
-                    <div class="summary-action">
-                        <button class="summary-toggle" aria-expanded="false" aria-controls="details-3" aria-label="Alternar detalhes">
-                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="project-details" id="details-3" aria-hidden="true">
-                    <div class="details-main">
-                        <div class="details-text">
-                            <p>Zllm é uma implementação em Golang/Fiber de uma API de IA Generativa, executando modelos LLM localmente através do Ollama. Inclui ferramentas como OCR local, modelos multimodais e tradução para auxiliar a utilização de LLMs.</p>
-                        </div>
-                        <div class="details-tags">
-                            <div class='tags'>
-                                <span class='tag'>Go</span>
-                                <span class='tag'>Fiber</span>
-                                <span class='tag'>API</span>
-                                <span class='tag'>LLMs</span>
-                                <span class='tag'>OCR</span>
-                                <span class='tag'>Ollama</span>
-                                <span class='tag'>Queue Jobs</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-previews">
-                        <figure class="preview">
-                            <img src="{% static 'zllm/prints/print_1.webp' %}" data-lightbox-src="{% static 'zllm/prints/print_1.png' %}" alt="ZLLM - Print 1" loading="lazy">
-                            <figcaption><em>Interface simples para interagir com a API ZLLM</em></figcaption>
-                        </figure>
-                        <figure class="preview">
-                            <img src="{% static 'zllm/prints/print_2.webp' %}" data-lightbox-src="{% static 'zllm/prints/print_2.png' %}" alt="ZLLM - Print 2" loading="lazy">
-                            <figcaption><em>Suporte completo a markdown e destaque de sintaxe</em></figcaption>
-                        </figure>
-                    </div>
-                    <div class="details-actions">
-                        <a href="https://github.com/mlziade/zllm" class="button" target="_blank" rel="noopener">
-                            <i class="fab fa-github button-icon"></i>Repositório
-                        </a>
-                        <a href="{% url 'playground:tryout_zllm' %}" class="button">
-                            <i class="fas fa-external-link-alt button-icon"></i>Experimente aqui!
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- ZLLM Chat -->
-            <div class="project-item" role="listitem" id="project-4">
-                <div class="project-summary">
-                    <div class="summary-logo">
-                        <picture>
-                            <source srcset="{% static 'zllm_chat/zllm-chat-logo.webp' %} 1x, {% static 'zllm_chat/zllm-chat-logo@2x.webp' %} 2x" type="image/webp">
-                            <img src="{% static 'zllm_chat/zllm-chat-logo.webp' %}" alt="Logo ZLLM Chat" width="72" height="72" loading="lazy">
-                        </picture>
-                    </div>
-                    <div class="summary-title">
-                        <h2>ZLLM Chat</h2>
-                    </div>
-                    <div class="summary-action">
-                        <button class="summary-toggle" aria-expanded="false" aria-controls="details-4" aria-label="Alternar detalhes">
-                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="project-details" id="details-4" aria-hidden="true">
-                    <div class="details-main">
-                        <div class="details-text">
-                            <p>Uma interface de chat simples para interagir com a API ZLLM. Você pode perguntar sobre qualquer coisa, ou sobre o próprio projeto ZLLM!</p>
-                        </div>
-                        <div class="details-tags">
-                            <div class='tags'>
-                                <span class='tag'>Chat</span>
-                                <span class='tag'>LLMs</span>
-                                <span class='tag'>Ollama</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-previews">
-                        <figure class="preview">
-                            <img src="{% static 'zllm_chat/prints/print_1.webp' %}" data-lightbox-src="{% static 'zllm_chat/prints/print_1.png' %}" alt="ZLLM Chat - Print 1" loading="lazy">
-                            <figcaption><em>Uma interface de chat LLM alimentada pela API da ZLLM</em></figcaption>
-                        </figure>
-                        <figure class="preview">
-                            <img src="{% static 'zllm_chat/prints/print_2.webp' %}" data-lightbox-src="{% static 'zllm_chat/prints/print_2.png' %}" alt="ZLLM Chat - Print 2" loading="lazy">
-                            <figcaption><em>Instruções e Guia de Inicialização do ZLLM Chat</em></figcaption>
-                        </figure>
-                    </div>
-                    <div class="details-actions">
-                        <a href="https://github.com/mlziade/zllm" class="button" target="_blank" rel="noopener">
-                            <i class="fab fa-github button-icon"></i>Repositório
-                        </a>
-                        <a href="{% url 'playground:tryout_zllm_chat' %}" class="button">
-                            <i class="fas fa-external-link-alt button-icon"></i>Experimente aqui!
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Conway's Game of Life -->
-            <div class="project-item" role="listitem" id="project-5">
-                <div class="project-summary">
-                    <div class="summary-logo">
-                        <picture>
-                            <source srcset="{% static 'conways/conways.gif' %}" type="image/gif">
-                            <img src="{% static 'conways/conways.gif' %}" alt="Jogo da Vida de Conway" width="96" height="69" loading="lazy">
-                        </picture>
-                    </div>
-                    <div class="summary-title">
-                        <h2>Conways's Game of Life</h2>
-                    </div>
-                    <div class="summary-action">
-                        <button class="summary-toggle" aria-expanded="false" aria-controls="details-5" aria-label="Alternar detalhes">
-                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="project-details" id="details-5" aria-hidden="true">
-                    <div class="details-main">
-                        <div class="details-text">
-                            <p>Uma implementação em Python do Game of Life de Conway, simulando a evolução de células com base em regras simples. É chamado do primeiro jogo de zero players.</p>
-                        </div>
-                        <div class="details-tags">
-                            <div class='tags'>
-                                <span class='tag'>Python</span>
-                                <span class='tag'>Algoritmo</span>
-                                <span class='tag'>Jogo 0-player</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-previews">
-                        <figure class="preview">
-                            <img src="{% static 'conways/prints/print_1.webp' %}" data-lightbox-src="{% static 'conways/prints/print_1.png' %}" alt="Jogo da Vida de Conway - Print 1" loading="lazy">
-                            <figcaption><em>Simule o estado da grade e descubra seu fim, ou a falta dele...</em></figcaption>
-                        </figure>
-                        <figure class="preview">
-                            <img src="{% static 'conways/prints/print_2.webp' %}" data-lightbox-src="{% static 'conways/prints/print_2.png' %}" alt="Jogo da Vida de Conway - Print 2" loading="lazy">
-                            <figcaption><em>Escolha o estado inicial a partir dos padrões padrão</em></figcaption>
-                        </figure>
-                    </div>
-                    <div class="details-actions">
-                        <a href="https://github.com/mlziade/GameOfLifeConway" class="button" target="_blank" rel="noopener">
-                            <i class="fab fa-github button-icon"></i>Repositório
-                        </a>
-                        <a href="{% url 'playground:tryout_conways' %}" class="button">
-                            <i class="fas fa-external-link-alt button-icon"></i>Experimente aqui!
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- KeyCrypt -->
-            <div class="project-item" role="listitem" id="project-6">
-                <div class="project-summary">
-                    <div class="summary-logo">
-                        <picture>
-                            <source srcset="{% static 'keycrypt/logo-keycrypt.webp' %} 1x, {% static 'keycrypt/logo-keycrypt@2x.webp' %} 2x" type="image/webp">
-                            <img src="{% static 'keycrypt/logo-keycrypt.webp' %}" alt="Logo KeyCrypt" width="120" height="49" loading="lazy">
-                        </picture>
-                    </div>
-                    <div class="summary-title">
-                        <h2>KeyCrypt</h2>
-                    </div>
-                    <div class="summary-action">
-                        <button class="summary-toggle" aria-expanded="false" aria-controls="details-6" aria-label="Alternar detalhes">
-                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="project-details" id="details-6" aria-hidden="true">
-                    <div class="details-main">
-                        <div class="details-text">
-                            <p>Um site de mensagens e quebra-cabeças divertido e desafiador. Você pode criar quebra-cabeças para amigos e outros jogadores resolverem! Só então eles podem descriptografar sua mensagem...</p>
-                        </div>
-                        <div class="details-tags">
-                            <div class='tags'>
-                                <span class='tag'>Django</span>
-                                <span class='tag'>Python</span>
-                                <span class='tag'>Criptografia</span>
-                                <span class='tag'>Puzzle</span>
-                                <span class='tag'>Web Dev</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-previews">
-                        <figure class="preview">
-                            <img src="{% static 'keycrypt/prints/print_1.webp' %}" data-lightbox-src="{% static 'keycrypt/prints/print_1.png' %}" alt="KeyCrypt - Print 1" loading="lazy">
-                            <figcaption><em>Página inicial do Keycrypt</em></figcaption>
-                        </figure>
-                        <figure class="preview">
-                            <img src="{% static 'keycrypt/prints/print_2.webp' %}" data-lightbox-src="{% static 'keycrypt/prints/print_2.png' %}" alt="KeyCrypt - Print 2" loading="lazy">
-                            <figcaption><em>Página do Keycrypt para Desafios Diários Anteriores</em></figcaption>
-                        </figure>
-                    </div>
-                    <div class="details-actions">
-                        <a href="https://github.com/mlziade/keycrypt" class="button" target="_blank" rel="noopener">
-                            <i class="fab fa-github button-icon"></i>Repositório
-                        </a>
-                        <a href="https://keycrypt.mlziade.com.br" class="button" target="_blank" rel="noopener">
-                            <i class="fas fa-external-link-alt button-icon"></i>Experimente aqui!
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Librarian -->
-            <div class="project-item" role="listitem" id="project-7">
-                <div class="project-summary">
-                    <div class="summary-logo">
-                        <picture>
-                            <source srcset="{% static 'librarian/github-logo.webp' %} 1x, {% static 'librarian/github-logo@2x.webp' %} 2x" type="image/webp">
-                            <img src="{% static 'librarian/github-logo.webp' %}" alt="Logo Librarian" width="72" height="72" loading="lazy">
-                        </picture>
-                    </div>
-                    <div class="summary-title">
-                        <h2>Librarian</h2>
-                    </div>
-                    <div class="summary-action">
-                        <button class="summary-toggle" aria-expanded="false" aria-controls="details-7" aria-label="Alternar detalhes">
-                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="project-details" id="details-7" aria-hidden="true">
-                    <div class="details-main">
-                        <div class="details-text">
-                            <p>Librarian é um servidor MCP que permite que qualquer LLM com um cliente MCP compatível consulte informações na Wikipedia</p>
-                        </div>
-                        <div class="details-tags">
-                            <div class='tags'>
-                                <span class='tag'>Python</span>
-                                <span class='tag'>Servidor MCP</span>
-                                <span class='tag'>Wikipedia</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-previews" style="justify-content: center;">
-                        <figure class="preview" style="max-width: 600px;">
-                            <img src="{% static 'librarian/prints/print_1.webp' %}" data-lightbox-src="{% static 'librarian/prints/print_1.png' %}" alt="Librarian - Print 1" loading="lazy">
-                            <figcaption><em>Exemplo do servidor MCP librarian sendo usado no Claude da Anthropic</em></figcaption>
-                        </figure>
-                    </div>
-                    <div class="details-actions">
-                        <a href="https://github.com/mlziade/librarian" class="button" target="_blank" rel="noopener">
-                            <i class="fab fa-github button-icon"></i>Repositório
-                        </a>
-                        <span class="button disabled">
-                            <i class="fas fa-external-link-alt button-icon"></i>Experimente aqui!
-                        </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Desk Wisdom -->
-            <div class="project-item" role="listitem" id="project-8">
-                <div class="project-summary">
-                    <div class="summary-logo">
-                        <picture>
-                            <source srcset="{% static 'dsk_wisdom/desk-wisdom-logo.png' %}" type="image/png">
-                            <img src="{% static 'dsk_wisdom/desk-wisdom-logo.png' %}" alt="Logo Desk Wisdom" width="72" height="72" loading="lazy">
-                        </picture>
-                    </div>
-                    <div class="summary-title">
-                        <h2>Desk Wisdom</h2>
-                    </div>
-                    <div class="summary-action">
-                        <button class="summary-toggle" aria-expanded="false" aria-controls="details-8" aria-label="Alternar detalhes">
-                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                        </button>
-                    </div>
-                </div>
-                <div class="project-details" id="details-8" aria-hidden="true">
-                    <div class="details-main">
-                        <div class="details-text">
-                            <p>Nunca esqueça a sabedoria do colega da mesa ao lado.</p>
-                        </div>
-                        <div class="details-tags">
-                            <div class='tags'>
-                                <span class='tag'>Frases</span>
-                                <span class='tag'>Ditados</span>
-                                <span class='tag'>Curadoria</span>
-                                <span class='tag'>Carreira</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="details-previews">
-                        <figure class="preview">
-                            <img src="{% static 'dsk_wisdom/prints/print_1.webp' %}" data-lightbox-src="{% static 'dsk_wisdom/prints/print_1.png' %}" alt="Desk Wisdom - Print 1" loading="lazy">
-                            <figcaption><em>Página inicial do Desk Wisdom</em></figcaption>
-                        </figure>
-                        <figure class="preview">
-                            <img src="{% static 'dsk_wisdom/prints/print_2.webp' %}" data-lightbox-src="{% static 'dsk_wisdom/prints/print_2.png' %}" alt="Desk Wisdom - Print 2" loading="lazy">
-                            <figcaption><em>Uma página de uma Wisdom</em></figcaption>
-                        </figure>
-                        <figure class="preview">
-                            <img src="{% static 'dsk_wisdom/prints/print_3.webp' %}" data-lightbox-src="{% static 'dsk_wisdom/prints/print_3.png' %}" alt="Desk Wisdom - Print 3" loading="lazy">
-                            <figcaption><em>Informações de uma Wisdom sendo geradas por IA</em></figcaption>
-                        </figure>
-                    </div>
-                    <div class="details-actions">
-                        <span class="button disabled">
-                            <i class="fab fa-github button-icon"></i>Repositório
-                        </span>
-                        <a href="https://wisdom.mlziade.com.br" class="button" target="_blank" rel="noopener">
-                            <i class="fas fa-external-link-alt button-icon"></i>Experimente aqui!
-                        </a>
-                    </div>
-                </div>
-            </div>
-
+            {% endfor %}
         </div>
     </div>
 {% endblock %}
@@ -542,6 +148,6 @@
 {% block extra_js %}
 {% load compress %}
 {% compress js %}
-<script src="{% static 'projects.js' %}"></script>
+    <script src="{% static 'projects.js' %}"></script>
 {% endcompress %}
 {% endblock %}
