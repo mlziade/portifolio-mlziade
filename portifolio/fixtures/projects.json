@@ -13,7 +13,7 @@
       },
       "description": {
         "en": "MovieStars is a Chromium extension that helps users explore reviews from both users and critics, aggregating details from leading entertainment websites. It provides a comprehensive overview of movies, series and animes.",
-        "pt-br": "MovieStars é uma extensão do Chromium que ajuda os usuários a explorar avaliações de usuários e críticos, agregando detalhes de sites de entretenimento líderes. Fornece uma visão abrangente de filmes, séries e animes."
+        "pt_br": "MovieStars é uma extensão do Chromium que ajuda os usuários a explorar avaliações de usuários e críticos, agregando detalhes de sites de entretenimento líderes. Fornece uma visão abrangente de filmes, séries e animes."
       },
       "tags": ["JS", "Chrome Extension", "Web Scraping"],
       "actions": [
@@ -22,7 +22,7 @@
           "url": "https://github.com/mlziade/MovieStars",
           "label": {
             "en": "Repository",
-            "pt-br": "Repositório"
+            "pt_br": "Repositório"
           },
           "icon": "fab fa-github"
         },
@@ -30,7 +30,7 @@
           "type": "disabled",
           "label": {
             "en": "Try it out!",
-            "pt-br": "Experimente!"
+            "pt_br": "Experimente!"
           },
           "icon": "fas fa-external-link-alt"
         }
@@ -50,7 +50,7 @@
       },
       "description": {
         "en": "Dontpad List! is a Chrome extension that allows users to append highlighted text from webpages as a list entry to a Dontpad page, based on the Brazilian ABNT reference formatting style.",
-        "pt-br": "Dontpad List! é uma extensão do Chrome que permite aos usuários adicionar texto destacado de páginas da web como entrada de lista em uma página do Dontpad, baseado no estilo de formatação de referência ABNT brasileiro."
+        "pt_br": "Dontpad List! é uma extensão do Chrome que permite aos usuários adicionar texto destacado de páginas da web como entrada de lista em uma página do Dontpad, baseado no estilo de formatação de referência ABNT brasileiro."
       },
       "tags": ["JS", "Chrome Extension", "Dontpad", "ABNT"],
       "actions": [
@@ -59,7 +59,7 @@
           "url": "https://github.com/mlziade/DontpadList",
           "label": {
             "en": "Repository",
-            "pt-br": "Repositório"
+            "pt_br": "Repositório"
           },
           "icon": "fab fa-github"
         },
@@ -67,7 +67,7 @@
           "type": "disabled",
           "label": {
             "en": "Try it out!",
-            "pt-br": "Experimente!"
+            "pt_br": "Experimente!"
           },
           "icon": "fas fa-external-link-alt"
         }
@@ -79,7 +79,7 @@
           "alt": "Dontpad List - Print 1",
           "caption": {
             "en": "Example of Dontpad List! widget",
-            "pt-br": "Exemplo do widget Dontpad List!"
+            "pt_br": "Exemplo do widget Dontpad List!"
           }
         },
         {
@@ -88,7 +88,7 @@
           "alt": "Dontpad List - Print 2",
           "caption": {
             "en": "Example of Dontpad List! saved entry",
-            "pt-br": "Exemplo de entrada salva do Dontpad List!"
+            "pt_br": "Exemplo de entrada salva do Dontpad List!"
           }
         }
       ]
@@ -106,7 +106,7 @@
       },
       "description": {
         "en": "Zllm is a Golang implementation of a GenAI API, running local LLM models through Ollama. It includes tools like local OCR, multimodal models, and translation to support LLM utilization.",
-        "pt-br": "Zllm é uma implementação em Golang de uma API GenAI, executando modelos LLM locais através do Ollama. Inclui ferramentas como OCR local, modelos multimodais e tradução para suportar a utilização de LLMs."
+        "pt_br": "Zllm é uma implementação em Golang de uma API GenAI, executando modelos LLM locais através do Ollama. Inclui ferramentas como OCR local, modelos multimodais e tradução para suportar a utilização de LLMs."
       },
       "tags": ["Go", "Fiber", "API", "LLMs", "OCR", "Ollama", "Queue Jobs"],
       "actions": [
@@ -115,7 +115,7 @@
           "url": "https://github.com/mlziade/zllm",
           "label": {
             "en": "Repository",
-            "pt-br": "Repositório"
+            "pt_br": "Repositório"
           },
           "icon": "fab fa-github"
         },
@@ -124,7 +124,7 @@
           "url_name": "playground:tryout_zllm",
           "label": {
             "en": "Try it out!",
-            "pt-br": "Experimente!"
+            "pt_br": "Experimente!"
           },
           "icon": "fas fa-external-link-alt"
         }
@@ -136,7 +136,7 @@
           "alt": "ZLLM - Print 1",
           "caption": {
             "en": "Simple interface for interacting with the ZLLM API",
-            "pt-br": "Interface simples para interagir com a API ZLLM"
+            "pt_br": "Interface simples para interagir com a API ZLLM"
           }
         },
         {
@@ -145,7 +145,7 @@
           "alt": "ZLLM - Print 2",
           "caption": {
             "en": "Complete markdown support and syntax highlighting",
-            "pt-br": "Suporte completo a markdown e destaque de sintaxe"
+            "pt_br": "Suporte completo a markdown e destaque de sintaxe"
           }
         }
       ]
@@ -163,7 +163,7 @@
       },
       "description": {
         "en": "A simple chat interface for interacting with the ZLLM API. You can ask about anything, or about the ZLLM project itself!",
-        "pt-br": "Uma interface de chat simples para interagir com a API ZLLM. Você pode perguntar sobre qualquer coisa, ou sobre o próprio projeto ZLLM!"
+        "pt_br": "Uma interface de chat simples para interagir com a API ZLLM. Você pode perguntar sobre qualquer coisa, ou sobre o próprio projeto ZLLM!"
       },
       "tags": ["Chat", "LLMs", "Ollama"],
       "actions": [
@@ -172,7 +172,7 @@
           "url": "https://github.com/mlziade/zllm",
           "label": {
             "en": "Repository",
-            "pt-br": "Repositório"
+            "pt_br": "Repositório"
           },
           "icon": "fab fa-github"
         },
@@ -181,7 +181,7 @@
           "url_name": "playground:tryout_zllm_chat",
           "label": {
             "en": "Try it out!",
-            "pt-br": "Experimente!"
+            "pt_br": "Experimente!"
           },
           "icon": "fas fa-external-link-alt"
         }
@@ -193,7 +193,7 @@
           "alt": "ZLLM Chat - Print 1",
           "caption": {
             "en": "A LLM chat interface powered by ZLLM",
-            "pt-br": "Uma interface de chat LLM alimentada por ZLLM"
+            "pt_br": "Uma interface de chat LLM alimentada por ZLLM"
           }
         },
         {
@@ -202,7 +202,7 @@
           "alt": "ZLLM Chat - Print 2",
           "caption": {
             "en": "ZLLM Chat's Getting Started and Instructions",
-            "pt-br": "Primeiros passos e instruções do ZLLM Chat"
+            "pt_br": "Primeiros passos e instruções do ZLLM Chat"
           }
         }
       ]
@@ -219,7 +219,7 @@
       },
       "description": {
         "en": "A Python implementation of Conway's Game of Life, simulating the evolution of cells based on simple rules. Its also called the first 0-player game.",
-        "pt-br": "Uma implementação em Python do Jogo da Vida de Conway, simulando a evolução de células baseada em regras simples. Também é chamado de primeiro jogo de 0 jogadores."
+        "pt_br": "Uma implementação em Python do Jogo da Vida de Conway, simulando a evolução de células baseada em regras simples. Também é chamado de primeiro jogo de 0 jogadores."
       },
       "tags": ["Python", "Algorithm", "0-player game"],
       "actions": [
@@ -228,7 +228,7 @@
           "url": "https://github.com/mlziade/GameOfLifeConway",
           "label": {
             "en": "Repository",
-            "pt-br": "Repositório"
+            "pt_br": "Repositório"
           },
           "icon": "fab fa-github"
         },
@@ -237,7 +237,7 @@
           "url_name": "playground:tryout_conways",
           "label": {
             "en": "Try it out!",
-            "pt-br": "Experimente!"
+            "pt_br": "Experimente!"
           },
           "icon": "fas fa-external-link-alt"
         }
@@ -249,7 +249,7 @@
           "alt": "Conway's Game of Life - Print 1",
           "caption": {
             "en": "Simulate the state of the grid and find out its end, or lack of...",
-            "pt-br": "Simule o estado da grade e descubra seu fim, ou falta dele..."
+            "pt_br": "Simule o estado da grade e descubra seu fim, ou falta dele..."
           }
         },
         {
@@ -258,7 +258,7 @@
           "alt": "Conway's Game of Life - Print 2",
           "caption": {
             "en": "Pick the initial state from the default patterns",
-            "pt-br": "Escolha o estado inicial dos padrões padrão"
+            "pt_br": "Escolha o estado inicial dos padrões padrão"
           }
         }
       ]
@@ -276,7 +276,7 @@
       },
       "description": {
         "en": "A fun and challenging puzzle and messaging site. You can create puzzles for friends and other players to solve! Only then can they decrypt your message...",
-        "pt-br": "Um site divertido e desafiador de quebra-cabeças e mensagens. Você pode criar quebra-cabeças para amigos e outros jogadores resolverem! Só então eles podem descriptografar sua mensagem..."
+        "pt_br": "Um site divertido e desafiador de quebra-cabeças e mensagens. Você pode criar quebra-cabeças para amigos e outros jogadores resolverem! Só então eles podem descriptografar sua mensagem..."
       },
       "tags": ["Django", "Python", "Cryptography", "Puzzle", "Web Dev"],
       "actions": [
@@ -285,7 +285,7 @@
           "url": "https://github.com/mlziade/keycrypt",
           "label": {
             "en": "Repository",
-            "pt-br": "Repositório"
+            "pt_br": "Repositório"
           },
           "icon": "fab fa-github"
         },
@@ -294,7 +294,7 @@
           "url": "https://keycrypt.mlziade.com.br",
           "label": {
             "en": "Try it out!",
-            "pt-br": "Experimente!"
+            "pt_br": "Experimente!"
           },
           "icon": "fas fa-external-link-alt"
         }
@@ -306,7 +306,7 @@
           "alt": "KeyCrypt - Print 1",
           "caption": {
             "en": "Keycrypt's homepage",
-            "pt-br": "Página inicial do Keycrypt"
+            "pt_br": "Página inicial do Keycrypt"
           }
         },
         {
@@ -315,7 +315,7 @@
           "alt": "KeyCrypt - Print 2",
           "caption": {
             "en": "Keycrypt's page for Previous Daily Challenges",
-            "pt-br": "Página do Keycrypt para Desafios Diários Anteriores"
+            "pt_br": "Página do Keycrypt para Desafios Diários Anteriores"
           }
         }
       ]
@@ -333,7 +333,7 @@
       },
       "description": {
         "en": "Librarian is a MCP Server that allows any LLM with a compatible MCP client to query for information on Wikipedia",
-        "pt-br": "Librarian é um Servidor MCP que permite a qualquer LLM com um cliente MCP compatível consultar informações na Wikipedia"
+        "pt_br": "Librarian é um Servidor MCP que permite a qualquer LLM com um cliente MCP compatível consultar informações na Wikipedia"
       },
       "tags": ["Python", "MCP Server", "Wikipedia"],
       "actions": [
@@ -342,7 +342,7 @@
           "url": "https://github.com/mlziade/librarian",
           "label": {
             "en": "Repository",
-            "pt-br": "Repositório"
+            "pt_br": "Repositório"
           },
           "icon": "fab fa-github"
         },
@@ -350,7 +350,7 @@
           "type": "disabled",
           "label": {
             "en": "Try it out!",
-            "pt-br": "Experimente!"
+            "pt_br": "Experimente!"
           },
           "icon": "fas fa-external-link-alt"
         }
@@ -362,7 +362,7 @@
           "alt": "Librarian - Print 1",
           "caption": {
             "en": "Example of librarian mcp server being used on Anthropic's Claude",
-            "pt-br": "Exemplo do servidor mcp librarian sendo usado no Claude da Anthropic"
+            "pt_br": "Exemplo do servidor mcp librarian sendo usado no Claude da Anthropic"
           },
           "style": "max-width: 600px;"
         }
@@ -380,7 +380,7 @@
       },
       "description": {
         "en": "Never forget the wisdom from the next door work desk.",
-        "pt-br": "Nunca esqueça a sabedoria da mesa de trabalho ao lado."
+        "pt_br": "Nunca esqueça a sabedoria da mesa de trabalho ao lado."
       },
       "tags": ["Quotes", "Sayings", "Curation", "Career"],
       "actions": [
@@ -388,7 +388,7 @@
           "type": "disabled",
           "label": {
             "en": "Repository",
-            "pt-br": "Repositório"
+            "pt_br": "Repositório"
           },
           "icon": "fab fa-github"
         },
@@ -397,7 +397,7 @@
           "url": "https://wisdom.mlziade.com.br",
           "label": {
             "en": "Try it out!",
-            "pt-br": "Experimente!"
+            "pt_br": "Experimente!"
           },
           "icon": "fas fa-external-link-alt"
         }
@@ -409,7 +409,7 @@
           "alt": "Desk Wisdom - Print 1",
           "caption": {
             "en": "Desk Wisdom's home page",
-            "pt-br": "Página inicial do Desk Wisdom"
+            "pt_br": "Página inicial do Desk Wisdom"
           }
         },
         {
@@ -418,7 +418,7 @@
           "alt": "Desk Wisdom - Print 2",
           "caption": {
             "en": "A wisdom displayed",
-            "pt-br": "Uma sabedoria exibida"
+            "pt_br": "Uma sabedoria exibida"
           }
         },
         {
@@ -427,7 +427,7 @@
           "alt": "Desk Wisdom - Print 3",
           "caption": {
             "en": "Wisdom's information being AI Generated",
-            "pt-br": "Informações da sabedoria sendo geradas por IA"
+            "pt_br": "Informações da sabedoria sendo geradas por IA"
           }
         }
       ]

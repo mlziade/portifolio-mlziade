@@ -39,7 +39,7 @@
             {
                 "@type": "SoftwareApplication",
                 "name": "{{ project.name }}",
-                "description": "{{ project.description.pt-br }}",
+                "description": "{{ project.description.pt_br }}",
                 {% for action in project.actions %}
                 {% if action.type == "github" or action.type == "external" %}
                 "url": "{{ action.url }}",
@@ -101,7 +101,7 @@
                 <div class="project-details" id="details-{{ forloop.counter }}" aria-hidden="true">
                     <div class="details-main">
                         <div class="details-text">
-                            <p>{{ project.description.pt-br }}</p>
+                            <p>{{ project.description.pt_br }}</p>
                         </div>
                         <div class="details-tags">
                             <div class='tags'>
@@ -116,7 +116,7 @@
                         {% for preview in project.previews %}
                         <figure class="preview"{% if preview.style %} style="{{ preview.style }}"{% endif %}>
                             <img src="{% static preview.image %}" data-lightbox-src="{% static preview.lightbox %}" alt="{{ preview.alt }}" loading="lazy">
-                            <figcaption><em>{{ preview.caption.pt-br }}</em></figcaption>
+                            <figcaption><em>{{ preview.caption.pt_br }}</em></figcaption>
                         </figure>
                         {% endfor %}
                     </div>
@@ -125,15 +125,15 @@
                         {% for action in project.actions %}
                             {% if action.type == "github" or action.type == "external" %}
                                 <a href="{{ action.url }}" class="button" target="_blank" rel="noopener">
-                                    <i class="{{ action.icon }} button-icon"></i>{{ action.label.pt-br }}
+                                    <i class="{{ action.icon }} button-icon"></i>{{ action.label.pt_br }}
                                 </a>
                             {% elif action.type == "internal" %}
                                 <a href="{% url action.url_name %}" class="button">
-                                    <i class="{{ action.icon }} button-icon"></i>{{ action.label.pt-br }}
+                                    <i class="{{ action.icon }} button-icon"></i>{{ action.label.pt_br }}
                                 </a>
                             {% elif action.type == "disabled" %}
                                 <span class="button disabled">
-                                    <i class="{{ action.icon }} button-icon"></i>{{ action.label.pt-br }}
+                                    <i class="{{ action.icon }} button-icon"></i>{{ action.label.pt_br }}
                                 </span>
                             {% endif %}
                         {% endfor %}
