@@ -112,7 +112,7 @@
                         </div>
                     </div>
                     {% if project.previews %}
-                    <div class="details-previews"{% if project.previews.0.style %} style="{{ project.previews.0.style }}"{% endif %}>
+                    <div class="details-previews">
                         {% for preview in project.previews %}
                         <figure class="preview"{% if preview.style %} style="{{ preview.style }}"{% endif %}>
                             <img src="{% static preview.image %}" data-lightbox-src="{% static preview.lightbox %}" alt="{{ preview.alt }}" loading="lazy">
