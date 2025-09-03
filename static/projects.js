@@ -50,10 +50,15 @@
 	img.className = 'lightbox-image';
 	img.alt = '';
 
+	const loadingDiv = document.createElement('div');
+	loadingDiv.className = 'lightbox-loading';
+	loadingDiv.innerHTML = '<div class="lightbox-spinner"></div>Loading...';
+
 	const caption = document.createElement('div');
 	caption.className = 'lightbox-caption';
 
 	content.appendChild(closeBtn);
+	content.appendChild(loadingDiv);
 	content.appendChild(img);
 	content.appendChild(caption);
 	overlay.appendChild(content);
@@ -63,13 +68,36 @@
 
 	function openLightbox(src, altText, captionText){
 		lastFocused = document.activeElement;
-		img.src = src;
+		
+		// Show loading state
+		loadingDiv.style.display = 'block';
+		img.classList.remove('loaded');
+		img.removeAttribute('src'); // Clear any previous image
+		
+		// Set up image loading
 		img.alt = altText || '';
 		caption.textContent = captionText || altText || '';
+		
+		// Show lightbox
 		overlay.removeAttribute('aria-hidden');
 		overlay.classList.add('open');
 		document.documentElement.classList.add('lightbox-open');
 		document.body.classList.add('lightbox-open');
+		
+		// Load image and handle loading state
+		img.onload = () => {
+			loadingDiv.style.display = 'none';
+			img.classList.add('loaded');
+		};
+		
+		img.onerror = () => {
+			loadingDiv.style.display = 'none';
+			img.classList.add('loaded'); // Still show something even if failed
+		};
+		
+		// Start loading the image
+		img.src = src;
+		
 		// Focus close for accessibility
 		closeBtn.focus({ preventScroll: true });
 	}
@@ -79,8 +107,16 @@
 		overlay.setAttribute('aria-hidden', 'true');
 		document.documentElement.classList.remove('lightbox-open');
 		document.body.classList.remove('lightbox-open');
+		
+		// Reset loading state
+		loadingDiv.style.display = 'none';
+		img.classList.remove('loaded');
+		img.onload = null;
+		img.onerror = null;
+		
 		// Clear src to stop any decoding work
 		img.removeAttribute('src');
+		
 		// Restore focus
 		if (lastFocused && typeof lastFocused.focus === 'function') {
 			lastFocused.focus({ preventScroll: true });
