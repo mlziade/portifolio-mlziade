@@ -177,3 +177,6 @@ cython_debug/
 # In production, collect all static files in a directory outside of the repository
 # using the collectstatic management command
 staticfiles/
+
+# Claude Code configuration
+.claude/
