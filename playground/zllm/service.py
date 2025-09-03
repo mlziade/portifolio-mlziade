@@ -8,8 +8,10 @@ including authentication, request handling, and response processing.
 import requests
 import json
 import os
+import logging
 from django.http import JsonResponse, StreamingHttpResponse
 
+logger = logging.getLogger('playground.zllm.service')
 
 def get_zllm_token():
     """
@@ -45,7 +47,7 @@ def get_zllm_token():
         response.raise_for_status()
         return response.json()['token']
     except requests.exceptions.RequestException as e:
-        print(f"Error during ZLLM authentication: {e}")
+        logger.error(f"Error during ZLLM authentication: {e}")
         return e
 
 
@@ -85,32 +87,32 @@ def generate_text_streaming(request):
         data = json.loads(request.body)
         prompt = data.get('prompt')
     except json.JSONDecodeError:
-        print("Error decoding JSON")
+        logger.error("Error decoding JSON in generate_text_streaming")
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
     
     if not prompt:
-        print("Prompt is missing")
+        logger.warning("Prompt is missing in generate_text_streaming request")
         return JsonResponse({'error': 'Prompt is required'}, status=400)
     
     # Authenticate with ZLLM and get the token
     try:
         token = get_zllm_token()
     except ValueError as e:
-        print(f"Configuration error: {e}")
+        logger.error(f"Configuration error: {e}")
         return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
     except requests.exceptions.RequestException as e:
-        print(f"Authentication request failed: {e}")
+        logger.error(f"Authentication request failed: {e}")
         return JsonResponse({'error': 'Failed to authenticate with ZLLM service'}, status=500)
     
     ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL", None)
     ZLLM_MODEL_NAME = os.getenv("ZLLM_MODEL_NAME", None)
 
     if not ZLLM_BASE_URL:
-        print("ZLLM_BASE_URL environment variable is not set")
+        logger.error("ZLLM_BASE_URL environment variable is not set")
         return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
     
     if not ZLLM_MODEL_NAME:
-        print("ZLLM_MODEL_NAME environment variable is not set")
+        logger.error("ZLLM_MODEL_NAME environment variable is not set")
         return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
 
     headers = {
@@ -194,7 +196,7 @@ def generate_text_streaming(request):
                                     yield f"data: {line}\n\n"
                                     
                         except (json.JSONDecodeError, UnicodeDecodeError) as e:
-                            print(f"Error processing streaming response: {e}")
+                            logger.error(f"Error processing streaming response: {e}")
                             
                             # Handle UTF-8 decode errors
                             if isinstance(e, UnicodeDecodeError):
@@ -214,8 +216,8 @@ def generate_text_streaming(request):
                             # Handle JSON decode errors
                             line_preview = line[:100] if len(line) > 100 else line
                             json_preview = json_content[:100] if len(json_content) > 100 else json_content
-                            print(f"JSON decode error: {e}, line: {line_preview}")
-                            print(f"Attempted to parse JSON: {json_preview}")
+                            logger.error(f"JSON decode error: {e}, line: {line_preview}")
+                            logger.debug(f"Attempted to parse JSON: {json_preview}")
                             
                             # Try to handle partial JSON or malformed responses
                             if json_content:
@@ -238,12 +240,12 @@ def generate_text_streaming(request):
                                 else:
                                     yield f"data: {line}\n\n"
         except requests.exceptions.Timeout:
-            print("ZLLM API timeout during streaming request")
+            logger.error("ZLLM API timeout during streaming request")
             error_data = {'error': 'The service is taking too long to respond. Please try again.'}
             json_str = json.dumps(error_data, ensure_ascii=False)
             yield f"data: {json_str}\n\n".encode('utf-8').decode('utf-8')
         except requests.exceptions.RequestException as e:
-            print(f"Error during ZLLM streaming request: {e}")
+            logger.error(f"Error during ZLLM streaming request: {e}")
             if hasattr(e, 'response') and e.response is not None:
                 status_code = e.response.status_code
                 if status_code == 502:
@@ -278,32 +280,32 @@ def generate_text(request):
         data = json.loads(request.body)
         prompt = data.get('prompt')
     except json.JSONDecodeError:
-        print("Error decoding JSON")  # Log JSON decoding error
+        logger.error("Error decoding JSON")  # Log JSON decoding error
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
     
     if not prompt:
-        print("Prompt is missing")  # Log missing prompt
+        logger.warning("Prompt is missing")  # Log missing prompt
         return JsonResponse({'error': 'Prompt is required'}, status=400)
     
     # Authenticate with ZLLM and get the token
     try:
         token = get_zllm_token()
     except ValueError as e:
-        print(f"Configuration error: {e}")
+        logger.error(f"Configuration error: {e}")
         return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
     except requests.exceptions.RequestException as e:
-        print(f"Authentication request failed: {e}")
+        logger.error(f"Authentication request failed: {e}")
         return JsonResponse({'error': 'Failed to authenticate with ZLLM service'}, status=500)
     
     ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL", None)
     ZLLM_MODEL_NAME = os.getenv("ZLLM_MODEL_NAME", None)
 
     if not ZLLM_BASE_URL:
-        print("ZLLM_BASE_URL environment variable is not set")
+        logger.error("ZLLM_BASE_URL environment variable is not set")
         return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
     
     if not ZLLM_MODEL_NAME:
-        print("ZLLM_MODEL_NAME environment variable is not set")
+        logger.error("ZLLM_MODEL_NAME environment variable is not set")
         return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
 
     headers = {
@@ -325,10 +327,10 @@ def generate_text(request):
         )
         return JsonResponse(response.json())
     except requests.exceptions.Timeout:
-        print("ZLLM API timeout")
+        logger.error("ZLLM API timeout")
         return JsonResponse({'error': 'The service is taking too long to respond. Please try again.'}, status=408)
     except requests.exceptions.RequestException as e:
-        print(f"Error during ZLLM request: {e}")
+        logger.error(f"Error during ZLLM request: {e}")
         if hasattr(e, 'response') and e.response is not None:
             status_code = e.response.status_code
             try:
@@ -365,32 +367,32 @@ def chat_with_zllm(request):
         prompt = data.get('prompt')
         messages = data.get('messages', [])
     except json.JSONDecodeError:
-        print("Error decoding JSON")
+        logger.error("Error decoding JSON")
         return JsonResponse({'error': 'Invalid JSON'}, status=400)
     
     if not prompt:
-        print("Prompt is missing")
+        logger.warning("Prompt is missing")
         return JsonResponse({'error': 'Prompt is required'}, status=400)
     
     # Authenticate with ZLLM and get the token
     try:
         token = get_zllm_token()
     except ValueError as e:
-        print(f"Configuration error: {e}")
+        logger.error(f"Configuration error: {e}")
         return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
     except requests.exceptions.RequestException as e:
-        print(f"Authentication request failed: {e}")
+        logger.error(f"Authentication request failed: {e}")
         return JsonResponse({'error': 'Failed to authenticate with ZLLM service'}, status=500)
     
     ZLLM_BASE_URL = os.getenv("ZLLM_BASE_URL", None)
     ZLLM_MODEL_NAME = os.getenv("ZLLM_MODEL_NAME", None)
 
     if not ZLLM_BASE_URL:
-        print("ZLLM_BASE_URL environment variable is not set")
+        logger.error("ZLLM_BASE_URL environment variable is not set")
         return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
     
     if not ZLLM_MODEL_NAME:
-        print("ZLLM_MODEL_NAME environment variable is not set")
+        logger.error("ZLLM_MODEL_NAME environment variable is not set")
         return JsonResponse({'error': 'ZLLM configuration is incomplete'}, status=500)
 
     headers = {
@@ -405,10 +407,10 @@ def chat_with_zllm(request):
         with open(prompt_file_path, "r", encoding="utf-8") as file:
             system_prompt = file.read().strip()
     except FileNotFoundError:
-        print(f"System prompt file not found at {prompt_file_path}")
+        logger.error(f"System prompt file not found at {prompt_file_path}")
         return JsonResponse({'error': 'System prompt file not found'}, status=500)
     except Exception as e:
-        print(f"Error reading system prompt file: {e}")
+        logger.error(f"Error reading system prompt file: {e}")
         return JsonResponse({'error': 'Error reading system prompt file'}, status=500)
 
     # Add the system message to the messages list
@@ -440,10 +442,10 @@ def chat_with_zllm(request):
         response_data = response.json()
         return JsonResponse({'response': response_data.get('response', '')})
     except requests.exceptions.Timeout:
-        print("ZLLM API timeout during chat request")
+        logger.error("ZLLM API timeout during chat request")
         return JsonResponse({'error': 'The service is taking too long to respond. Please try again.'}, status=408)
     except requests.exceptions.RequestException as e:
-        print(f"Error during ZLLM request: {e}")
+        logger.error(f"Error during ZLLM request: {e}")
         if hasattr(e, 'response') and e.response is not None:
             status_code = e.response.status_code
             try:

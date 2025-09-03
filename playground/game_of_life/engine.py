@@ -5,6 +5,9 @@ This module contains the core logic for Conway's Game of Life,
 including cell checking and generation streaming functionality.
 """
 
+import logging
+
+logger = logging.getLogger('playground.game_of_life.engine')
 
 def check_cell(x_pos: int, y_pos: int, cell_state: bool, grid: set[tuple[int, int]]) -> bool:    
     """
@@ -55,6 +58,8 @@ def play_game_of_life(initial_alive_cells: list[tuple[int, int]], max_generation
     Returns:
         List of generations, where each generation is a list of (x, y) coordinates of alive cells
     """
+    logger.debug(f"Starting Game of Life simulation with {len(initial_alive_cells)} initial cells, max {max_generations} generations")
+    
     # The grid is a set of cells, with the key being a tuple of the x and y position of the cell
     # The middle of the grid is at (0, 0)
     grid: set[tuple[int, int]] = set()
@@ -71,6 +76,7 @@ def play_game_of_life(initial_alive_cells: list[tuple[int, int]], max_generation
     for generation in range(max_generations):
         # If the grid is empty, break the loop
         if len(grid) == 0:
+            logger.debug(f"Game of Life ended at generation {generation}: no alive cells")
             generations.append([])
             break
 
@@ -121,6 +127,8 @@ def play_game_of_life(initial_alive_cells: list[tuple[int, int]], max_generation
             for i in range(1, min(11, generation + 1)):
                 if i < len(generations) and set(generations[generation - i]) == current_state:
                     # Found a cycle, stop generating
+                    logger.debug(f"Game of Life ended at generation {generation}: cycle detected (period {i})")
                     break
     
+    logger.debug(f"Game of Life simulation completed with {len(generations)} total generations")
     return generations

@@ -8,8 +8,7 @@ import json
 import os
 import logging
 
-logger = logging.getLogger(__name__)
-
+logger = logging.getLogger('portifolio.views')
 
 class LanguageSwitchView(View):
     """View to handle language switching via AJAX or regular requests."""

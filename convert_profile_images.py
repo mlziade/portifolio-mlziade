@@ -6,7 +6,10 @@ This script creates WebP versions of the profile picture at different sizes.
 
 import os
 import sys
+import logging
 from PIL import Image
+
+logger = logging.getLogger('convert_profile_images')
 
 def convert_to_webp(input_path: str, output_path: str, size: tuple = None, quality: int = 85) -> bool:
     """
@@ -40,11 +43,11 @@ def convert_to_webp(input_path: str, output_path: str, size: tuple = None, quali
             
             # Save as WebP
             img.save(output_path, 'WebP', quality=quality, optimize=True)
-            print(f"[OK] Created: {output_path} ({size or 'original size'})")
+            logger.info(f"Created: {output_path} ({size or 'original size'})")
             return True
             
     except Exception as e:
-        print(f"[ERROR] Error converting {input_path}: {e}")
+        logger.error(f"Error converting {input_path}: {e}")
         return False
 
 def main():
@@ -55,8 +58,8 @@ def main():
     
     # Check if input file exists
     if not os.path.exists(input_file):
-        print(f"[ERROR] Input file not found: {input_file}")
-        print("Make sure profile_picture_high_res.png exists in the static directory.")
+        logger.error(f"Input file not found: {input_file}")
+        logger.info("Make sure profile_picture_high_res.png exists in the static directory.")
         sys.exit(1)
     
     # Output files to create
@@ -70,8 +73,8 @@ def main():
         ("profile_picture_66.webp", (132, 132), 90),   # Legacy mobile: 2x resolution
     ]
     
-    print(f"Converting {input_file} to WebP versions...")
-    print("-" * 50)
+    logger.info(f"Converting {input_file} to WebP versions...")
+    logger.info("-" * 50)
     
     success_count = 0
     for filename, size, quality in conversions:
@@ -79,17 +82,17 @@ def main():
         if convert_to_webp(input_file, output_path, size, quality):
             success_count += 1
     
-    print("-" * 50)
-    print(f"Conversion complete! {success_count}/{len(conversions)} files created successfully.")
+    logger.info("-" * 50)
+    logger.info(f"Conversion complete! {success_count}/{len(conversions)} files created successfully.")
     
     if success_count == len(conversions):
-        print("\n[SUCCESS] All WebP versions created successfully!")
-        print("\nNext steps:")
-        print("1. Update your templates to use WebP versions")
-        print("2. Test the website to ensure images load correctly")
-        print("3. Delete this script when no longer needed")
+        logger.info("All WebP versions created successfully!")
+        logger.info("Next steps:")
+        logger.info("1. Update your templates to use WebP versions")
+        logger.info("2. Test the website to ensure images load correctly")
+        logger.info("3. Delete this script when no longer needed")
     else:
-        print(f"\n[WARNING] {len(conversions) - success_count} conversions failed. Check the errors above.")
+        logger.warning(f"{len(conversions) - success_count} conversions failed. Check the errors above.")
 
 if __name__ == "__main__":
     main()
