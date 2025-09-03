@@ -401,7 +401,7 @@ def chat_with_zllm(request):
     # Read the system prompt from file
     try:
         # Use os.path to construct the correct path relative to the playground directory
-        prompt_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "zllm_chat_system_prompt.txt")
+        prompt_file_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "prompts", "zllm_chat_system_prompt.txt")
         with open(prompt_file_path, "r", encoding="utf-8") as file:
             system_prompt = file.read().strip()
     except FileNotFoundError:
