@@ -90,6 +90,13 @@ class ProjectModal {
         const modalClose = this.modal.querySelector('.modal-close');
         if (modalClose) {
             modalClose.addEventListener('click', () => this.close());
+            // Keyboard support (Enter/Space)
+            modalClose.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    this.close();
+                }
+            });
         }
 
         // Click outside modal
