@@ -219,11 +219,10 @@ class ProjectModal {
                     </div>
                     <div class="modal-project-title">
                         <h2>${this.escapeHtml(project.name || 'Untitled Project')}</h2>
+                        <div class="modal-project-tags">
+                            <div class="tags">${tagsHTML}</div>
+                        </div>
                     </div>
-                </div>
-
-                <div class="modal-project-tags">
-                    <div class="tags">${tagsHTML}</div>
                 </div>
             </div>
 
