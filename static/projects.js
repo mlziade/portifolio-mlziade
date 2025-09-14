@@ -77,9 +77,7 @@ class ProjectModal {
                 const projectId = card.getAttribute('data-project-id');
                 const project = this.findProjectById(projectId);
                 if (project) {
-                    this.preloadProjectImages(project)
-                        .then(() => this.show(project))
-                        .catch(() => this.show(project)); // Show modal even if preloading fails
+                    this.show(project);
                 }
             });
         });
@@ -235,6 +233,11 @@ class ProjectModal {
             this.renderModalContent(project);
             this.setupImageLightbox();
             this.openModal();
+
+            // Preload images asynchronously after modal is shown
+            setTimeout(() => {
+                this.preloadProjectImages(project);
+            }, 0);
         } catch (error) {
             console.error('Error showing modal:', error);
         }
