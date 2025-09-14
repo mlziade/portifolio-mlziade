@@ -12,146 +12,243 @@
     color: var(--text-primary);
 }
 
-/* List layout */
-.projects-list {
+/* Kanban Board Styles */
+.kanban-board {
     width: 100%;
-    max-width: 960px;
+    max-width: 1400px;
     margin-top: 1.5rem;
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
     gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 1rem;
 }
 
-.project-item {
-    background-color: var(--hover-bg);
+.kanban-column {
+    background-color: var(--bg-tertiary);
     border: 1px solid var(--border-primary);
     border-radius: 12px;
-    overflow: hidden;
+    min-height: 600px;
+    display: flex;
+    flex-direction: column;
 }
 
-.project-summary {
-    display: grid;
-    grid-template-columns: 96px 1fr auto;
+.column-header {
+    display: flex;
+    justify-content: center;
     align-items: center;
-    gap: 1rem;
     padding: 1rem 1.25rem;
-    position: relative; /* allow absolute centering of title */
+    border-bottom: 1px solid var(--border-primary);
+    background-color: var(--hover-bg);
+    border-radius: 12px 12px 0 0;
 }
 
-.summary-logo picture, .summary-logo img {
-    display: block;
-    width: 100%;
+.column-header h2 {
+    font-size: 1.1rem;
+    margin: 0;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+
+.column-content {
+    padding: 1rem;
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+/* Project Cards */
+.project-card {
+    background-color: var(--hover-bg);
+    border: 1px solid var(--border-primary);
+    border-radius: 8px;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+}
+
+.project-card * {
+    pointer-events: none;
+}
+
+.project-card:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: rgba(200, 200, 200, 0.5);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+
+.card-content {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    flex: 1;
+}
+
+.card-logo {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.card-logo picture,
+.card-logo img {
+    max-width: 40px;
+    max-height: 40px;
+    width: auto;
     height: auto;
     object-fit: contain;
 }
 
-.summary-title h2 {
-    font-size: 1.5rem;
+.card-title {
+    flex: 1;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    text-align: center;
+    line-height: 1.2;
+    word-wrap: break-word;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(4px);
+}
+
+.modal.open {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-content {
+    background-color: var(--bg-secondary);
+    margin: 2rem;
+    padding: 0;
+    border: 1px solid var(--border-primary);
+    border-radius: 12px;
+    width: 95%;
+    max-width: 1200px;
+    max-height: 95vh;
+    position: relative;
+    overflow-y: auto;
+    box-shadow: var(--shadow-large);
+}
+
+.modal-close {
+    color: var(--text-secondary);
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2rem;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 1001;
+    transition: color var(--transition-fast);
+    line-height: 1;
+}
+
+.modal-close:hover {
+    color: var(--text-primary);
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.modal-project-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding-right: 3rem;
+}
+
+.modal-project-logo {
+    flex-shrink: 0;
+    width: 64px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal-project-logo picture,
+.modal-project-logo img {
+    max-width: 64px;
+    max-height: 64px;
+    width: auto;
+    height: auto;
+    object-fit: contain;
+}
+
+.modal-project-title {
+    flex: 1;
+}
+
+.modal-project-title h2 {
+    font-size: 2rem;
     margin: 0;
     color: var(--text-primary);
 }
 
-/* Center the title across the whole row regardless of logo/button widths */
-.summary-title {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    text-align: center;
-    max-width: calc(100% - 260px); /* keep clear of logo + button area on wide screens */
-}
 
-.summary-title h2 {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.summary-action {
-    display: flex;
-    position: absolute;
-    right: 1.25rem; /* match container horizontal padding */
-    top: 50%;
-    transform: translateY(-50%); /* vertically center within row */
-    z-index: 2; /* ensure above centered title if overlapping */
-}
-
-.summary-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    background: transparent;
-    color: var(--text-white);
-    border: 1px solid var(--border-primary);
-    border-radius: 8px;
-    padding: 0.5rem 0.75rem;
-    cursor: pointer;
-}
-
-.summary-toggle[aria-expanded="true"] .fa-chevron-down {
-    transform: rotate(180deg);
-}
-
-/* Smooth rotate for chevron */
-.summary-toggle .fa-chevron-down {
-    transition: transform 120ms ease-out;
-}
-
-.project-details {
-    /* subtle collapse/expand to reduce layout jank with image loading */
-    border-top: 1px solid transparent; /* keep layout stable, only fade border color */
-    max-height: 0; /* collapse without animating height */
-    opacity: 0;
-    overflow: hidden;
-    padding: 0 1.25rem 0; /* keep horizontal rhythm, collapse vertical padding */
-    transform: translateY(-1px);
-    will-change: opacity, transform;
-    transition: opacity 140ms ease-out, transform 140ms ease-out, padding 140ms ease-out, border-color 140ms ease-out;
-}
-
-.project-details.open {
-    border-color: var(--border-primary);
-    max-height: 2000px; /* snap open height (no transition), only fade content */
-    opacity: 1;
-    transform: translateY(0);
-    padding: 1rem 1.25rem 1.25rem;
-}
-
-.details-main {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 1rem;
-}
-
-.details-text p {
-    margin: 0;
-    text-align: justify;
+.modal-project-description {
+    font-size: 1.1rem;
     line-height: 1.6;
+    color: var(--text-light);
+    margin-bottom: 1.5rem;
+    text-align: justify;
 }
 
-.details-previews {
+.modal-project-tags {
+    margin-bottom: 1.5rem;
+}
+
+.modal-project-previews {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* up to 3 per row given page width */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1rem;
     align-items: stretch;
-    justify-items: center; /* center single or narrow previews within their cells */
-    margin-top: 1rem;
+    justify-items: center;
+    margin-bottom: 1.5rem;
 }
 
-.details-previews .preview {
-    background: var(--hover-bg); /* paint the preview area */
+.modal-project-previews .preview {
+    background: var(--hover-bg);
     border: 1px solid var(--border-primary);
     border-radius: 10px;
-    padding: 0.5rem; /* reverted padding */
-    flex: 1 1 320px; /* grow, shrink, min width */
-    max-width: 480px;
+    padding: 0.75rem;
+    flex: 1 1 300px;
+    max-width: 500px;
     display: grid;
-    grid-template-rows: 1fr auto; /* image area, caption */
-    align-items: center; /* center image vertically in its row */
-    justify-items: center; /* center image horizontally */
-    min-height: 360px; /* ensure room so caption sits at bottom */
+    grid-template-rows: 1fr auto;
+    align-items: center;
+    justify-items: center;
+    min-height: 300px;
 }
 
-.details-previews img {
+.modal-project-previews img {
     max-width: 100%;
     max-height: 100%;
     width: auto;
@@ -159,30 +256,22 @@
     display: block;
     border-radius: 6px;
     object-fit: contain;
-    opacity: 0; /* fade-in to mask loading jank */
-    transition: opacity 160ms ease-out;
     cursor: zoom-in;
+    transition: opacity 160ms ease-out;
 }
 
-.details-previews figcaption {
-    margin-top: 0.35rem; /* reverted caption spacing */
-    font-size: 0.85rem;
+.modal-project-previews figcaption {
+    margin-top: 0.5rem;
+    font-size: 0.9rem;
     color: var(--text-light);
     text-align: center;
 }
 
-/* Make images fade in once the panel is open */
-.project-details.open .details-previews img { opacity: 1; }
-
-.details-tags .tags {
-    margin: 0;
-}
-
-.details-actions {
+.modal-project-actions {
     display: flex;
     justify-content: center;
-    gap: 0.75rem;
-    margin-top: 1rem;
+    gap: 1rem;
+    flex-wrap: wrap;
 }
 
 .button {
@@ -270,22 +359,73 @@
 /* Media queries for responsiveness */
 @media (max-width: 992px) {
     .container h1 { font-size: 8rem; }
+    .kanban-board {
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        max-width: 100%;
+    }
+    .kanban-column { min-height: 500px; }
 }
 
 @media (max-width: 768px) {
     .container h1 { font-size: 6rem; }
-    .summary-title h2 { font-size: 1.25rem; }
-    .project-summary { grid-template-columns: 72px 1fr auto; }
-    .details-main { grid-template-columns: 1fr; }
-    .details-previews .preview { min-height: 300px; }
-    .summary-title { max-width: calc(100% - 200px); }
+    .container { padding: 1.5rem 1rem; }
+    .kanban-board {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    .kanban-column {
+        min-height: 400px;
+        max-height: 400px;
+    }
+    .column-content {
+        overflow-y: auto;
+    }
+    .modal-content {
+        margin: 1rem;
+        width: calc(100% - 2rem);
+        max-height: 90vh;
+    }
+    .modal-body { padding: 1.5rem; }
+    .modal-project-title h2 { font-size: 1.5rem; }
+    .modal-project-previews { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 480px) {
     .container h1 { font-size: 4rem; }
-    .project-summary { grid-template-columns: 56px 1fr auto; }
-    .details-previews .preview { min-height: 240px; }
-    .summary-title { max-width: calc(100% - 160px); }
+    .container { padding: 1rem 0.5rem; }
+    .kanban-board { gap: 0.75rem; }
+    .column-header { padding: 0.75rem 1rem; }
+    .column-content { padding: 0.75rem; }
+    .project-card {
+        padding: 0.5rem;
+        min-height: 70px;
+    }
+    .card-logo {
+        width: 32px;
+        height: 32px;
+    }
+    .card-logo picture,
+    .card-logo img {
+        max-width: 32px;
+        max-height: 32px;
+    }
+    .card-title { font-size: 0.9rem; }
+    .modal-body { padding: 1rem; }
+    .modal-project-header { gap: 0.75rem; }
+    .modal-project-logo {
+        width: 48px;
+        height: 48px;
+    }
+    .modal-project-logo picture,
+    .modal-project-logo img {
+        max-width: 48px;
+        max-height: 48px;
+    }
+    .modal-project-title h2 { font-size: 1.25rem; }
+    .modal-project-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
 }
 
 /* Match resume small-tag sizing */

@@ -3,6 +3,7 @@
     {
       "id": "project-1",
       "name": "MovieStars",
+      "status": "Completed",
       "logo": {
         "webp": "logo-moviestars.webp",
         "webp_2x": "logo-moviestars@2x.webp",
@@ -40,6 +41,7 @@
     {
       "id": "project-2",
       "name": "Dontpad List!",
+      "status": "In Progress",
       "logo": {
         "webp": "dontpad/dontpad-list-logo.webp",
         "webp_2x": "dontpad/dontpad-list-logo@2x.webp",
@@ -96,6 +98,7 @@
     {
       "id": "project-3",
       "name": "ZLLM",
+      "status": "Cooking",
       "logo": {
         "webp": "zllm/github-logo.webp",
         "webp_2x": "zllm/github-logo@2x.webp",
@@ -153,6 +156,7 @@
     {
       "id": "project-4",
       "name": "ZLLM Chat",
+      "status": "Completed",
       "logo": {
         "webp": "zllm_chat/zllm-chat-logo.webp",
         "webp_2x": "zllm_chat/zllm-chat-logo@2x.webp",
@@ -210,6 +214,7 @@
     {
       "id": "project-5",
       "name": "Conway's Game of Life",
+      "status": "To be Continued",
       "logo": {
         "gif": "conways/conways.gif",
         "alt": "Conway's Game of Life",
@@ -266,6 +271,7 @@
     {
       "id": "project-6",
       "name": "KeyCrypt",
+      "status": "Defuncted",
       "logo": {
         "webp": "keycrypt/logo-keycrypt.webp",
         "webp_2x": "keycrypt/logo-keycrypt@2x.webp",
@@ -323,6 +329,7 @@
     {
       "id": "project-7",
       "name": "Librarian",
+      "status": "In Progress",
       "logo": {
         "webp": "librarian/github-logo.webp",
         "webp_2x": "librarian/github-logo@2x.webp",
@@ -371,6 +378,7 @@
     {
       "id": "project-8",
       "name": "Desk Wisdom",
+      "status": "Cooking",
       "logo": {
         "png": "dsk_wisdom/desk-wisdom-logo.png",
         "alt": "Desk Wisdom logo",

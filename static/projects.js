@@ -1,248 +1,282 @@
-// Projects page: collapsible details toggles (multiple open allowed)
-// Collapsible toggles
-(function(){
-	const list = document.querySelector('.projects-list');
-	if (!list) return;
+document.addEventListener('DOMContentLoaded', function() {
+    // Project data - will be populated by Django template
+    let projectsData = [];
+    let projectsById = new Map();
 
-	list.addEventListener('click', (e) => {
-		const btn = e.target.closest('button.summary-toggle');
-		if (!btn) return;
-		const id = btn.getAttribute('aria-controls');
-		if (!id) return;
-		const panel = document.getElementById(id);
-		if (!panel) return;
+    // Initialize projects data from JSON script tag (if added by template)
+    const projectsScript = document.getElementById('projects-data');
+    if (projectsScript) {
+        try {
+            projectsData = JSON.parse(projectsScript.textContent);
+        } catch (e) {
+            console.error('Failed to parse projects data:', e);
+        }
+    }
+    // Fallback to global if available
+    if ((!Array.isArray(projectsData) || projectsData.length === 0) && Array.isArray(window.PROJECTS_DATA)) {
+        projectsData = window.PROJECTS_DATA;
+    }
 
-		const isOpen = panel.classList.contains('open');
-		if (isOpen) {
-			panel.classList.remove('open');
-			panel.setAttribute('aria-hidden', 'true');
-			btn.setAttribute('aria-expanded', 'false');
-		} else {
-			panel.classList.add('open');
-			panel.setAttribute('aria-hidden', 'false');
-			btn.setAttribute('aria-expanded', 'true');
-			// Avoid auto-scrolling to reduce layout shifts while images load
-		}
-	});
-})();
+    // Build id -> project map for robust lookup
+    if (Array.isArray(projectsData)) {
+        projectsData.forEach(p => { if (p && p.id != null) projectsById.set(String(p.id), p); });
+    }
 
-// Lightbox for preview images
-(function(){
-	const list = document.querySelector('.projects-list');
-	if (!list) return;
+    // Get modal elements
+    const modal = document.getElementById('project-modal');
+    const modalBody = modal?.querySelector('.modal-body');
+    const modalClose = modal?.querySelector('.modal-close');
 
-	// Create overlay elements once
-	const overlay = document.createElement('div');
-	overlay.className = 'lightbox-overlay';
-	overlay.setAttribute('role', 'dialog');
-	overlay.setAttribute('aria-modal', 'true');
-	overlay.setAttribute('aria-hidden', 'true');
+    // Project card click handlers
+    const projectCards = document.querySelectorAll('.project-card');
 
-	const content = document.createElement('div');
-	content.className = 'lightbox-content';
+    projectCards.forEach(card => {
+        card.addEventListener('click', function() {
+            const projectId = this.getAttribute('data-project-id');
+            const project = findProjectById(projectId);
+            if (project) {
+                showProjectModal(project);
+            }
+        });
+    });
 
-	const closeBtn = document.createElement('button');
-	closeBtn.className = 'lightbox-close';
-	closeBtn.setAttribute('aria-label', 'Close image');
-	closeBtn.innerHTML = '&times;';
+    // Modal close handlers
+    if (modalClose) {
+        modalClose.addEventListener('click', function() {
+            closeModal();
+        });
+    }
 
-	const img = document.createElement('img');
-	img.className = 'lightbox-image';
-	img.alt = '';
+    // Click outside modal to close
+    if (modal) {
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    }
 
-	const loadingDiv = document.createElement('div');
-	loadingDiv.className = 'lightbox-loading';
-	loadingDiv.innerHTML = '<div class="lightbox-spinner"></div>Loading...';
+    // ESC key to close modal
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal?.classList.contains('open')) {
+            closeModal();
+        }
+    });
 
-	const caption = document.createElement('div');
-	caption.className = 'lightbox-caption';
+    function findProjectById(projectId) {
+        // Try to find in projects data first
+        if (projectsById.size) {
+            const exact = projectsById.get(String(projectId));
+            if (exact) return exact;
+            // Try loose matching if data attributes differ
+            for (const [k, v] of projectsById.entries()) {
+                if (String(k) === String(projectId)) return v;
+            }
+        }
 
-	content.appendChild(closeBtn);
-	content.appendChild(loadingDiv);
-	content.appendChild(img);
-	content.appendChild(caption);
-	overlay.appendChild(content);
-	document.body.appendChild(overlay);
+        // Fallback: extract from DOM
+    const cardElement = document.querySelector(`[data-project-id="${projectId}"]`);
+        if (!cardElement) return null;
 
-	let lastFocused = null;
+        const column = cardElement.closest('.kanban-column');
+        const status = column?.getAttribute('data-status') || '';
+        const title = cardElement.querySelector('.card-title')?.textContent || '';
+        const logoImg = cardElement.querySelector('.card-logo img');
 
-	function openLightbox(src, altText, captionText){
-		lastFocused = document.activeElement;
-		
-		// Show loading state
-		loadingDiv.style.display = 'block';
-		img.classList.remove('loaded');
-		img.removeAttribute('src'); // Clear any previous image
-		
-		// Set up image loading
-		img.alt = altText || '';
-		caption.textContent = captionText || altText || '';
-		
-		// Show lightbox
-		overlay.removeAttribute('aria-hidden');
-		overlay.classList.add('open');
-		document.documentElement.classList.add('lightbox-open');
-		document.body.classList.add('lightbox-open');
-		
-		// Load image and handle loading state
-		img.onload = () => {
-			loadingDiv.style.display = 'none';
-			img.classList.add('loaded');
-		};
-		
-		img.onerror = () => {
-			loadingDiv.style.display = 'none';
-			img.classList.add('loaded'); // Still show something even if failed
-		};
-		
-		// Start loading the image
-		img.src = src;
-		
-		// Focus close for accessibility
-		closeBtn.focus({ preventScroll: true });
-	}
+        // Attempt to build a minimal logo structure
+        let logo = null;
+        if (logoImg) {
+            // Prefer relative path if under /static/
+            try {
+                const url = new URL(logoImg.src, window.location.origin);
+                const rel = url.pathname.startsWith('/static/') ? url.pathname.replace(/^\/static\//, '') : url.pathname;
+                logo = { webp: rel, alt: logoImg.alt, width: logoImg.width, height: logoImg.height };
+            } catch (_) {
+                logo = { src: logoImg.src, alt: logoImg.alt, width: logoImg.width, height: logoImg.height };
+            }
+        }
 
-	function closeLightbox(){
-		overlay.classList.remove('open');
-		overlay.setAttribute('aria-hidden', 'true');
-		document.documentElement.classList.remove('lightbox-open');
-		document.body.classList.remove('lightbox-open');
-		
-		// Reset loading state
-		loadingDiv.style.display = 'none';
-		img.classList.remove('loaded');
-		img.onload = null;
-		img.onerror = null;
-		
-		// Clear src to stop any decoding work
-		img.removeAttribute('src');
-		
-		// Restore focus
-		if (lastFocused && typeof lastFocused.focus === 'function') {
-			lastFocused.focus({ preventScroll: true });
-		}
-	}
+        const fallback = {
+            id: projectId,
+            name: title,
+            status: status,
+            logo,
+            description: { en: '', pt_br: '' },
+            tags: [],
+            actions: [],
+            previews: []
+        };
 
-	// Delegated click on any preview image
-	list.addEventListener('click', (e) => {
-		const targetImg = e.target.closest('.details-previews img');
-		if (!targetImg) return;
-		// Prevent figure click bubbling to summary, just in case
-		e.stopPropagation();
+        console.warn('Project data not found in JSON. Using fallback from DOM. Some fields may be empty.', fallback);
+        return fallback;
+    }
 
-		const fig = targetImg.closest('figure');
-		const figcap = fig ? fig.querySelector('figcaption') : null;
-		const captionText = figcap ? figcap.innerText.trim() : '';
-		// Use high-res PNG for lightbox if available, otherwise fall back to current image
-		const lightboxSrc = targetImg.getAttribute('data-lightbox-src') || targetImg.currentSrc || targetImg.src;
-		openLightbox(lightboxSrc, targetImg.alt || '', captionText);
-	});
 
-	// Close interactions
-	closeBtn.addEventListener('click', (e) => {
-		e.stopPropagation();
-		closeLightbox();
-	});
+    function showProjectModal(project) {
+        if (!modal || !modalBody) {
+            return;
+        }
 
-	overlay.addEventListener('click', (e) => {
-		// Click on backdrop closes; clicks inside content do not
-		if (e.target === overlay) {
-			closeLightbox();
-		}
-	});
+        // Get current language for descriptions
+        const isEnglish = (document.documentElement.lang || 'en').toLowerCase().startsWith('en');
 
-	// Keyboard: ESC closes, trap Tab to stay on close button (simple trap)
-	document.addEventListener('keydown', (e) => {
-		if (!overlay.classList.contains('open')) return;
-		if (e.key === 'Escape') {
-			e.preventDefault();
-			closeLightbox();
-		} else if (e.key === 'Tab') {
-			// Keep focus on close when lightbox open (lightweight trap)
-			e.preventDefault();
-			closeBtn.focus({ preventScroll: true });
-		}
-	});
-})();
+        // Generate logo HTML
+        let logoHTML = '';
+        if (project.logo) {
+            const src = project.logo.webp || project.logo.png || project.logo.gif || project.logo.src;
+            if (src) {
+                // If src already looks absolute or starts with /static, keep as-is; otherwise prefix with /static/
+                const finalSrc = /^(https?:)?\//.test(src) ? src : (src.startsWith('static/') || src.startsWith('/static/') ? (src.startsWith('/') ? src : '/' + src) : '/static/' + src);
+                const alt = project.logo.alt || '';
+                const width = project.logo.width || '';
+                const height = project.logo.height || '';
+                logoHTML = `<img src="${finalSrc}" alt="${alt}" ${width ? `width="${width}"` : ''} ${height ? `height="${height}"` : ''}>`;
+            }
+        }
 
-// Progressive preloading of project preview images
-(function(){
-	const list = document.querySelector('.projects-list');
-	if (!list) return;
+        // Get description
+        const description = project.description ?
+            (isEnglish ? (project.description.en || '') : (project.description.pt_br || '')) :
+            (isEnglish ? 'No description available.' : 'Descrição não disponível.');
 
-	// Hint the browser to decode asynchronously for all preview images
-	document.querySelectorAll('.details-previews img').forEach(img => {
-		try { img.decoding = 'async'; } catch(_) {}
-	});
+        // Build modal content
+        modalBody.innerHTML = `
+            <div class="modal-project-header">
+                <div class="modal-project-logo">
+                    ${logoHTML}
+                </div>
+                <div class="modal-project-title">
+                    <h2>${project.name || ''}</h2>
+                </div>
+            </div>
 
-	const preloaded = new Set();
+            <div class="modal-project-description">
+                ${description}
+            </div>
 
-	function preload(src) {
-		if (!src || preloaded.has(src)) return Promise.resolve();
-		return new Promise(resolve => {
-			const im = new Image();
-			try { im.decoding = 'async'; } catch(_) {}
-			im.onload = () => { preloaded.add(src); resolve(); };
-			im.onerror = () => { /* ignore errors, continue */ resolve(); };
-			im.src = src;
-		});
-	}
+            <div class="modal-project-tags">
+                <div class="tags">
+                    ${project.tags ? project.tags.map(tag => `<span class="tag">${tag}</span>`).join('') : ''}
+                </div>
+            </div>
 
-	function getProjectImages(projectEl) {
-		return Array.from(projectEl.querySelectorAll('.details-previews img'));
-	}
+            ${project.previews && project.previews.length > 0 ? `
+                <div class="modal-project-previews">
+                    ${project.previews.map(preview => `
+                        <figure class="preview">
+                            <img src="${/^(https?:)?\//.test(preview.image) ? preview.image : '/static/' + preview.image}" data-lightbox-src="${/^(https?:)?\//.test(preview.lightbox) ? preview.lightbox : '/static/' + preview.lightbox}" alt="${preview.alt || ''}" loading="lazy">
+                            <figcaption><em>${isEnglish ? (preview.caption?.en || '') : (preview.caption?.pt_br || '')}</em></figcaption>
+                        </figure>
+                    `).join('')}
+                </div>
+            ` : ''}
 
-	function preloadFirst(projectEl) {
-		const imgs = getProjectImages(projectEl);
-		if (!imgs.length) return Promise.resolve();
-		const el = imgs[0];
-		const src = el.currentSrc || el.src;
-		return preload(src);
-	}
+            <div class="modal-project-actions">
+                ${project.actions ? project.actions.map(action => {
+                    if (action.type === 'github' || action.type === 'external') {
+                        return `<a href="${action.url}" class="button" target="_blank" rel="noopener">
+                            <i class="${action.icon} button-icon"></i>${isEnglish ? action.label.en : action.label.pt_br}
+                        </a>`;
+                    } else if (action.type === 'internal') {
+                        return `<a href="#" class="button">
+                            <i class="${action.icon} button-icon"></i>${isEnglish ? action.label.en : action.label.pt_br}
+                        </a>`;
+                    } else if (action.type === 'disabled') {
+                        return `<span class="button disabled">
+                            <i class="${action.icon} button-icon"></i>${isEnglish ? action.label.en : action.label.pt_br}
+                        </span>`;
+                    }
+                    return '';
+                }).join('') : ''}
+            </div>
+        `;
 
-	function preloadAll(projectEl) {
-		const imgs = getProjectImages(projectEl);
-		if (!imgs.length) return Promise.resolve();
-		return Promise.all(imgs.map(el => preload(el.currentSrc || el.src)));
-	}
+        // Set up image click handlers for lightbox
+        setupImageLightbox();
 
-	const items = Array.from(list.querySelectorAll('.project-item'));
+        // Show modal
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+    }
 
-	// Idle: warm the first preview of each project
-	const idle = window.requestIdleCallback || function(fn){ return setTimeout(fn, 200); };
-	idle(() => { items.forEach(preloadFirst); });
+    function closeModal() {
+        if (modal) {
+            modal.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+    }
 
-	// Near viewport: ensure first image ready before opening
-	if ('IntersectionObserver' in window) {
-		const io = new IntersectionObserver((entries, observer) => {
-			entries.forEach(entry => {
-				if (entry.isIntersecting) {
-					preloadFirst(entry.target);
-					observer.unobserve(entry.target);
-				}
-			});
-		}, { rootMargin: '200px 0px' });
-		items.forEach(item => io.observe(item));
-	}
+    function setupImageLightbox() {
+        const previewImages = modalBody?.querySelectorAll('.modal-project-previews img[data-lightbox-src]');
+        previewImages?.forEach(img => {
+            img.addEventListener('click', function() {
+                const lightboxSrc = this.getAttribute('data-lightbox-src');
+                const caption = this.closest('figure')?.querySelector('figcaption')?.textContent || '';
+                showLightbox(lightboxSrc, caption);
+            });
+        });
+    }
 
-	// User intent: hover/focus/touch on a project preloads all its images
-	const intentHandler = (e) => {
-		const item = e.target && e.target.closest('.project-item');
-		if (item) preloadAll(item);
-	};
-	list.addEventListener('pointerenter', intentHandler, true);
-	list.addEventListener('focusin', intentHandler);
-	list.addEventListener('touchstart', intentHandler, { passive: true });
+    function showLightbox(imageSrc, caption) {
+        // Create lightbox overlay
+        const lightbox = document.createElement('div');
+        lightbox.className = 'lightbox-overlay';
+        lightbox.innerHTML = `
+            <div class="lightbox-content">
+                <div class="lightbox-loading">
+                    <div class="lightbox-spinner"></div>
+                    Loading...
+                </div>
+                <img class="lightbox-image" src="${imageSrc}" alt="${caption}">
+                <div class="lightbox-caption">${caption}</div>
+                <button class="lightbox-close" aria-label="Close">&times;</button>
+            </div>
+        `;
 
-	// When user toggles open a panel, also preload all its images
-	list.addEventListener('click', (e) => {
-		const btn = e.target.closest('button.summary-toggle');
-		if (!btn) return;
-		const id = btn.getAttribute('aria-controls');
-		if (!id) return;
-		const panel = document.getElementById(id);
-		if (!panel) return;
-		const item = panel.closest('.project-item');
-		if (item) preloadAll(item);
-	});
-})();
+        // Add to page
+        document.body.appendChild(lightbox);
+        document.body.classList.add('lightbox-open');
+
+        // Show lightbox
+        setTimeout(() => lightbox.classList.add('open'), 10);
+
+        // Handle image load
+        const img = lightbox.querySelector('.lightbox-image');
+        const loading = lightbox.querySelector('.lightbox-loading');
+
+        img.addEventListener('load', function() {
+            loading.style.display = 'none';
+            img.classList.add('loaded');
+        });
+
+        // Close handlers
+        const closeBtn = lightbox.querySelector('.lightbox-close');
+        const closeLightbox = () => {
+            lightbox.classList.remove('open');
+            setTimeout(() => {
+                document.body.removeChild(lightbox);
+                document.body.classList.remove('lightbox-open');
+            }, 150);
+        };
+
+        closeBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) closeLightbox();
+        });
+
+        // ESC key
+        const handleEsc = (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+                document.removeEventListener('keydown', handleEsc);
+            }
+        };
+        document.addEventListener('keydown', handleEsc);
+    }
+
+    // Add smooth scrolling behavior for column content
+    const columnContents = document.querySelectorAll('.column-content');
+    columnContents.forEach(content => {
+        content.style.scrollBehavior = 'smooth';
+    });
+});

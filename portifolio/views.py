@@ -87,6 +87,7 @@ class ProjectsView(View):
         # Load projects data from fixtures
         projects_data = self._load_projects_data()
         context['projects'] = projects_data['projects']
+        context['projects_json'] = json.dumps(projects_data['projects'])
         
         return render(request, template_name, context)
     

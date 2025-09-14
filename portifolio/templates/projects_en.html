@@ -71,83 +71,195 @@
             For most of them you can either browse the codebase or try it out yourself.
         </p>
 
-        <div class="projects-list" role="list">
-            {% for project in projects %}
-            <div class="project-item" role="listitem" id="{{ project.id }}">
-                <div class="project-summary">
-                    <div class="summary-logo">
-                        <picture>
-                            {% if project.logo.webp %}
-                                <source srcset="{% static project.logo.webp %} 1x{% if project.logo.webp_2x %}, {% static project.logo.webp_2x %} 2x{% endif %}" type="image/webp">
-                                <img src="{% static project.logo.webp %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
-                            {% elif project.logo.png %}
-                                <source srcset="{% static project.logo.png %}" type="image/png">
-                                <img src="{% static project.logo.png %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
-                            {% elif project.logo.gif %}
-                                <source srcset="{% static project.logo.gif %}" type="image/gif">
-                                <img src="{% static project.logo.gif %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
-                            {% endif %}
-                        </picture>
-                    </div>
-                    <div class="summary-title">
-                        <h2>{{ project.name }}</h2>
-                    </div>
-                    <div class="summary-action">
-                        <button class="summary-toggle" aria-expanded="false" aria-controls="details-{{ forloop.counter }}" aria-label="Toggle details">
-                            <i class="fas fa-chevron-down" aria-hidden="true"></i>
-                        </button>
-                    </div>
+        <div class="kanban-board">
+            {% regroup projects by status as projects_by_status %}
+
+            <div class="kanban-column" data-status="Cooking">
+                <div class="column-header">
+                    <h2>Cooking</h2>
                 </div>
-                <div class="project-details" id="details-{{ forloop.counter }}" aria-hidden="true">
-                    <div class="details-main">
-                        <div class="details-text">
-                            <p>{{ project.description.en }}</p>
-                        </div>
-                        <div class="details-tags">
-                            <div class='tags'>
-                                {% for tag in project.tags %}
-                                <span class='tag'>{{ tag }}</span>
-                                {% endfor %}
-                            </div>
-                        </div>
-                    </div>
-                    {% if project.previews %}
-                    <div class="details-previews">
-                        {% for preview in project.previews %}
-                        <figure class="preview"{% if preview.style %} style="{{ preview.style }}"{% endif %}>
-                            <img src="{% static preview.image %}" data-lightbox-src="{% static preview.lightbox %}" alt="{{ preview.alt }}" loading="lazy">
-                            <figcaption><em>{{ preview.caption.en }}</em></figcaption>
-                        </figure>
-                        {% endfor %}
-                    </div>
-                    {% endif %}
-                    <div class="details-actions">
-                        {% for action in project.actions %}
-                            {% if action.type == "github" or action.type == "external" %}
-                                <a href="{{ action.url }}" class="button" target="_blank" rel="noopener">
-                                    <i class="{{ action.icon }} button-icon"></i>{{ action.label.en }}
-                                </a>
-                            {% elif action.type == "internal" %}
-                                <a href="{% url action.url_name %}" class="button">
-                                    <i class="{{ action.icon }} button-icon"></i>{{ action.label.en }}
-                                </a>
-                            {% elif action.type == "disabled" %}
-                                <span class="button disabled">
-                                    <i class="{{ action.icon }} button-icon"></i>{{ action.label.en }}
-                                </span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
+                <div class="column-content">
+                    {% for group in projects_by_status %}
+                        {% if group.grouper == "Cooking" %}
+                            {% for project in group.list %}
+                                <div class="project-card" data-project-id="{{ project.id }}">
+                                    <div class="card-content">
+                                        <div class="card-logo">
+                                            <picture>
+                                                {% if project.logo.webp %}
+                                                    <source srcset="{% static project.logo.webp %} 1x{% if project.logo.webp_2x %}, {% static project.logo.webp_2x %} 2x{% endif %}" type="image/webp">
+                                                    <img src="{% static project.logo.webp %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% elif project.logo.png %}
+                                                    <source srcset="{% static project.logo.png %}" type="image/png">
+                                                    <img src="{% static project.logo.png %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% elif project.logo.gif %}
+                                                    <source srcset="{% static project.logo.gif %}" type="image/gif">
+                                                    <img src="{% static project.logo.gif %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% endif %}
+                                            </picture>
+                                        </div>
+                                        <div class="card-title">{{ project.name }}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
                 </div>
             </div>
-            {% endfor %}
+
+            <div class="kanban-column" data-status="In Progress">
+                <div class="column-header">
+                    <h2>In Progress</h2>
+                </div>
+                <div class="column-content">
+                    {% for group in projects_by_status %}
+                        {% if group.grouper == "In Progress" %}
+                            {% for project in group.list %}
+                                <div class="project-card" data-project-id="{{ project.id }}">
+                                    <div class="card-content">
+                                        <div class="card-logo">
+                                            <picture>
+                                                {% if project.logo.webp %}
+                                                    <source srcset="{% static project.logo.webp %} 1x{% if project.logo.webp_2x %}, {% static project.logo.webp_2x %} 2x{% endif %}" type="image/webp">
+                                                    <img src="{% static project.logo.webp %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% elif project.logo.png %}
+                                                    <source srcset="{% static project.logo.png %}" type="image/png">
+                                                    <img src="{% static project.logo.png %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% elif project.logo.gif %}
+                                                    <source srcset="{% static project.logo.gif %}" type="image/gif">
+                                                    <img src="{% static project.logo.gif %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% endif %}
+                                            </picture>
+                                        </div>
+                                        <div class="card-title">{{ project.name }}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="kanban-column" data-status="To be Continued">
+                <div class="column-header">
+                    <h2>To be Continued</h2>
+                </div>
+                <div class="column-content">
+                    {% for group in projects_by_status %}
+                        {% if group.grouper == "To be Continued" %}
+                            {% for project in group.list %}
+                                <div class="project-card" data-project-id="{{ project.id }}">
+                                    <div class="card-content">
+                                        <div class="card-logo">
+                                            <picture>
+                                                {% if project.logo.webp %}
+                                                    <source srcset="{% static project.logo.webp %} 1x{% if project.logo.webp_2x %}, {% static project.logo.webp_2x %} 2x{% endif %}" type="image/webp">
+                                                    <img src="{% static project.logo.webp %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% elif project.logo.png %}
+                                                    <source srcset="{% static project.logo.png %}" type="image/png">
+                                                    <img src="{% static project.logo.png %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% elif project.logo.gif %}
+                                                    <source srcset="{% static project.logo.gif %}" type="image/gif">
+                                                    <img src="{% static project.logo.gif %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% endif %}
+                                            </picture>
+                                        </div>
+                                        <div class="card-title">{{ project.name }}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="kanban-column" data-status="Completed">
+                <div class="column-header">
+                    <h2>Completed</h2>
+                </div>
+                <div class="column-content">
+                    {% for group in projects_by_status %}
+                        {% if group.grouper == "Completed" %}
+                            {% for project in group.list %}
+                                <div class="project-card" data-project-id="{{ project.id }}">
+                                    <div class="card-content">
+                                        <div class="card-logo">
+                                            <picture>
+                                                {% if project.logo.webp %}
+                                                    <source srcset="{% static project.logo.webp %} 1x{% if project.logo.webp_2x %}, {% static project.logo.webp_2x %} 2x{% endif %}" type="image/webp">
+                                                    <img src="{% static project.logo.webp %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% elif project.logo.png %}
+                                                    <source srcset="{% static project.logo.png %}" type="image/png">
+                                                    <img src="{% static project.logo.png %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% elif project.logo.gif %}
+                                                    <source srcset="{% static project.logo.gif %}" type="image/gif">
+                                                    <img src="{% static project.logo.gif %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% endif %}
+                                            </picture>
+                                        </div>
+                                        <div class="card-title">{{ project.name }}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="kanban-column" data-status="Defuncted">
+                <div class="column-header">
+                    <h2>Archived</h2>
+                </div>
+                <div class="column-content">
+                    {% for group in projects_by_status %}
+                        {% if group.grouper == "Defuncted" %}
+                            {% for project in group.list %}
+                                <div class="project-card" data-project-id="{{ project.id }}">
+                                    <div class="card-content">
+                                        <div class="card-logo">
+                                            <picture>
+                                                {% if project.logo.webp %}
+                                                    <source srcset="{% static project.logo.webp %} 1x{% if project.logo.webp_2x %}, {% static project.logo.webp_2x %} 2x{% endif %}" type="image/webp">
+                                                    <img src="{% static project.logo.webp %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% elif project.logo.png %}
+                                                    <source srcset="{% static project.logo.png %}" type="image/png">
+                                                    <img src="{% static project.logo.png %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% elif project.logo.gif %}
+                                                    <source srcset="{% static project.logo.gif %}" type="image/gif">
+                                                    <img src="{% static project.logo.gif %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
+                                                {% endif %}
+                                            </picture>
+                                        </div>
+                                        <div class="card-title">{{ project.name }}</div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Project Details Modal -->
+        <div id="project-modal" class="modal">
+            <div class="modal-content">
+                <span class="modal-close">&times;</span>
+                <div class="modal-body">
+                    <!-- Content will be dynamically populated by JavaScript -->
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}
 
 {% block extra_js %}
-{% load compress %}
-{% compress js %}
-    <script src="{% static 'projects.js' %}"></script>
-{% endcompress %}
+    <script id="projects-data" type="application/json">{{ projects_json|safe }}</script>
+    <script>
+        // Fallback for debugging - expose as global
+        window.PROJECTS_DATA = {{ projects_json|safe }};
+    </script>
+    {% load compress %}
+    {% compress js %}
+        <script src="{% static 'projects.js' %}"></script>
+    {% endcompress %}
 {% endblock %}
