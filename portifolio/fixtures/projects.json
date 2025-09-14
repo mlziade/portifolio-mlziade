@@ -439,6 +439,43 @@
           }
         }
       ]
+    },
+    {
+      "id": "project-9",
+      "name": "Stampz",
+      "status": "In Progress",
+      "logo": {
+        "webp": "stampz/github-logo.webp",
+        "webp_2x": "stampz/github-logo@2x.webp",
+        "alt": "Stampz logo",
+        "width": 72,
+        "height": 72,
+        "loading": "lazy"
+      },
+      "description": {
+        "en": "Your custom passport for sharing pictures, travels and memories.",
+        "pt_br": "Seu passaporte personalizado para compartilhar fotos, viagens e memórias."
+      },
+      "tags": ["Coming Soon"],
+      "actions": [
+        {
+          "type": "disabled",
+          "label": {
+            "en": "Repository",
+            "pt_br": "Repositório"
+          },
+          "icon": "fab fa-github"
+        },
+        {
+          "type": "disabled",
+          "label": {
+            "en": "Try it out!",
+            "pt_br": "Experimente!"
+          },
+          "icon": "fas fa-external-link-alt"
+        }
+      ],
+      "previews": []
     }
   ]
 }
