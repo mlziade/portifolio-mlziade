@@ -319,7 +319,7 @@ class ProjectModal {
                         ${icon}${this.escapeHtml(label)}
                     </a>`;
                 case 'internal':
-                    return `<a href="#" class="button">
+                    return `<a href="${this.escapeHtml(action.url)}" class="button">
                         ${icon}${this.escapeHtml(label)}
                     </a>`;
                 case 'disabled':

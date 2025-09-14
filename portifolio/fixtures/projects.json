@@ -124,7 +124,7 @@
         },
         {
           "type": "internal",
-          "url_name": "playground:tryout_zllm",
+          "url": "/playground/zllm/",
           "label": {
             "en": "Try it out!",
             "pt_br": "Experimente!"
@@ -182,7 +182,7 @@
         },
         {
           "type": "internal",
-          "url_name": "playground:tryout_zllm_chat",
+          "url": "/playground/zllm/chat/",
           "label": {
             "en": "Try it out!",
             "pt_br": "Experimente!"
@@ -239,7 +239,7 @@
         },
         {
           "type": "internal",
-          "url_name": "playground:tryout_conways",
+          "url": "/playground/conways/",
           "label": {
             "en": "Try it out!",
             "pt_br": "Experimente!"

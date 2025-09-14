@@ -83,12 +83,12 @@ class ProjectsView(View):
         """Render projects page with dynamic data from JSON fixtures."""
         template_name = get_template_name('projects', request)
         context = get_language_context(request)
-        
+
         # Load projects data from fixtures
         projects_data = self._load_projects_data()
         context['projects'] = projects_data['projects']
         context['projects_json'] = json.dumps(projects_data['projects'])
-        
+
         return render(request, template_name, context)
     
     def _load_projects_data(self):
