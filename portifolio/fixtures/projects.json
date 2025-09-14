@@ -426,7 +426,7 @@
           "alt": "Desk Wisdom - Print 2",
           "caption": {
             "en": "A wisdom displayed",
-            "pt_br": "Uma sabedoria exibida"
+            "pt_br": "Uma wisdom exibida"
           }
         },
         {
@@ -435,7 +435,16 @@
           "alt": "Desk Wisdom - Print 3",
           "caption": {
             "en": "Wisdom's information being AI Generated",
-            "pt_br": "Informações da sabedoria sendo geradas por IA"
+            "pt_br": "Informações da wisdom sendo geradas por IA"
+          }
+        },
+        {
+          "image": "dsk_wisdom/prints/print_4.webp",
+          "lightbox": "dsk_wisdom/prints/print_4.png",
+          "alt": "Desk Wisdom - Print 4",
+          "caption": {
+            "en": "Versus Mode",
+            "pt_br": "Versus Mode"
           }
         }
       ]
