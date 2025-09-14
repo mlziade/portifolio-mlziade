@@ -77,7 +77,18 @@ class ProjectModal {
                 const projectId = card.getAttribute('data-project-id');
                 const project = this.findProjectById(projectId);
                 if (project) {
-                    this.show(project);
+                    // Add loading state to card
+                    card.classList.add('loading');
+
+                    this.preloadProjectImages(project)
+                        .then(() => {
+                            card.classList.remove('loading');
+                            this.show(project);
+                        })
+                        .catch(() => {
+                            card.classList.remove('loading');
+                            this.show(project); // Show modal even if preloading fails
+                        });
                 }
             });
         });
@@ -159,6 +170,40 @@ class ProjectModal {
 
         console.warn('Using fallback project data from DOM:', fallbackProject);
         return fallbackProject;
+    }
+
+    preloadProjectImages(project) {
+        return new Promise((resolve) => {
+            if (!project.previews || !Array.isArray(project.previews) || project.previews.length === 0) {
+                resolve(); // No images to preload
+                return;
+            }
+
+            const imagePromises = [];
+
+            project.previews.forEach(preview => {
+                // Preload both thumbnail and lightbox images
+                if (preview.image) {
+                    imagePromises.push(this.preloadImage(this.normalizeImageSrc(preview.image)));
+                }
+                if (preview.lightbox) {
+                    imagePromises.push(this.preloadImage(this.normalizeImageSrc(preview.lightbox)));
+                }
+            });
+
+            // Wait for all images to load (or timeout after 3 seconds)
+            const timeoutPromise = new Promise(resolve => setTimeout(resolve, 3000));
+            Promise.race([Promise.all(imagePromises), timeoutPromise]).then(resolve);
+        });
+    }
+
+    preloadImage(src) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => resolve(img);
+            img.onerror = () => reject(new Error(`Failed to load image: ${src}`));
+            img.src = src;
+        });
     }
 
     extractLogoFromCard(cardElement) {
