@@ -74,38 +74,7 @@
         <div class="kanban-board">
             {% regroup projects by status as projects_by_status %}
 
-            <div class="kanban-column" data-status="Cooking">
-                <div class="column-header">
-                    <h2>Preparando</h2>
-                </div>
-                <div class="column-content">
-                    {% for group in projects_by_status %}
-                        {% if group.grouper == "Cooking" %}
-                            {% for project in group.list %}
-                                <div class="project-card" data-project-id="{{ project.id }}">
-                                    <div class="card-content">
-                                        <div class="card-logo">
-                                            <picture>
-                                                {% if project.logo.webp %}
-                                                    <source srcset="{% static project.logo.webp %} 1x{% if project.logo.webp_2x %}, {% static project.logo.webp_2x %} 2x{% endif %}" type="image/webp">
-                                                    <img src="{% static project.logo.webp %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
-                                                {% elif project.logo.png %}
-                                                    <source srcset="{% static project.logo.png %}" type="image/png">
-                                                    <img src="{% static project.logo.png %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
-                                                {% elif project.logo.gif %}
-                                                    <source srcset="{% static project.logo.gif %}" type="image/gif">
-                                                    <img src="{% static project.logo.gif %}" alt="{{ project.logo.alt }}" width="{{ project.logo.width }}" height="{{ project.logo.height }}" loading="{{ project.logo.loading }}">
-                                                {% endif %}
-                                            </picture>
-                                        </div>
-                                        <div class="card-title">{{ project.name }}</div>
-                                    </div>
-                                </div>
-                            {% endfor %}
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
+            {# Coluna Preparando removida; itens mesclados em Em Progresso #}
 
             <div class="kanban-column" data-status="In Progress">
                 <div class="column-header">
@@ -113,7 +82,7 @@
                 </div>
                 <div class="column-content">
                     {% for group in projects_by_status %}
-                        {% if group.grouper == "In Progress" %}
+                        {% if group.grouper == "In Progress" or group.grouper == "Cooking" %}
                             {% for project in group.list %}
                                 <div class="project-card" data-project-id="{{ project.id }}">
                                     <div class="card-content">
@@ -206,13 +175,13 @@
                 </div>
             </div>
 
-            <div class="kanban-column" data-status="Defuncted">
+            <div class="kanban-column" data-status="Archived">
                 <div class="column-header">
                     <h2>Arquivados</h2>
                 </div>
                 <div class="column-content">
                     {% for group in projects_by_status %}
-                        {% if group.grouper == "Defuncted" %}
+                        {% if group.grouper == "Archived" %}
                             {% for project in group.list %}
                                 <div class="project-card" data-project-id="{{ project.id }}">
                                     <div class="card-content">
