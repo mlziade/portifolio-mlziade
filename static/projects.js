@@ -292,7 +292,6 @@ class ProjectModal {
 
         return `
             <div class="modal-project-previews">
-                <h3>Gallery</h3>
                 <div class="preview-grid">
                     ${previewItems}
                 </div>

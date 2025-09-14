@@ -236,9 +236,6 @@
     transition: transform 0.3s ease;
 }
 
-.modal-project-logo:hover {
-    transform: scale(1.05);
-}
 
 .modal-project-logo picture,
 .modal-project-logo img {
@@ -386,8 +383,8 @@
 }
 
 .modal-project-previews img:hover {
-    transform: scale(1.02);
-    filter: brightness(1.1);
+    transform: scale(1.005);
+    filter: brightness(1.02);
 }
 
 .modal-project-previews figcaption {
