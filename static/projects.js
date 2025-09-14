@@ -77,18 +77,9 @@ class ProjectModal {
                 const projectId = card.getAttribute('data-project-id');
                 const project = this.findProjectById(projectId);
                 if (project) {
-                    // Add loading state to card
-                    card.classList.add('loading');
-
                     this.preloadProjectImages(project)
-                        .then(() => {
-                            card.classList.remove('loading');
-                            this.show(project);
-                        })
-                        .catch(() => {
-                            card.classList.remove('loading');
-                            this.show(project); // Show modal even if preloading fails
-                        });
+                        .then(() => this.show(project))
+                        .catch(() => this.show(project)); // Show modal even if preloading fails
                 }
             });
         });
