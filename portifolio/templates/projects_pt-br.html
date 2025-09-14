@@ -101,6 +101,7 @@
                                             </picture>
                                         </div>
                                         <div class="card-title">{{ project.name }}</div>
+                                        <div class="card-id">proj-{% if project.id|slice:"8:"|length == 1 %}0{% endif %}{{ project.id|slice:"8:" }}</div>
                                     </div>
                                 </div>
                             {% endfor %}
@@ -134,6 +135,7 @@
                                             </picture>
                                         </div>
                                         <div class="card-title">{{ project.name }}</div>
+                                        <div class="card-id">proj-{% if project.id|slice:"8:"|length == 1 %}0{% endif %}{{ project.id|slice:"8:" }}</div>
                                     </div>
                                 </div>
                             {% endfor %}
@@ -167,6 +169,7 @@
                                             </picture>
                                         </div>
                                         <div class="card-title">{{ project.name }}</div>
+                                        <div class="card-id">proj-{% if project.id|slice:"8:"|length == 1 %}0{% endif %}{{ project.id|slice:"8:" }}</div>
                                     </div>
                                 </div>
                             {% endfor %}
@@ -200,6 +203,7 @@
                                             </picture>
                                         </div>
                                         <div class="card-title">{{ project.name }}</div>
+                                        <div class="card-id">proj-{% if project.id|slice:"8:"|length == 1 %}0{% endif %}{{ project.id|slice:"8:" }}</div>
                                     </div>
                                 </div>
                             {% endfor %}

@@ -116,11 +116,20 @@
     font-size: 1rem;
     font-weight: 500;
     color: var(--text-primary);
-    text-align: center;
+    text-align: left;
     line-height: 1.2;
     overflow-wrap: anywhere;
     hyphens: auto;
     min-width: 0; /* allow flexbox to shrink properly */
+}
+
+.card-id {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    text-align: center;
+    opacity: 0.7;
+    font-family: monospace;
+    margin-top: 0.25rem;
 }
 
 /* Modal Styles - Enhanced Design */
