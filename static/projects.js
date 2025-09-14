@@ -207,7 +207,7 @@ class ProjectModal {
     renderModalContent(project) {
         const logoHTML = this.generateLogoHTML(project.logo);
         const description = this.getLocalizedDescription(project.description);
-        const tagsHTML = this.generateTagsHTML(project.tags);
+    const tagsHTML = this.generateTagsHTML(project.tags);
         const previewsHTML = this.generatePreviewsHTML(project.previews);
         const actionsHTML = this.generateActionsHTML(project.actions);
 
@@ -223,7 +223,7 @@ class ProjectModal {
                 </div>
 
                 <div class="modal-project-tags">
-                    ${tagsHTML}
+                    <div class="tags">${tagsHTML}</div>
                 </div>
             </div>
 
