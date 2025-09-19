@@ -485,6 +485,43 @@
         }
       ],
       "previews": []
+    },
+    {
+      "id": "project-10",
+      "name": "Ostensio",
+      "status": "In Progress",
+      "logo": {
+        "webp": "ostensio/github-logo.webp",
+        "webp_2x": "ostensio/github-logo@2x.webp",
+        "alt": "Ostensio logo",
+        "width": 72,
+        "height": 72,
+        "loading": "lazy"
+      },
+      "description": {
+        "en": "A website to rapidly extract, visualize, share and iterate on websites.",
+        "pt_br": "Um site para extrair, visualizar, compartilhar e iterar rapidamente em sites."
+      },
+      "tags": ["Coming Soon"],
+      "actions": [
+        {
+          "type": "disabled",
+          "label": {
+            "en": "Repository",
+            "pt_br": "Repositório"
+          },
+          "icon": "fab fa-github"
+        },
+        {
+          "type": "disabled",
+          "label": {
+            "en": "Try it out!",
+            "pt_br": "Experimente!"
+          },
+          "icon": "fas fa-external-link-alt"
+        }
+      ],
+      "previews": []
     }
   ]
 }
