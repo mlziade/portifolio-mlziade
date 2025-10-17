@@ -23,5 +23,8 @@ This is my professional portfolio website showcasing my skills, projects, and ex
 ### CI/CD
 - **GitHub Actions**: Automated workflows for continuous integration and deployment, including Cloudflare cache invalidation;
 
+### Monitoring
+- **Sentry**: Application monitoring and error tracking.
+
 ## Licensing
 See the [LICENSE](LICENSE) file for detailed information about the terms of use for this project.
