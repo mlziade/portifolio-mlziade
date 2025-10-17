@@ -120,17 +120,22 @@ def generate_text_streaming(request):
         'Authorization': f'Bearer {token}'
     }
 
-    # Prepare the data for the request
+    # Prepare the data for the request in messages format
     data = {
-        'prompt': prompt,
         'model': ZLLM_MODEL_NAME,
+        'messages': [
+            {
+                'role': 'user',
+                'content': prompt
+            }
+        ]
     }
 
     def event_stream():
         try:
             # Use requests to make a streaming request with timeout
             with requests.post(
-                url=f"{ZLLM_BASE_URL}/llm/generate/streaming",
+                url=f"{ZLLM_BASE_URL}/llm/chat/stream",
                 headers=headers,
                 data=json.dumps(data, ensure_ascii=False).encode('utf-8'),
                 stream=True,
@@ -158,11 +163,18 @@ def generate_text_streaming(request):
                                 
                             # Parse the JSON response from ZLLM API
                             json_data = json.loads(json_content)
-                            
+
                             # Handle done:false responses (streaming tokens)
                             if json_data.get('done') == False:
+                                # Extract content from either 'response' (generate) or 'message.content' (chat)
+                                content = ''
+                                if 'message' in json_data and 'content' in json_data['message']:
+                                    content = json_data['message']['content']
+                                elif 'response' in json_data:
+                                    content = json_data['response']
+
                                 token_data = {
-                                    'response': json_data.get('response', ''),
+                                    'response': content,
                                     'done': False,
                                     'model': json_data.get('model', ''),
                                     'created_at': json_data.get('created_at', '')
