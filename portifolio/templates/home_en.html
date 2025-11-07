@@ -88,8 +88,8 @@
 {% endblock %}
 
 {% block extra_js %}
-{% load compress %}
-{% compress js %}
-<script src="{% static 'home.js' %}"></script>
-{% endcompress %}
+  {% load compress %}
+  {% compress js %}
+  <script src="{% static 'home.js' %}"></script>
+  {% endcompress %}
 {% endblock %}
