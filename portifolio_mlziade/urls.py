@@ -47,6 +47,7 @@ urlpatterns = [
     path('', include('portifolio.urls')),
     path('playground/', include('playground.urls')),
     path('portifolio/', RedirectView.as_view(url='/', permanent=True)),
+    path('blog/', include('blog.urls')),
 ]
 
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

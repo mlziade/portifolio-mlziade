@@ -1,0 +1,319 @@
+/* Blog Base Styles */
+
+:root {
+  --bg-primary: rgb(18, 18, 18);
+  --text-primary: aliceblue;
+  --text-secondary: rgb(182, 182, 182);
+  --text-white: white;
+  --transition-medium: 0.3s ease;
+  --transition-slow: 0.5s ease;
+  --sidebar-width: 250px;
+}
+
+body {
+  background-color: var(--bg-primary);
+  margin: 0;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+/* Left Sidebar */
+.left-sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background-color: #1a1a1a;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.left-sidebar-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+}
+
+.anton-regular {
+  font-family: "Anton", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.blog-title {
+  color: var(--text-white);
+  font-size: 5rem;
+  margin-bottom: 2rem;
+  text-align: left;
+  width: 100%;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 3rem;
+}
+
+.sidebar-nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 12px 20px;
+  border-radius: 8px;
+  transition: var(--transition-medium);
+  display: block;
+  text-align: left;
+}
+
+.sidebar-nav a:hover {
+  background-color: #2a2a2a;
+  color: var(--text-white);
+}
+
+/* Social Links in Left Sidebar */
+.sidebar-social-links {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  width: 100%;
+}
+
+.sidebar-social-links .social-icon {
+  color: var(--text-secondary);
+  font-size: 1.5rem;
+  transition: var(--transition-medium);
+  text-decoration: none;
+}
+
+.sidebar-social-links .social-icon:hover {
+  color: var(--text-white);
+  transform: scale(1.1);
+}
+
+/* Main Content Area */
+.main-content {
+  margin-left: var(--sidebar-width);
+  flex: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header with Hamburger */
+header {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: var(--sidebar-width);
+  z-index: 1000;
+  background-color: var(--bg-primary);
+  height: 80px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+
+/* Hamburger Menu */
+.hamburger-menu {
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1001;
+}
+
+.bar1,
+.bar2,
+.bar3 {
+  width: 35px;
+  height: 5px;
+  background-color: var(--text-white);
+  margin: 6px 0;
+  transition: var(--transition-medium);
+}
+
+/* Hamburger animation */
+.change .bar1 {
+  transform: rotate(-45deg) translate(-9px, 6px);
+}
+
+.change .bar2 {
+  opacity: 0;
+}
+
+.change .bar3 {
+  transform: rotate(45deg) translate(-8px, -8px);
+}
+
+/* Right Side Navigation */
+.side-nav {
+  height: 100%;
+  width: 0;
+  position: fixed;
+  z-index: 999;
+  top: 0;
+  right: 0;
+  background-color: var(--bg-primary);
+  overflow-x: hidden;
+  transition: var(--transition-slow);
+  padding-top: 100px;
+}
+
+.side-nav.open {
+  width: 250px;
+}
+
+.side-nav nav {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.side-nav nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-links {
+  margin-bottom: 30px;
+}
+
+.side-nav nav ul li {
+  padding: 15px 25px;
+}
+
+.side-nav nav ul li a {
+  color: var(--text-white);
+  text-decoration: none;
+  font-size: 20px;
+  display: block;
+  transition: var(--transition-medium);
+}
+
+.side-nav nav ul li a:hover {
+  color: var(--text-secondary);
+  transform: translateX(10px);
+}
+
+/* Language Links in Right Sidebar */
+.lang-links {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0 30px 0;
+  margin-top: auto;
+}
+
+.lang-links li {
+  padding: 0 10px;
+}
+
+.lang-links img {
+  width: 30px;
+  height: auto;
+  transition: 0.3s;
+}
+
+.lang-links img:hover {
+  transform: scale(1.2);
+  transition: var(--transition-medium);
+}
+
+/* Main Content */
+main {
+  padding-top: 80px;
+  flex: 1;
+  padding-left: 2rem;
+  padding-right: 2rem;
+}
+
+/* Footer */
+footer {
+  padding: 1rem 2rem;
+  text-align: center;
+  color: var(--text-secondary);
+  margin-top: auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .left-sidebar {
+    width: 200px;
+  }
+
+  :root {
+    --sidebar-width: 200px;
+  }
+
+  .blog-title {
+    font-size: 1.2rem;
+  }
+
+  .sidebar-nav a {
+    padding: 10px 15px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .left-sidebar {
+    width: 60px;
+    padding: 10px;
+  }
+
+  :root {
+    --sidebar-width: 60px;
+  }
+
+  .blog-title {
+    font-size: 0.9rem;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-nav a {
+    font-size: 0.8rem;
+    padding: 8px 5px;
+  }
+
+  .sidebar-social-links {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sidebar-social-links .social-icon {
+    font-size: 1.2rem;
+  }
+
+  header {
+    left: 60px;
+  }
+
+  .main-content {
+    margin-left: 60px;
+  }
+}
+
+@media (max-width: 576px) {
+  .side-nav.open {
+    width: 100%;
+  }
+
+  .side-nav nav ul li a {
+    font-size: 18px;
+  }
+}

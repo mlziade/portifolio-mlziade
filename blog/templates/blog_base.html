@@ -1,0 +1,124 @@
+{% load static %}
+{% load compress %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#121212">
+
+  <!-- Preconnect to external domains for performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Page Title -->
+  <title>{% block title %}Blog{% endblock %}</title>
+
+  <!-- Performance optimizations -->
+  <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="//cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <!-- Resource hints for better performance -->
+  <link rel="preload" href="{% static 'critical.css' %}" as="style">
+  <link rel="preload" href="{% static 'base.css' %}" as="style">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="{% static 'favicon/favicon.ico' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon/favicon-16x16.png' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon/favicon-32x32.png' %}">
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'favicon/apple-touch-icon.png' %}">
+  <link rel="shortcut icon" href="{% static 'favicon/favicon.ico' %}">
+
+  <!-- Bootstrap CSS and JS -->
+  {% load django_bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Anton&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome for Social Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- CSS -->
+  {% compress css %}
+  <link rel="stylesheet" href="{% static 'blog/css/blog_base.css' %}">
+  {% endcompress %}
+  {% block extra_css %}
+  {% endblock %}
+</head>
+
+<body>
+  <!-- Left Sidebar -->
+  <aside class="left-sidebar">
+    <div class="left-sidebar-content">
+      <h1 class="blog-title anton-regular">BLOG</h1>
+      <nav class="sidebar-nav">
+        <a href="{% url 'blog:blog_home' %}">Posts</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
+      <div class="sidebar-social-links">
+        <a href="https://www.linkedin.com/in/mlziade/" class="social-icon" aria-label="LinkedIn" rel="noopener" target="_blank">
+          <i class="fab fa-linkedin" aria-hidden="true"></i>
+        </a>
+        <a href="https://github.com/mlziade" class="social-icon" aria-label="GitHub" rel="noopener" target="_blank">
+          <i class="fab fa-github" aria-hidden="true"></i>
+        </a>
+        <a href="https://www.instagram.com/mlziade/" class="social-icon" aria-label="Instagram" rel="noopener" target="_blank">
+          <i class="fab fa-instagram" aria-hidden="true"></i>
+        </a>
+        <a href="https://x.com/mlziade_dev" class="social-icon" aria-label="Twitter/X" rel="noopener" target="_blank">
+          <i class="fab fa-x-twitter" aria-hidden="true"></i>
+        </a>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <header role="banner">
+      <nav role="navigation" aria-label="Main navigation">
+        <div class="hamburger-menu" id="hamburgerMenu" aria-label="Toggle navigation menu" role="button" tabindex="0">
+          <div class="bar1"></div>
+          <div class="bar2"></div>
+          <div class="bar3"></div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Side Navigation (Right) -->
+    <div class="side-nav" id="sideNav" role="navigation" aria-label="Main navigation menu">
+      <nav>
+        <ul class="nav-links">
+          <li><a href="{% url 'portifolio:home' %}" aria-label="Go to Home page">Home</a></li>
+          <li><a href="{% url 'portifolio:about' %}" aria-label="Go to About page">About</a></li>
+          <li><a href="{% url 'portifolio:resume' %}" aria-label="Go to Resume page">Resume</a></li>
+          <li><a href="{% url 'portifolio:projects' %}" aria-label="Go to Projects page">Projects</a></li>
+          <li><a href="{% url 'portifolio:contact' %}" aria-label="Go to Contact page">Contact</a></li>
+        </ul>
+        <ul class="lang-links">
+          <li><a href="#" onclick="switchLanguage('en')" aria-label="Switch to English"><img src="{% static 'us.svg' %}" alt="US Flag" width="30" height="20"></a></li>
+          <li><a href="#" onclick="switchLanguage('pt-br')" aria-label="Mudar para Português"><img src="{% static 'br.svg' %}" alt="BR Flag" width="30" height="20"></a></li>
+        </ul>
+      </nav>
+    </div>
+
+    <main role="main">
+      {% block content %}
+      {% endblock %}
+    </main>
+  </div>
+
+  <!-- JavaScript -->
+  {% compress js %}
+  <script src="{% static 'blog/js/blog_base.js' %}"></script>
+  {% block extra_js %}
+  {% endblock %}
+  {% endcompress %}
+</body>
+
+</html>
