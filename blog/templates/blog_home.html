@@ -37,16 +37,23 @@
 
   .post-thumbnail {
     flex-shrink: 0;
-    width: 280px;
-    height: 180px;
-    border-radius: 8px;
-    overflow: hidden;
     cursor: pointer;
   }
 
+  .post-thumbnail-container {
+    width: 350px;
+    height: 200px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #0a0a0a;
+  }
+
   .post-thumbnail img {
-    width: 100%;
-    height: 100%;
+    width: 90%;
+    height: auto;
     object-fit: cover;
     transition: transform 0.3s ease;
   }
@@ -78,9 +85,9 @@
     display: flex;
     align-items: center;
     gap: 1rem;
-    margin-bottom: 1rem;
-    color: var(--text-secondary);
-    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    color: #888;
+    font-size: 0.85rem;
   }
 
   .post-date {
@@ -90,30 +97,25 @@
   }
 
   .post-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
+    display: inline;
   }
 
   .tag {
-    background-color: #2a2a2a;
-    color: var(--text-secondary);
-    padding: 0.3rem 0.8rem;
-    border-radius: 20px;
-    font-size: 0.85rem;
+    color: #666;
     text-decoration: none;
-    transition: background-color 0.3s ease;
+    font-size: 0.85rem;
+    transition: color 0.2s ease;
   }
 
   .tag:hover {
-    background-color: #3a3a3a;
-    color: var(--text-primary);
+    color: #4a9eff;
   }
 
   .post-excerpt {
-    color: var(--text-secondary);
+    color: #b0b0b0;
     line-height: 1.6;
-    margin-top: auto;
+    margin: 0;
+    font-size: 0.95rem;
   }
 
   .pagination {
@@ -178,11 +180,13 @@
     {% for post in posts %}
     <article class="post-card">
       <a href="{% url 'blog:blog_post_detail' post.slug %}" class="post-thumbnail">
-        {% if post.thumbnail %}
-        <img src="{{ post.thumbnail.url }}" alt="{{ post.title }}" loading="lazy">
-        {% else %}
-        <img src="{% static 'placeholder-thumbnail.jpg' %}" alt="{{ post.title }}" loading="lazy">
-        {% endif %}
+        <div class="post-thumbnail-container">
+          {% if post.thumbnail %}
+          <img src="{% static 'blog/files/thumbnails/' %}{{ post.thumbnail }}" alt="{{ post.title }}" loading="lazy">
+          {% else %}
+          <img src="{% static 'placeholder-thumbnail.jpg' %}" alt="{{ post.title }}" loading="lazy">
+          {% endif %}
+        </div>
       </a>
 
       <div class="post-content">
@@ -195,15 +199,15 @@
             </svg>
             {{ post.published_date|date:"F d, Y" }}
           </span>
-        </div>
 
-        {% if post.tags.exists %}
-        <div class="post-tags">
-          {% for tag in post.tags.all %}
-          <a href="#tag-{{ tag.slug }}" class="tag">#{{ tag.name }}</a>
-          {% endfor %}
+          {% if post.tags.exists %}
+          <span class="post-tags">
+            {% for tag in post.tags.all %}
+            <a href="#tag-{{ tag.slug }}" class="tag">#{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+            {% endfor %}
+          </span>
+          {% endif %}
         </div>
-        {% endif %}
 
         <p class="post-excerpt">{{ post.excerpt|truncatewords:30 }}</p>
       </div>

@@ -240,7 +240,7 @@
 
   {% if post.thumbnail %}
   <div class="post-thumbnail-wrapper">
-    <img src="{{ post.thumbnail.url }}" alt="{{ post.title }}" loading="lazy">
+    <img src="{% static 'blog/files/thumbnails/' %}{{ post.thumbnail }}" alt="{{ post.title }}" loading="lazy">
   </div>
   {% endif %}
 
