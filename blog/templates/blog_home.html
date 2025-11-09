@@ -24,19 +24,15 @@
   }
 
   .post-card {
-    background-color: #1a1a1a;
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     flex-direction: row;
     gap: 1.5rem;
-    padding: 1.5rem;
+    padding: 1.5rem 0;
+    transition: opacity 0.2s ease;
   }
 
   .post-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    opacity: 0.8;
   }
 
   .post-thumbnail {
@@ -181,7 +177,7 @@
   <div class="posts-list">
     {% for post in posts %}
     <article class="post-card">
-      <a href="#post-{{ post.id }}" class="post-thumbnail">
+      <a href="{% url 'blog:blog_post_detail' post.slug %}" class="post-thumbnail">
         {% if post.thumbnail %}
         <img src="{{ post.thumbnail.url }}" alt="{{ post.title }}" loading="lazy">
         {% else %}
@@ -190,14 +186,14 @@
       </a>
 
       <div class="post-content">
-        <a href="#post-{{ post.id }}" class="post-title">{{ post.title }}</a>
+        <a href="{% url 'blog:blog_post_detail' post.slug %}" class="post-title">{{ post.title }}</a>
 
         <div class="post-meta">
           <span class="post-date">
             <svg width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
               <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
             </svg>
-            {{ post.published_at|date:"F d, Y" }}
+            {{ post.published_date|date:"F d, Y" }}
           </span>
         </div>
 
