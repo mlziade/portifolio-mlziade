@@ -178,6 +178,7 @@
         <li><a href="{% url 'portifolio:contact' %}" aria-label="{% if current_lang == 'en' %}Go to Contact page{% else %}Ir para página Contato{% endif %}">
           {% if current_lang == 'en' %}Contact{% else %}Contato{% endif %}
         </a></li>
+        <li><a href="{% url 'blog:blog_home' %}" aria-label="{% if current_lang == 'en' %}Go to Blog page{% else %}Ir para página Blog{% endif %}">Blog</a></li>
       </ul>
       <ul class="lang-links">
         <li><a href="#" onclick="switchLanguage('en')" aria-label="Switch to English"><img src="{% static 'us.svg' %}" alt="US Flag - Switch to English" width="30" height="20"></a></li>
