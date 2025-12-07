@@ -13,10 +13,10 @@ class ProjectModal {
     }
 
     init() {
+        this.detectLanguage();
         this.loadProjectData();
         this.initModal();
         this.bindEvents();
-        this.detectLanguage();
     }
 
     loadProjectData() {
@@ -56,7 +56,8 @@ class ProjectModal {
     }
 
     detectLanguage() {
-        this.currentLanguage = (document.documentElement.lang || 'en').toLowerCase().startsWith('en') ? 'en' : 'pt_br';
+        const htmlLang = (document.documentElement.lang || 'en').toLowerCase();
+        this.currentLanguage = htmlLang.startsWith('en') ? 'en' : 'pt-br';
     }
 
     bindEvents() {
@@ -80,7 +81,36 @@ class ProjectModal {
                     this.show(project);
                 }
             });
+
+            // Add ribbon to cards with enabled "Try it out" action
+            this.addRibbonIfApplicable(card);
         });
+    }
+
+    addRibbonIfApplicable(card) {
+        const projectId = card.getAttribute('data-project-id');
+        const project = this.findProjectById(projectId);
+
+        if (!project || !Array.isArray(project.actions)) return;
+
+        // Check if project has an enabled "Try it out" action (internal or external)
+        const hasTryItOut = project.actions.some(action => {
+            const isTryItOut = action.type === 'internal' || action.type === 'external';
+            const label = this.getLocalizedText(action.label);
+            const isTryItOutLabel = label && (
+                label.toLowerCase().includes('try it') ||
+                label.toLowerCase().includes('experimente')
+            );
+            return isTryItOut && isTryItOutLabel;
+        });
+
+        if (hasTryItOut && !card.querySelector('.try-it-ribbon')) {
+            const ribbon = document.createElement('div');
+            ribbon.className = 'try-it-ribbon';
+            const ribbonText = this.currentLanguage === 'en' ? 'Try it out' : 'Teste aqui';
+            ribbon.textContent = ribbonText;
+            card.appendChild(ribbon);
+        }
     }
 
     bindModalCloseEvents() {
@@ -300,6 +330,8 @@ class ProjectModal {
                 : 'Descrição não disponível.';
         }
 
+        // Map pt-br to pt_br for data access
+        const dataLangKey = this.currentLanguage === 'pt-br' ? 'pt_br' : this.currentLanguage;
         const text = this.currentLanguage === 'en'
             ? (description.en || description.pt_br || '')
             : (description.pt_br || description.en || '');
@@ -372,6 +404,7 @@ class ProjectModal {
         if (!textObj) return '';
         if (typeof textObj === 'string') return textObj;
 
+        // Map pt-br to pt_br for data access
         return this.currentLanguage === 'en'
             ? (textObj.en || textObj.pt_br || '')
             : (textObj.pt_br || textObj.en || '');
