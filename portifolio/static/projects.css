@@ -308,6 +308,59 @@
     text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
+.modal-project-title .modal-project-actions {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    gap: 1rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+.modal-project-title .modal-project-actions .button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--text-white);
+    color: #1a1a1a;
+    padding: 0.6rem 1.5rem;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    flex: 1 1 0;
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+}
+
+.modal-project-title .modal-project-actions .button:hover {
+    background: var(--hover-grey-bg);
+    color: var(--text-white);
+}
+
+.modal-project-title .modal-project-actions .button.disabled {
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.modal-project-title .modal-project-actions .button.disabled:hover {
+    background: #e5e7eb;
+    color: #9ca3af;
+}
+
+.modal-project-title .modal-project-actions .button-icon {
+    font-size: 1.1em;
+    transition: transform 0.3s ease;
+}
+
+.modal-project-title .modal-project-actions .button:hover .button-icon {
+    transform: scale(1.1);
+}
+
 
 
 /* Content Section */
@@ -624,6 +677,15 @@
 
     .modal-project-title h2 {
         font-size: 1.75rem;
+    }
+
+    .modal-project-title .modal-project-actions {
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    .modal-project-title .modal-project-actions .button {
+        width: 100%;
     }
 
     .modal-project-content {

@@ -261,6 +261,9 @@ class ProjectModal {
                         <div class="modal-project-tags">
                             <div class="tags">${tagsHTML}</div>
                         </div>
+                        <div class="modal-project-actions">
+                            ${actionsHTML}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -272,12 +275,6 @@ class ProjectModal {
                 </div>
 
                 ${previewsHTML}
-            </div>
-
-            <div class="modal-project-footer">
-                <div class="modal-project-actions">
-                    ${actionsHTML}
-                </div>
             </div>
         `;
     }
