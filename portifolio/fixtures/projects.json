@@ -551,7 +551,8 @@
           "icon": "fab fa-github"
         },
         {
-          "type": "disabled",
+          "type": "external",
+          "url": "/static/fetch_mcp/mcp-tester.html",
           "label": {
             "en": "Try it out!",
             "pt_br": "Experimente!"

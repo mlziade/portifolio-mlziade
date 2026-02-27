@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#121212">
+    <title>MCP Fetch Server - Connection Guide</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        :root {
+            --bg-primary: rgb(18, 18, 18);
+            --text-primary: aliceblue;
+            --text-secondary: rgb(182, 182, 182);
+            --card-bg: rgba(240, 248, 255, 0.03);
+            --card-border: rgba(240, 248, 255, 0.1);
+            --accent-blue: #4a90e2;
+            --accent-blue-hover: #357ac1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 6rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            letter-spacing: -0.05em;
+            font-weight: 700;
+        }
+
+        .intro-text {
+            color: var(--text-primary);
+            margin-bottom: 1.5rem;
+            max-width: 800px;
+            line-height: 1.6;
+            opacity: 0.9;
+            font-size: 1.1rem;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+            margin: 2rem 0;
+            text-align: left;
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: rgba(74, 144, 226, 0.3);
+        }
+
+        h2 {
+            color: var(--text-primary);
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        h3 {
+            color: var(--accent-blue);
+            font-size: 1.3rem;
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .warning-box {
+            background-color: rgba(255, 193, 7, 0.1);
+            border-left: 4px solid #ffc107;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .warning-box strong {
+            color: #ffc107;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .endpoint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .endpoint-card {
+            background-color: rgba(240, 248, 255, 0.05);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .endpoint-card:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .endpoint-url {
+            background-color: rgba(40, 44, 52, 0.7);
+            padding: 1rem;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            word-break: break-all;
+            color: var(--accent-blue);
+            margin: 1rem 0;
+            border: 1px solid rgba(74, 144, 226, 0.3);
+        }
+
+        .endpoint-card ul {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .endpoint-card li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(240, 248, 255, 0.05);
+        }
+
+        .endpoint-card li:last-child {
+            border-bottom: none;
+        }
+
+        .endpoint-card strong {
+            color: var(--accent-blue);
+            margin-right: 0.5rem;
+        }
+
+        pre {
+            background-color: rgba(40, 44, 52, 0.9);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            border: 1px solid rgba(74, 144, 226, 0.2);
+        }
+
+        code {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #f8f8f2;
+        }
+
+        .code-section {
+            margin: 2rem 0;
+        }
+
+        .code-section h4 {
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .resources {
+            margin-top: 3rem;
+        }
+
+        .resources ul {
+            list-style: none;
+            padding: 0;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .resources a {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--accent-blue);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            background-color: rgba(74, 144, 226, 0.1);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(74, 144, 226, 0.3);
+        }
+
+        .resources a:hover {
+            background-color: rgba(74, 144, 226, 0.2);
+            border-color: var(--accent-blue);
+        }
+
+        .icon {
+            font-size: 1.2rem;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3.5rem;
+            }
+
+            .endpoint-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 2rem 1rem;
+            }
+
+            .card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>MCP Fetch</h1>
+
+        <p class="intro-text">
+            A Model Context Protocol (MCP) server that enables LLMs to fetch and process web content.
+            Based on the official Anthropic fetch implementation and deployed with both SSE and HTTP endpoints.
+        </p>
+
+        <div class="warning-box">
+            <strong><i class="fas fa-exclamation-triangle"></i> Browser Limitation</strong>
+            This MCP server is designed for server-to-server communication and does not support direct browser access due to CORS restrictions.
+            Please use one of the connection methods below instead.
+        </div>
+
+        <div class="card">
+            <h2>Available Endpoints</h2>
+
+            <div class="endpoint-grid">
+                <div class="endpoint-card">
+                    <h3><i class="fas fa-stream"></i> SSE Endpoint</h3>
+                    <div class="endpoint-url">https://fetch-mcp.mlziade.com.br/sse</div>
+                    <ul>
+                        <li><strong>Transport:</strong> Server-Sent Events</li>
+                        <li><strong>Connection:</strong> Direct to Supergateway</li>
+                        <li><strong>Best for:</strong> Claude Desktop, VS Code, MCP Inspector</li>
+                    </ul>
+                </div>
+
+                <div class="endpoint-card">
+                    <h3><i class="fas fa-network-wired"></i> HTTP Endpoint</h3>
+                    <div class="endpoint-url">https://fetch-mcp.mlziade.com.br/mcp</div>
+                    <ul>
+                        <li><strong>Transport:</strong> HTTP POST with JSON-RPC</li>
+                        <li><strong>Connection:</strong> HTTP → SSE wrapper</li>
+                        <li><strong>Best for:</strong> Arcadia, custom HTTP clients</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>How to Connect</h2>
+
+            <div class="code-section">
+                <h4><i class="fab fa-cloudsmith"></i> For Claude Desktop:</h4>
+                <p class="intro-text" style="text-align: left;">Add this configuration to your Claude Desktop settings:</p>
+                <pre><code>{
+  "mcpServers": {
+    "fetch": {
+      "url": "https://fetch-mcp.mlziade.com.br/sse"
+    }
+  }
+}</code></pre>
+            </div>
+
+            <div class="code-section">
+                <h4><i class="fas fa-terminal"></i> Command Line Testing (cURL):</h4>
+                <p class="intro-text" style="text-align: left;">Initialize the session:</p>
+                <pre><code>curl -X POST https://fetch-mcp.mlziade.com.br/mcp \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 1,
+    "method": "initialize",
+    "params": {
+      "protocolVersion": "2024-11-05",
+      "capabilities": {},
+      "clientInfo": {"name": "curl-test", "version": "1.0"}
+    }
+  }'</code></pre>
+
+                <p class="intro-text" style="text-align: left; margin-top: 1.5rem;">Fetch a URL:</p>
+                <pre><code>curl -X POST https://fetch-mcp.mlziade.com.br/mcp \
+  -H "Content-Type: application/json" \
+  -d '{
+    "jsonrpc": "2.0",
+    "id": 2,
+    "method": "tools/call",
+    "params": {
+      "name": "fetch",
+      "arguments": {
+        "url": "https://mlziade.com.br/about",
+        "max_length": 5000
+      }
+    }
+  }'</code></pre>
+            </div>
+        </div>
+
+        <div class="resources">
+            <h2>Resources</h2>
+            <ul>
+                <li>
+                    <a href="https://github.com/modelcontextprotocol/servers/tree/main/src/fetch" target="_blank">
+                        <i class="fab fa-github icon"></i>
+                        Original Implementation
+                    </a>
+                </li>
+                <li>
+                    <a href="https://modelcontextprotocol.io/" target="_blank">
+                        <i class="fas fa-book icon"></i>
+                        MCP Documentation
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
