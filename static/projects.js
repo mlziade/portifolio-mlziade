@@ -336,7 +336,8 @@ class ProjectModal {
             ? (description.en || description.pt_br || '')
             : (description.pt_br || description.en || '');
 
-        return this.escapeHtml(text);
+        // Escape HTML but preserve newlines by converting them to <br> tags
+        return this.escapeHtml(text).replace(/\n/g, '<br>');
     }
 
     generateTagsHTML(tags) {

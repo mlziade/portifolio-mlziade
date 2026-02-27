@@ -522,6 +522,44 @@
         }
       ],
       "previews": []
+    },
+    {
+      "id": "project-11",
+      "name": "Fetch MCP Server",
+      "status": "Completed",
+      "logo": {
+        "webp": "librarian/github-logo.webp",
+        "webp_2x": "librarian/github-logo@2x.webp",
+        "alt": "Fetch MCP Server logo",
+        "width": 72,
+        "height": 72,
+        "loading": "lazy"
+      },
+      "description": {
+        "en": "A Model Context Protocol (MCP) server that enables LLMs to fetch and process web content. Based on the official fetch implementation, deployed with SSE and HTTP endpoints for easy integration with Claude Desktop, VS Code, MCP Inspector, and other MCP clients.\n\nConnection Instructions:\n\nSSE Endpoint (Claude Desktop, VS Code, MCP Inspector):\n• URL: https://fetch-mcp.mlziade.com.br/sse\n• Transport: Server-Sent Events\n• Direct connection to Supergateway\n\nHTTP Endpoint (Arcadia and other HTTP-based clients):\n• URL: https://fetch-mcp.mlziade.com.br/mcp\n• Transport: HTTP POST with JSON-RPC\n• Uses wrapper to convert HTTP → SSE",
+        "pt_br": "Um servidor Model Context Protocol (MCP) que permite que LLMs busquem e processem conteúdo da web. Baseado na implementação oficial de fetch, implantado com endpoints SSE e HTTP para fácil integração com Claude Desktop, VS Code, MCP Inspector e outros clientes MCP.\n\nInstruções de Conexão:\n\nEndpoint SSE (Claude Desktop, VS Code, MCP Inspector):\n• URL: https://fetch-mcp.mlziade.com.br/sse\n• Transporte: Server-Sent Events\n• Conexão direta com Supergateway\n\nEndpoint HTTP (Arcadia e outros clientes baseados em HTTP):\n• URL: https://fetch-mcp.mlziade.com.br/mcp\n• Transporte: HTTP POST com JSON-RPC\n• Usa wrapper para converter HTTP → SSE"
+      },
+      "tags": ["MCP Server", "SSE", "HTTP", "Web Scraping", "LLM Tools"],
+      "actions": [
+        {
+          "type": "github",
+          "url": "https://github.com/modelcontextprotocol/servers/tree/main/src/fetch",
+          "label": {
+            "en": "Original Repository",
+            "pt_br": "Repositório Original"
+          },
+          "icon": "fab fa-github"
+        },
+        {
+          "type": "disabled",
+          "label": {
+            "en": "Try it out!",
+            "pt_br": "Experimente!"
+          },
+          "icon": "fas fa-external-link-alt"
+        }
+      ],
+      "previews": []
     }
   ]
 }
