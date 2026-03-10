@@ -499,10 +499,10 @@
         "loading": "lazy"
       },
       "description": {
-        "en": "The Chrome Extension with a powerful toolbar for iterating on websites.",
-        "pt_br": "A Extensão do Chrome com uma poderosa barra de ferramentas para iterar websites."
+        "en": "The powerful toolbar for iterating on websites.",
+        "pt_br": "A poderosa barra de ferramentas para iterar websites."
       },
-      "tags": ["Coming Soon"],
+      "tags": ["Coming Soon", "Chrome Extension"],
       "actions": [
         {
           "type": "disabled",
