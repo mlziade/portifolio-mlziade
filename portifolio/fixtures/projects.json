@@ -491,16 +491,16 @@
       "name": "Ostensio",
       "status": "In Progress",
       "logo": {
-        "webp": "ostensio/github-logo.webp",
-        "webp_2x": "ostensio/github-logo@2x.webp",
+        "webp": "ostensio/ostensio-logo.webp",
+        "webp_2x": "ostensio/ostensio-logo@2x.webp",
         "alt": "Ostensio logo",
         "width": 72,
         "height": 72,
         "loading": "lazy"
       },
       "description": {
-        "en": "A website to rapidly extract, visualize, share and iterate on websites.",
-        "pt_br": "Um site para extrair, visualizar, compartilhar e iterar rapidamente em sites."
+        "en": "The Chrome Extension with a powerful toolbar for iterating on websites.",
+        "pt_br": "A Extensão do Chrome com uma poderosa barra de ferramentas para iterar websites."
       },
       "tags": ["Coming Soon"],
       "actions": [
